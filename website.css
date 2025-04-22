@@ -1,0 +1,63 @@
+    /* style.css */
+
+    /* --- Base Styles & Imports --- */
+
+    /* Import fonts if not using Google Fonts CDN in HTML (optional) */
+    /* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); */
+
+    /* --- Layout Adjustments --- */
+
+    /* Ensure body takes full height for potential sticky footer */
+    html, body {
+        height: 100%;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Fallback for older browsers */
+        scroll-behavior: smooth; /* Optional: smooth scrolling for anchor links */
+        /* Base font is already set via inline style in index.html */
+        /* font-family: 'Inter', sans-serif; */
+    }
+
+    main {
+        flex-grow: 1; /* Ensures main content pushes footer down */
+    }
+
+    /* --- Custom Component Styles --- */
+
+    /* Add styles for custom components or complex overrides here */
+
+    /* Example: Style for the hero section background image if using CSS */
+    /*
+    .hero-background {
+        background-image: url('images/your-hero-image.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+    */
+
+    /* Example: More specific button styling if needed */
+    /*
+    .custom-button-style {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: 600;
+        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    }
+
+    .custom-button-style:hover {
+        opacity: 0.9;
+    }
+    */
+
+    /* --- Utility Overrides (Use Sparingly) --- */
+
+    /* Override Tailwind utilities only if absolutely necessary */
+    /* Example:
+    .container {
+        max-width: 1200px; // Override default container width
+    }
+    */
+    
