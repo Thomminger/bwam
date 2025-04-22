@@ -3,6 +3,13 @@
 /* --- Base Styles & Imports --- */
 /* Font is imported via CDN in HTML */
 
+/* Apply border-box sizing to all elements for more predictable layouts */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* --- Layout Adjustments --- */
 html, body {
     height: 100%;
@@ -12,6 +19,10 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* Improve font rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Base font is already set via inline style in index.html */
 }
 
 main {
@@ -25,6 +36,19 @@ main {
     background-color: #f3f4f6; /* Tailwind gray-100 */
     color: var(--brand-red);
 }
+
+/* Basic link styling (complementing Tailwind) */
+a {
+  color: inherit; /* Inherit color from parent by default */
+  text-decoration: none; /* Remove default underline */
+  transition: color 0.2s ease-in-out; /* Smooth color transition */
+}
+
+a:hover {
+  /* Define a default hover state if needed, though Tailwind hover classes are preferred */
+  /* color: var(--brand-red); */
+}
+
 
 /* --- Custom Component Styles --- */
 /* Add styles for custom components or complex overrides here */
@@ -41,3 +65,11 @@ main {
 /* --- Utility Overrides (Use Sparingly) --- */
 /* Override Tailwind utilities only if absolutely necessary */
 
+/* --- IMPORTANT --- */
+/* Most styling (layout, colors, spacing, typography) for this page
+   is handled by Tailwind CSS classes directly within the index.html file.
+   Add custom CSS here primarily for:
+   - Complex selectors not easily targeted by Tailwind.
+   - CSS features not covered by Tailwind utilities (e.g., some specific animations).
+   - Overriding Tailwind styles when absolutely necessary.
+*/
