@@ -1,13 +1,9 @@
 /* style.css */
 
 /* --- Base Styles & Imports --- */
-
-/* Import fonts if not using Google Fonts CDN in HTML (optional) */
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); */
+/* Font is imported via CDN in HTML */
 
 /* --- Layout Adjustments --- */
-
-/* Ensure html and body can take full height */
 html, body {
     height: 100%;
 }
@@ -15,73 +11,32 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Fallback for older browsers */
-    /* Add padding at the bottom equal to the scroll indicator height to prevent content from being hidden */
-    padding-bottom: 8px; /* Adjust if scroll indicator height changes */
-    /* scroll-behavior: smooth; is now handled inline in HTML <style> */
-    /* Base font is already set via inline style in index.html */
-    /* font-family: 'Inter', sans-serif; */
+    min-height: 100vh;
 }
 
 main {
     flex-grow: 1; /* Ensures main content pushes footer down */
 }
 
-/* Add offset for sticky header when scrolling to sections using anchor links */
-section[id] {
-  /* Adjust this value based on your actual sticky header height */
-  /* Tailwind py-2 is 0.5rem padding top/bottom, plus logo height (h-10 is 2.5rem). Total ~3.5rem or 56px. Add a bit more buffer. */
-  scroll-margin-top: 70px;
-}
-
-
-/* --- Scroll Indicator --- */
-#scroll-indicator-bar {
-    /* Base styles are applied via Tailwind classes in HTML (fixed, bottom-0, etc.) */
-    /* Ensure it's above content but below modals/header if needed */
-    z-index: 40; /* Below header (z-50) */
-}
-#scroll-indicator-progress {
-    /* Base styles applied via Tailwind */
-    /* Transition for the optional width change */
-    transition: width 0.1s linear;
-}
-#scroll-person {
-    /* Base styles applied via inline style in HTML */
-    /* Smooth horizontal movement transition */
-    transition: left 0.1s linear;
-    /* Adjust vertical position slightly above bar if needed */
-    bottom: 2px;
-    /* Prevent text selection */
-    user-select: none;
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE/Edge */
-}
-
-/* --- Scroll Animation --- */
-
-/* Initial state for elements that will animate */
-.scroll-animate {
-    opacity: 0;
-    transform: translateY(30px); /* Start slightly lower */
-    /* Smooth transition for opacity and transform */
-    transition: opacity 0.6s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
-    /* Apply transition delay based on inline style if present */
-    transition-delay: var(--scroll-anim-delay, 0s); /* Use CSS variable if set inline, otherwise 0s */
-    /* Hint to the browser to optimize animation */
-    will-change: opacity, transform;
-}
-
-/* Final state when element becomes visible */
-.scroll-animate.is-visible {
-    opacity: 1;
-    transform: translateY(0); /* Move to original position */
+/* --- Header/Nav Specific Styles --- */
+/* Add specific styles for dropdowns or complex nav elements if needed */
+.dropdown-menu a:hover {
+    /* Example hover effect for dropdown items */
+    background-color: #f3f4f6; /* Tailwind gray-100 */
+    color: var(--brand-red);
 }
 
 /* --- Custom Component Styles --- */
-/* Add other custom styles if needed */
+/* Add styles for custom components or complex overrides here */
 
+/* Example: Style for hero section if using CSS background */
+/*
+.hero-section {
+    background-image: url('images/your-hero-image.jpg');
+    background-size: cover;
+    background-position: center;
+}
+*/
 
 /* --- Utility Overrides (Use Sparingly) --- */
 /* Override Tailwind utilities only if absolutely necessary */
