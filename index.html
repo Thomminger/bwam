@@ -1,243 +1,271 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.5">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BWAM - Financial Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Define custom color variable */
+        :root {
+            --brand-red: #A6001A; /* Example deep red/burgundy - Adjust if needed */
+        }
+        /* Apply base font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom Tailwind utilities using the variable */
+        .bg-brand-red { background-color: var(--brand-red); }
+        .text-brand-red { color: var(--brand-red); }
+        .border-brand-red { border-color: var(--brand-red); }
+
+        /* Style for the active nav link underline (JS will handle adding/removing 'active-nav' class) */
+        nav a.active-nav {
+            border-bottom-width: 2px;
+            border-color: var(--brand-red);
+            padding-bottom: 0.25rem; /* Adjust as needed */
+            color: #1f2937; /* Darker text for active link */
+        }
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
-<body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;BWAM - Private Clients&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="stylesheet" href="style.css"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🏦&lt;/text&gt;&lt;/svg&gt;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Define custom color variable */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--brand-red: #A6001A; /* Example deep red/burgundy - Adjust if needed */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Apply base font */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Custom Tailwind utilities using the variable */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.bg-brand-red { background-color: var(--brand-red); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.text-brand-red { color: var(--brand-red); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.border-brand-red { border-color: var(--brand-red); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Add more custom styles in style.css */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>/* Style for the active nav link underline */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>nav a.active-nav {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-bottom-width: 2px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-color: var(--brand-red);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 0.25rem; /* Adjust as needed */</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: #1f2937; /* Darker text for active link */</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body class="antialiased text-gray-800"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="bg-white shadow-md sticky top-0 z-50 w-full"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="container mx-auto px-4 sm:px-6 lg:px-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex justify-between items-center py-3"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex-shrink-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#" class="text-2xl font-bold text-brand-red"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>BWAM</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;nav class="hidden md:flex items-center space-x-6 lg:space-x-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#" class="text-sm font-medium text-gray-700 hover:text-brand-red active-nav"&gt;Private Clients&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#" class="text-sm font-medium text-gray-500 hover:text-brand-red"&gt;Business Clients&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#" class="text-sm font-medium text-gray-500 hover:text-brand-red"&gt;Institutional&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#" class="text-sm font-medium text-gray-500 hover:text-brand-red"&gt;About Us&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center space-x-3 sm:space-x-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button aria-label="Search" class="p-1 text-gray-500 hover:text-brand-red"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="text-sm font-medium text-gray-500 hover:text-brand-red"&gt;Login&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="text-sm font-medium text-gray-500 hover:text-brand-red border-l pl-3 sm:pl-4"&gt;DE&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="md:hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                         </span>&lt;button id="mobile-menu-button" aria-label="Open menu" class="p-1 text-gray-500 hover:text-brand-red"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">         </span>&lt;div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="px-2 pt-2 pb-3 space-y-1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 bg-gray-100 border-l-4 border-brand-red"&gt;Private Clients&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"&gt;Business Clients&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"&gt;Institutional&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900"&gt;About Us&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;main&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="relative text-center md:text-left overflow-hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="absolute inset-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;img src="https://placehold.co/1920x700/dedede/666666?text=Professional+Background+Image" alt="Financial Planning Background" class="w-full h-full object-cover"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="max-w-xl"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"&gt;Your Partner for Financial Success&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-lg md:text-xl text-gray-200 mb-8"&gt;Comprehensive solutions for your private financial needs. Plan your future with confidence alongside BWAM.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button class="bg-brand-red text-white font-semibold py-3 px-8 rounded-md text-lg hover:bg-opacity-85 transition duration-200 shadow-md"&gt;Our Services&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button class="bg-white text-brand-red font-semibold py-3 px-8 rounded-md text-lg hover:bg-gray-100 transition duration-200 shadow-md"&gt;Contact Advisor&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="py-16 lg:py-24 bg-gray-50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="container mx-auto px-4 sm:px-6 lg:px-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16"&gt;How We Can Help You&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="mb-5 flex-shrink-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex-grow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-semibold mb-2 text-gray-900"&gt;Accounts &amp; Cards&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-600 text-sm mb-4"&gt;Manage your daily finances with ease. Secure cards for worldwide use.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm"&gt;Learn More &amp;rarr;&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                         </span>&lt;div class="mb-5 flex-shrink-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex-grow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-semibold mb-2 text-gray-900"&gt;Savings &amp; Investments&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-600 text-sm mb-4"&gt;Grow your wealth with tailored investment strategies and savings plans.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm"&gt;Learn More &amp;rarr;&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                         </span>&lt;div class="mb-5 flex-shrink-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                             </span>&lt;svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                              </span>&lt;path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex-grow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-semibold mb-2 text-gray-900"&gt;Pensions&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-600 text-sm mb-4"&gt;Secure your retirement with our comprehensive pension solutions.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm"&gt;Learn More &amp;rarr;&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                     </span>&lt;div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                         </span>&lt;div class="mb-5 flex-shrink-0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                             </span>&lt;svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                              </span>&lt;path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex-grow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-semibold mb-2 text-gray-900"&gt;Financing&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-600 text-sm mb-4"&gt;Realize your dreams with flexible financing options for homes or projects.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm"&gt;Learn More &amp;rarr;&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;section class="bg-white py-16 lg:py-24"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl lg:text-4xl font-bold mb-6 text-gray-900"&gt;Stay Informed&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-gray-600 mb-8 max-w-2xl mx-auto"&gt;Get the latest market insights, news, and updates from BWAM experts.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button class="bg-brand-red text-white font-semibold py-3 px-8 rounded-md text-lg hover:bg-opacity-85 transition duration-200 shadow-md"&gt;Explore Insights&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;footer class="bg-gray-800 text-gray-400 py-12"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="container mx-auto px-4 sm:px-6 lg:px-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="text-lg font-semibold text-white mb-4"&gt;BWAM&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-sm mb-4"&gt;Your reliable financial partner.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="flex space-x-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"&gt;&lt;path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                             </span>&lt;svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"&gt;&lt;path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-4.499 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.59-11.018-3.714v-2.155z"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                             </span>&lt;svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"&gt;&lt;path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.584-.666 2.477 0 1.486.758 2.796 1.909 3.562-.703-.022-1.365-.215-1.946-.536v.052c0 2.076 1.479 3.808 3.45 4.201-.36.099-.738.151-1.126.151-.278 0-.547-.027-.811-.076.546 1.697 2.133 2.934 4.012 2.969-1.469 1.147-3.319 1.83-5.334 1.83-.346 0-.686-.02-1.022-.061 1.89 1.213 4.129 1.921 6.566 1.921 7.883 0 12.207-6.534 12.207-12.207 0-.186-.004-.372-.012-.556.838-.604 1.564-1.36 2.145-2.23z"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/a&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="text-lg font-semibold text-white mb-4"&gt;Quick Links&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ul class="space-y-2 text-sm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Private Clients&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Business Clients&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Careers&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Contact Us&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Newsroom&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="text-lg font-semibold text-white mb-4"&gt;Services&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                     </span>&lt;ul class="space-y-2 text-sm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Accounts&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Investing&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Mortgages&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Pensions&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Digital Banking&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                 </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 class="text-lg font-semibold text-white mb-4"&gt;Legal&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                     </span>&lt;ul class="space-y-2 text-sm"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Privacy Policy&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Terms of Use&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Imprint&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Cookie Settings&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;a href="#" class="hover:text-white transition-colors"&gt;Accessibility&lt;/a&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&amp;copy; &lt;span id="current-year"&gt;&lt;/span&gt; BWAM. All rights reserved. Location: Zürich, Switzerland.</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="script.js"&gt;&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<body class="antialiased text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50 w-full">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-2"> {/* Reduced padding slightly */}
+                <div class="flex-shrink-0">
+                    <a href="#home" class="flex items-center"> {/* Link to top */}
+                        <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 w-auto mr-2"> {/* ** REPLACE SRC ** */}
+                        {/* Optional: Keep text if logo is just the symbol */}
+                        </a>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    {/* Links now point to section IDs */}
+                    <a href="#home" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">Home</a>
+                    <a href="#services" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">Services</a>
+                    <a href="#about" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">About Us</a>
+                    <a href="#contact" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">Contact</a>
+                </nav>
+
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <button aria-label="Search" class="p-1 text-gray-500 hover:text-brand-red">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                    <button class="text-sm font-medium text-gray-500 hover:text-brand-red">Login</button>
+                    <button class="text-sm font-medium text-gray-500 hover:text-brand-red border-l pl-3 sm:pl-4">DE</button>
+                    <div class="md:hidden">
+                         <button id="mobile-menu-button" aria-label="Open menu" class="p-1 text-gray-500 hover:text-brand-red">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                 {/* Mobile links also point to section IDs */}
+                <a href="#home" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">Home</a>
+                <a href="#services" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">Services</a>
+                <a href="#about" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">About Us</a>
+                <a href="#contact" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="relative text-center md:text-left overflow-hidden pt-16"> {/* Added pt-16 for sticky header */}
+            <div class="absolute inset-0">
+                {/* ** REPLACE SRC with actual banking/finance image ** */}
+                <img src="https://placehold.co/1920x700/334155/e2e8f0?text=Modern+Banking+Skyline" alt="Financial Planning Background" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+            </div>
+            <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40">
+                <div class="max-w-xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight scroll-animate">Your Partner for Financial Success</h1>
+                    <p class="text-lg md:text-xl text-gray-200 mb-8 scroll-animate" style="transition-delay: 100ms;">Comprehensive solutions for your private financial needs. Plan your future with confidence alongside BWAM.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start scroll-animate" style="transition-delay: 200ms;">
+                        <a href="#services" class="inline-block bg-brand-red text-white font-semibold py-3 px-8 rounded-md text-lg hover:bg-opacity-85 transition duration-200 shadow-md">Our Services</a>
+                        <a href="#contact" class="inline-block bg-white text-brand-red font-semibold py-3 px-8 rounded-md text-lg hover:bg-gray-100 transition duration-200 shadow-md">Contact Advisor</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-16 lg:py-24 bg-gray-50 scroll-mt-16"> {/* Added scroll-mt-16 for sticky header offset */}
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16 scroll-animate">How We Can Help You</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                    {/* Added scroll-animate class and staggered delay */}
+                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 0ms;">
+                        <div class="mb-5 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                            </svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Accounts & Cards</h3>
+                            <p class="text-gray-600 text-sm mb-4">Manage your daily finances with ease. Secure cards for worldwide use.</p>
+                        </div>
+                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a> {/* Example link */}
+                    </div>
+                    {/* End Card Template */}
+
+                    {/* Service Block 2: Savings & Investments */}
+                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 100ms;">
+                         <div class="mb-5 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Savings & Investments</h3>
+                            <p class="text-gray-600 text-sm mb-4">Grow your wealth with tailored investment strategies and savings plans.</p>
+                        </div>
+                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a>
+                    </div>
+
+                    {/* Service Block 3: Pensions */}
+                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 200ms;">
+                         <div class="mb-5 flex-shrink-0">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Pensions</h3>
+                            <p class="text-gray-600 text-sm mb-4">Secure your retirement with our comprehensive pension solutions.</p>
+                        </div>
+                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a>
+                    </div>
+
+                     {/* Service Block 4: Financing */}
+                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 300ms;">
+                         <div class="mb-5 flex-shrink-0">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Financing</h3>
+                            <p class="text-gray-600 text-sm mb-4">Realize your dreams with flexible financing options for homes or projects.</p>
+                        </div>
+                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="bg-white py-16 lg:py-24 scroll-mt-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16 scroll-animate">About BWAM</h2>
+                 <div class="max-w-3xl mx-auto text-center text-gray-600 space-y-4 scroll-animate" style="transition-delay: 100ms;">
+                    <p>BWAM has been a trusted financial partner in Zürich for decades. We are committed to providing personalized financial advice and solutions to help our private clients achieve their long-term goals.</p>
+                    <p>Our team of experienced advisors understands the unique financial landscape of Switzerland and works closely with you to develop strategies for wealth management, retirement planning, and more.</p>
+                     {/* ** REPLACE SRC with actual team/office image ** */}
+                    <img src="https://placehold.co/800x400/e5e7eb/4b5563?text=BWAM+Team+or+Office" alt="BWAM Team or Office" class="rounded-lg shadow-md mx-auto mt-8 scroll-animate" style="transition-delay: 200ms;">
+                 </div>
+            </div>
+        </section>
+
+        <section id="contact" class="bg-gray-50 py-16 lg:py-24 scroll-mt-16">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16 scroll-animate">Get In Touch</h2>
+                 <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-lg scroll-animate" style="transition-delay: 100ms;">
+                     <p class="text-center text-gray-600 mb-6">Ready to discuss your financial future? Contact us today for a consultation.</p>
+                     {/* Basic Form Placeholder - Needs backend or service like Formspree/Netlify Forms to actually send email */}
+                     <form action="#" method="POST">
+                         <div class="mb-4">
+                             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                             <input type="text" id="name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red">
+                         </div>
+                         <div class="mb-4">
+                             <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                             <input type="email" id="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red">
+                         </div>
+                         <div class="mb-6">
+                             <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                             <textarea id="message" name="message" rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"></textarea>
+                         </div>
+                         <div class="text-center">
+                             <button type="submit" class="bg-brand-red text-white font-semibold py-3 px-8 rounded-md text-lg hover:bg-opacity-85 transition duration-200 shadow-md">Send Message</button>
+                         </div>
+                     </form>
+                 </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-12">
+        {/* Footer content remains the same */}
+         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">BWAM</h4>
+                    <p class="text-sm mb-4">Your reliable financial partner.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
+                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-4.499 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.59-11.018-3.714v-2.155z"></path></svg></a>
+                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.584-.666 2.477 0 1.486.758 2.796 1.909 3.562-.703-.022-1.365-.215-1.946-.536v.052c0 2.076 1.479 3.808 3.45 4.201-.36.099-.738.151-1.126.151-.278 0-.547-.027-.811-.076.546 1.697 2.133 2.934 4.012 2.969-1.469 1.147-3.319 1.83-5.334 1.83-.346 0-.686-.02-1.022-.061 1.89 1.213 4.129 1.921 6.566 1.921 7.883 0 12.207-6.534 12.207-12.207 0-.186-.004-.372-.012-.556.838-.604 1.564-1.36 2.145-2.23z"></path></svg></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li> {/* Example external link */}
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Services</h4>
+                     <ul class="space-y-2 text-sm">
+                        <li><a href="#services" class="hover:text-white transition-colors">Accounts</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Investing</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Mortgages</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Pensions</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Digital Banking</a></li> {/* Example external link */}
+                    </ul>
+                </div>
+                 <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Legal</h4>
+                     <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Use</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Imprint</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cookie Settings</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
+                &copy; <span id="current-year"></span> BWAM. All rights reserved. Location: Zürich, Switzerland.
+            </div>
+        </div>
+    </footer>
+
+    <div id="scroll-indicator-bar" class="fixed bottom-0 left-0 w-full h-2 bg-gray-200 z-40">
+        <div id="scroll-indicator-progress" class="h-full bg-brand-red relative">
+             <span id="scroll-person" class="absolute bottom-0 text-xl" style="left: 0%; transform: translateX(-50%);">🚶</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
