@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWAM - Financial Solutions</title>
+    <title>BWAM - Your Financial Partner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
@@ -13,7 +13,7 @@
     <style>
         /* Define custom color variable */
         :root {
-            --brand-red: #A6001A; /* Example deep red/burgundy - Adjust if needed */
+            --brand-red: #A6001A; /* Adjust if needed */
         }
         /* Apply base font */
         body {
@@ -24,52 +24,64 @@
         .text-brand-red { color: var(--brand-red); }
         .border-brand-red { border-color: var(--brand-red); }
 
-        /* Style for the active nav link underline (JS will handle adding/removing 'active-nav' class) */
-        nav a.active-nav {
-            border-bottom-width: 2px;
-            border-color: var(--brand-red);
-            padding-bottom: 0.25rem; /* Adjust as needed */
-            color: #1f2937; /* Darker text for active link */
+        /* Basic dropdown styling (hidden by default) */
+        .dropdown-menu {
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+            transform: translateY(-10px); /* Start slightly above */
         }
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+        .group:hover .dropdown-menu {
+            display: block; /* Show on hover */
+            opacity: 1;
+            transform: translateY(0); /* Move to position */
         }
     </style>
 </head>
-<body class="antialiased text-gray-800">
+<body class="antialiased text-gray-800 bg-white">
 
     <header class="bg-white shadow-md sticky top-0 z-50 w-full">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-2"> {/* Reduced padding slightly */}
+            <div class="flex justify-between items-center py-2">
                 <div class="flex-shrink-0">
-                    <a href="#home" class="flex items-center"> {/* Link to top */}
+                    <a href="#" class="flex items-center">
                         <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 w-auto mr-2"> {/* ** REPLACE SRC ** */}
-                        {/* Optional: Keep text if logo is just the symbol */}
                         </a>
                 </div>
 
-                <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
-                    {/* Links now point to section IDs */}
-                    <a href="#home" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">Home</a>
-                    <a href="#services" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">Services</a>
-                    <a href="#about" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">About Us</a>
-                    <a href="#contact" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red">Contact</a>
+                <nav class="hidden md:flex items-center space-x-5 lg:space-x-7">
+                    {/* Example Nav Item with Dropdown */}
+                    <div class="group relative">
+                        <button class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red inline-flex items-center py-3">
+                            <span>Private Clients</span>
+                            <svg class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu absolute left-0 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
+                            <div class="py-1" role="none">
+                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem">Accounts & Cards</a>
+                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem">Investing</a>
+                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem">Pensions</a>
+                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem">Financing</a>
+                            </div>
+                        </div>
+                    </div>
+                    {/* --- End Dropdown Example --- */}
+                    <a href="#" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red py-3">Business Clients</a>
+                    <a href="#" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red py-3">Institutional</a>
+                    <a href="#" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red py-3">About Us</a>
                 </nav>
 
                 <div class="flex items-center space-x-3 sm:space-x-4">
                     <button aria-label="Search" class="p-1 text-gray-500 hover:text-brand-red">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     </button>
                     <button class="text-sm font-medium text-gray-500 hover:text-brand-red">Login</button>
                     <button class="text-sm font-medium text-gray-500 hover:text-brand-red border-l pl-3 sm:pl-4">DE</button>
                     <div class="md:hidden">
                          <button id="mobile-menu-button" aria-label="Open menu" class="p-1 text-gray-500 hover:text-brand-red">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                         </button>
                     </div>
                 </div>
@@ -77,142 +89,120 @@
         </div>
          <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200">
             <div class="px-2 pt-2 pb-3 space-y-1">
-                 {/* Mobile links also point to section IDs */}
-                <a href="#home" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">Home</a>
-                <a href="#services" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">Services</a>
-                <a href="#about" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">About Us</a>
-                <a href="#contact" class="nav-link-mobile block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">Contact</a>
+                {/* Add mobile nav links here */}
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Private Clients</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Business Clients</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">Institutional</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50">About Us</a>
+                {/* Add dropdowns or sublinks if needed for mobile */}
             </div>
         </div>
     </header>
 
     <main>
-        <section id="home" class="relative text-center md:text-left overflow-hidden pt-16"> {/* Added pt-16 for sticky header */}
-            <div class="absolute inset-0">
-                {/* ** REPLACE SRC with actual banking/finance image ** */}
-                <img src="https://placehold.co/1920x700/334155/e2e8f0?text=Modern+Banking+Skyline" alt="Financial Planning Background" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
+        <section class="relative h-[60vh] md:h-[75vh] flex items-center text-white overflow-hidden">
+            {/* ** REPLACE SRC with actual video or high-res image ** */}
+            <div class="absolute inset-0 z-0">
+                 <img src="https://placehold.co/1920x1080/111827/9ca3af?text=Dynamic+City+Background" alt="Zurich Financial District" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
-            <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 lg:py-40">
-                <div class="max-w-xl">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight scroll-animate">Your Partner for Financial Success</h1>
-                    <p class="text-lg md:text-xl text-gray-200 mb-8 scroll-animate" style="transition-delay: 100ms;">Comprehensive solutions for your private financial needs. Plan your future with confidence alongside BWAM.</p>
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start scroll-animate" style="transition-delay: 200ms;">
-                        <a href="#services" class="inline-block bg-brand-red text-white font-semibold py-3 px-8 rounded-md text-lg hover:bg-opacity-85 transition duration-200 shadow-md">Our Services</a>
-                        <a href="#contact" class="inline-block bg-white text-brand-red font-semibold py-3 px-8 rounded-md text-lg hover:bg-gray-100 transition duration-200 shadow-md">Contact Advisor</a>
+            <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
+                <div class="max-w-2xl">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight">Welcome to BWAM</h1>
+                    <p class="text-lg sm:text-xl mb-8 text-gray-200">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#" class="inline-block bg-brand-red text-white font-semibold py-3 px-6 rounded-md hover:bg-opacity-85 transition duration-200 shadow">Explore Services</a>
+                        <a href="#" class="inline-block bg-white text-brand-red font-semibold py-3 px-6 rounded-md hover:bg-gray-100 transition duration-200 shadow">Contact Us</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="services" class="py-16 lg:py-24 bg-gray-50 scroll-mt-16"> {/* Added scroll-mt-16 for sticky header offset */}
+        <section class="py-12 md:py-20 bg-gray-50">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16 scroll-animate">How We Can Help You</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-                    {/* Added scroll-animate class and staggered delay */}
-                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 0ms;">
-                        <div class="mb-5 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                            </svg>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Accounts & Cards</h3>
-                            <p class="text-gray-600 text-sm mb-4">Manage your daily finances with ease. Secure cards for worldwide use.</p>
-                        </div>
-                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a> {/* Example link */}
-                    </div>
-                    {/* End Card Template */}
-
-                    {/* Service Block 2: Savings & Investments */}
-                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 100ms;">
-                         <div class="mb-5 flex-shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Savings & Investments</h3>
-                            <p class="text-gray-600 text-sm mb-4">Grow your wealth with tailored investment strategies and savings plans.</p>
-                        </div>
-                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a>
-                    </div>
-
-                    {/* Service Block 3: Pensions */}
-                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 200ms;">
-                         <div class="mb-5 flex-shrink-0">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Pensions</h3>
-                            <p class="text-gray-600 text-sm mb-4">Secure your retirement with our comprehensive pension solutions.</p>
-                        </div>
-                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a>
-                    </div>
-
-                     {/* Service Block 4: Financing */}
-                    <div class="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col text-center scroll-animate" style="transition-delay: 300ms;">
-                         <div class="mb-5 flex-shrink-0">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-brand-red group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                            </svg>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Financing</h3>
-                            <p class="text-gray-600 text-sm mb-4">Realize your dreams with flexible financing options for homes or projects.</p>
-                        </div>
-                        <a href="#contact" class="mt-auto text-brand-red font-medium hover:underline text-sm">Details &rarr;</a>
-                    </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 text-center">
+                    {/* Card Example 1 */}
+                    <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red">Accounts & Cards</h3>
+                    </a>
+                    {/* Card Example 2 */}
+                    <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red">Savings & Investments</h3>
+                    </a>
+                    {/* Card Example 3 */}
+                    <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red">Pensions</h3>
+                    </a>
+                    {/* Card Example 4 */}
+                    <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red">Financing</h3>
+                    </a>
+                    {/* Card Example 5 */}
+                     <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red">Real Estate</h3>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section id="about" class="bg-white py-16 lg:py-24 scroll-mt-16">
+        <section class="py-16 lg:py-24 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16 scroll-animate">About BWAM</h2>
-                 <div class="max-w-3xl mx-auto text-center text-gray-600 space-y-4 scroll-animate" style="transition-delay: 100ms;">
-                    <p>BWAM has been a trusted financial partner in Zürich for decades. We are committed to providing personalized financial advice and solutions to help our private clients achieve their long-term goals.</p>
-                    <p>Our team of experienced advisors understands the unique financial landscape of Switzerland and works closely with you to develop strategies for wealth management, retirement planning, and more.</p>
-                     {/* ** REPLACE SRC with actual team/office image ** */}
-                    <img src="https://placehold.co/800x400/e5e7eb/4b5563?text=BWAM+Team+or+Office" alt="BWAM Team or Office" class="rounded-lg shadow-md mx-auto mt-8 scroll-animate" style="transition-delay: 200ms;">
+                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16">News & Insights</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {/* News Card Example 1 */}
+                    <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                        {/* ** REPLACE SRC ** */}
+                        <img src="https://placehold.co/600x400/e5e7eb/4b5563?text=Market+Update" alt="News Image 1" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-lg font-semibold mb-2 text-gray-900">Market Outlook Q3 2025</h3>
+                            <p class="text-gray-600 text-sm mb-4 flex-grow">Our analysis of current market trends and potential opportunities for investors.</p>
+                            <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start">Read More &rarr;</a>
+                        </div>
+                    </div>
+                     {/* News Card Example 2 */}
+                    <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                         {/* ** REPLACE SRC ** */}
+                        <img src="https://placehold.co/600x400/d1d5db/374151?text=Retirement+Planning" alt="News Image 2" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-lg font-semibold mb-2 text-gray-900">Planning for a Secure Retirement</h3>
+                            <p class="text-gray-600 text-sm mb-4 flex-grow">Key considerations for building a robust pension plan in Switzerland.</p>
+                            <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start">Read More &rarr;</a>
+                        </div>
+                    </div>
+                     {/* News Card Example 3 */}
+                    <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                         {/* ** REPLACE SRC ** */}
+                        <img src="https://placehold.co/600x400/9ca3af/1f2937?text=Digital+Banking+Tips" alt="News Image 3" class="w-full h-48 object-cover">
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-lg font-semibold mb-2 text-gray-900">Tips for Secure Digital Banking</h3>
+                            <p class="text-gray-600 text-sm mb-4 flex-grow">How to protect yourself while managing your finances online with BWAM.</p>
+                            <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start">Read More &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                     <a href="#" class="inline-block bg-brand-red text-white font-semibold py-3 px-6 rounded-md hover:bg-opacity-85 transition duration-200 shadow">More News</a>
                  </div>
             </div>
         </section>
 
-        <section id="contact" class="bg-gray-50 py-16 lg:py-24 scroll-mt-16">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16 scroll-animate">Get In Touch</h2>
-                 <div class="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-lg scroll-animate" style="transition-delay: 100ms;">
-                     <p class="text-center text-gray-600 mb-6">Ready to discuss your financial future? Contact us today for a consultation.</p>
-                     {/* Basic Form Placeholder - Needs backend or service like Formspree/Netlify Forms to actually send email */}
-                     <form action="#" method="POST">
-                         <div class="mb-4">
-                             <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                             <input type="text" id="name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red">
-                         </div>
-                         <div class="mb-4">
-                             <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                             <input type="email" id="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red">
-                         </div>
-                         <div class="mb-6">
-                             <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                             <textarea id="message" name="message" rows="4" required class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-brand-red focus:border-brand-red"></textarea>
-                         </div>
-                         <div class="text-center">
-                             <button type="submit" class="bg-brand-red text-white font-semibold py-3 px-8 rounded-md text-lg hover:bg-opacity-85 transition duration-200 shadow-md">Send Message</button>
-                         </div>
-                     </form>
-                 </div>
+        <section class="py-16 lg:py-24 bg-gray-100">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-6">Contact BWAM</h2>
+                <p class="text-gray-600 mb-8 max-w-2xl mx-auto">Our advisors are ready to help you achieve your financial goals. Reach out today.</p>
+                <a href="#" class="inline-block bg-brand-red text-white font-semibold py-3 px-8 rounded-md text-lg hover:bg-opacity-85 transition duration-200 shadow-md">Find an Advisor</a>
             </div>
         </section>
+
     </main>
 
     <footer class="bg-gray-800 text-gray-400 py-12">
-        {/* Footer content remains the same */}
-         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
                 <div>
                     <h4 class="text-lg font-semibold text-white mb-4">BWAM</h4>
@@ -226,21 +216,21 @@
                 <div>
                     <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
-                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
-                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
-                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li> {/* Example external link */}
+                        <li><a href="#" class="hover:text-white transition-colors">Private Clients</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Business Clients</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Newsroom</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-lg font-semibold text-white mb-4">Services</h4>
                      <ul class="space-y-2 text-sm">
-                        <li><a href="#services" class="hover:text-white transition-colors">Accounts</a></li>
-                        <li><a href="#services" class="hover:text-white transition-colors">Investing</a></li>
-                        <li><a href="#services" class="hover:text-white transition-colors">Mortgages</a></li>
-                        <li><a href="#services" class="hover:text-white transition-colors">Pensions</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Digital Banking</a></li> {/* Example external link */}
+                        <li><a href="#" class="hover:text-white transition-colors">Accounts</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Investing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mortgages</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pensions</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Digital Banking</a></li>
                     </ul>
                 </div>
                  <div>
@@ -259,12 +249,6 @@
             </div>
         </div>
     </footer>
-
-    <div id="scroll-indicator-bar" class="fixed bottom-0 left-0 w-full h-2 bg-gray-200 z-40">
-        <div id="scroll-indicator-progress" class="h-full bg-brand-red relative">
-             <span id="scroll-person" class="absolute bottom-0 text-xl" style="left: 0%; transform: translateX(-50%);">🚶</span>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
