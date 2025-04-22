@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Language Data ---
-    // Store translations here. Add more keys and text as needed.
     const translations = {
         'de': {
             'page_title': 'BWAM - Ihr Finanzpartner',
@@ -11,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'nav.business_clients': 'Firmenkunden',
             'nav.institutional': 'Institutionelle',
             'nav.about_us': 'Über uns',
+            'nav.events': 'Veranstaltungen', // Added Events
             'nav.accounts_cards': 'Konto & Karten',
             'nav.investing': 'Anlegen',
             'nav.pensions': 'Vorsorgen',
@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'news.card3_desc': 'Wie Sie sich schützen, während Sie Ihre Finanzen online mit BWAM verwalten.',
             'news.read_more': 'Mehr lesen →',
             'news.more_news': 'Weitere News',
+            'events.title': 'Kommende Veranstaltungen', // Added Events
+            'events.subtitle': 'Nehmen Sie an unseren aufschlussreichen Seminaren und Workshops teil. Melden Sie unten Ihr Interesse an.', // Added Events
+            'events.form_placeholder': '(Formular zur Veranstaltungsanmeldung kommt hier hin)', // Added Events
             'contact_cta.title': 'Kontaktieren Sie BWAM',
             'contact_cta.subtitle': 'Unsere Berater helfen Ihnen gerne, Ihre finanziellen Ziele zu erreichen. Melden Sie sich noch heute.',
             'contact_cta.button': 'Berater finden',
@@ -62,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'nav.business_clients': 'Business Clients',
             'nav.institutional': 'Institutional',
             'nav.about_us': 'About Us',
+            'nav.events': 'Events', // Added Events
             'nav.accounts_cards': 'Accounts & Cards',
             'nav.investing': 'Investing',
             'nav.pensions': 'Pensions',
@@ -87,6 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'news.card3_desc': 'How to protect yourself while managing your finances online with BWAM.',
             'news.read_more': 'Read More →',
             'news.more_news': 'More News',
+            'events.title': 'Upcoming Events', // Added Events
+            'events.subtitle': 'Join us for insightful seminars and workshops. Register your interest below.', // Added Events
+            'events.form_placeholder': '(Event registration form will be here)', // Added Events
             'contact_cta.title': 'Contact BWAM',
             'contact_cta.subtitle': 'Our advisors are ready to help you achieve your financial goals. Reach out today.',
             'contact_cta.button': 'Find an Advisor',
@@ -123,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return; // Exit if language is not supported
         }
 
-        // Update the lang attribute on the main <html> tag
+        // Update lang attribute on <html> tag
         document.documentElement.lang = lang;
 
         // Find all elements that have a data-lang-key attribute
@@ -143,8 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Log a warning if a translation key is missing for the selected language
                 console.warn(`Translation key "${key}" not found for language "${lang}".`);
-                // Optionally leave default text or show the key as fallback
-                // element.textContent = key;
             }
         });
 
@@ -225,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Apply the determined language when the page loads
     setLanguage(preferredLang);
 
-    // Log that the script has loaded and the initial language set
     console.log("BWAM Homepage Multilingual Script Loaded. Initial language:", preferredLang);
 
 }); // End of DOMContentLoaded event listener
