@@ -43,13 +43,78 @@
         }
         /* Add offset for sticky header when scrolling to sections using anchor links */
         section[id] {
-          scroll-margin-top: 70px; /* Adjust based on header height */
+            scroll-margin-top: 70px; /* Adjust based on header height */
         }
         html {
             scroll-behavior: smooth; /* Enable smooth scrolling */
         }
     </style>
-</head>
+
+    <script type="text/javascript" src="YOUR_WEB_SDK_URL" async></script> {/* */}
+    <script type="text/javascript">
+        (function() {
+            // --- Consent Management Check ---
+            // TODO: Add your logic here to check if the user has given consent for tracking.
+            // Example: if (!userHasGivenConsent()) { return; } // Do not initialize if no consent
+            var userHasConsent = true; // <-- Replace this with your actual consent check logic
+
+            if (userHasConsent) {
+                SalesforceInteractions.init({
+                    cookieDomain: "YOUR_COOKIE_DOMAIN" // E.g., "yourdomain.com" or "sub.yourdomain.com" - REPLACE
+                    // Optional: Add other configuration options here if needed
+                }).then(() => {
+                    // --- SFDC Account and Dataset Configuration ---
+                    const config = {
+                        global: {
+                            et: "YOUR_SFDC_ACCOUNT", // Salesforce Account MID - REPLACE
+                            dataTrack: "1" // Enables automatic data capture for certain features
+                        },
+                        dataset: "YOUR_DATASET_ID" // Website / Data Stream ID - REPLACE
+                    };
+                    SalesforceInteractions.configure(config);
+
+                    // --- Basic Page View Event ---
+                    // This sends a standard 'viewPage' event when the page loads.
+                    // You can customize the payload with page-specific details.
+                    const pageViewPayload = {
+                        interaction: {
+                           name: SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage,
+                           locale: document.documentElement.lang || "en_US" // Example: Get page language
+                        },
+                        page: {
+                           url: window.location.href,
+                           title: document.title,
+                           // Add other relevant page details if needed
+                           // type: "Homepage", // Example: Define page type
+                           // category: "Banking", // Example: Define page category
+                        }
+                     };
+                     SalesforceInteractions.sendEvent(pageViewPayload);
+
+                     // --- Add User Identification and other Event Tracking Below ---
+                     // Example User Identification (if user is known, e.g., logged in):
+                     // SalesforceInteractions.identify({
+                     //    identityType: SalesforceInteractions.SalesforceInteractionsConstants.IdentityType.CustomerId,
+                     //    id: "USER_CUSTOMER_ID" // REPLACE with actual user ID
+                     // });
+
+                     // Example Click Event Listener (add listeners to specific elements):
+                     // document.getElementById('someButtonId').addEventListener('click', () => {
+                     //    SalesforceInteractions.sendEvent({
+                     //       interaction: { name: "Clicked Important Button" }
+                     //       // Add event-specific attributes
+                     //    });
+                     // });
+
+                }).catch((error) => {
+                   console.error("Salesforce Interactions SDK Initialization Error: ", error);
+                });
+            } else {
+                console.log("Salesforce Interactions SDK not initialized due to lack of user consent.");
+            }
+        })();
+    </script>
+    </head>
 <body class="antialiased text-gray-800 bg-white">
 
     <header class="bg-white shadow-md sticky top-0 z-50 w-full">
@@ -94,21 +159,21 @@
                     </div>
                     <div class="md:hidden">
                          <button id="mobile-menu-button" aria-label="Open menu" class="p-1 text-gray-500 hover:text-brand-red" data-lang-key="aria.open_menu">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                        </button>
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                         </button>
                     </div>
                 </div>
             </div>
         </div>
          <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-lang-key="nav.private_clients">Private Clients</a>
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.business_clients">Business Clients</a>
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.institutional">Institutional</a>
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.about_us">About Us</a>
-                <a href="#events" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.events">Events</a>
-            </div>
-        </div>
+             <div class="px-2 pt-2 pb-3 space-y-1">
+                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-lang-key="nav.private_clients">Private Clients</a>
+                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.business_clients">Business Clients</a>
+                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.institutional">Institutional</a>
+                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.about_us">About Us</a>
+                 <a href="#events" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.events">Events</a>
+             </div>
+         </div>
     </header>
 
     <main>
@@ -235,22 +300,22 @@
                 <div>
                     <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.services">Services</h4>
                      <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="nav.accounts_cards">Accounts</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="nav.investing">Investing</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.mortgages">Mortgages</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="nav.pensions">Pensions</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.digital_banking">Digital Banking</a></li>
-                    </ul>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="nav.accounts_cards">Accounts</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="nav.investing">Investing</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.mortgages">Mortgages</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="nav.pensions">Pensions</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.digital_banking">Digital Banking</a></li>
+                     </ul>
                 </div>
                  <div>
                     <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.legal">Legal</h4>
                      <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.privacy">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.terms">Terms of Use</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.imprint">Imprint</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.cookies">Cookie Settings</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.accessibility">Accessibility</a></li>
-                    </ul>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.privacy">Privacy Policy</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.terms">Terms of Use</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.imprint">Imprint</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.cookies">Cookie Settings</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.accessibility">Accessibility</a></li>
+                     </ul>
                 </div>
             </div>
             <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
