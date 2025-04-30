@@ -10,193 +10,78 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Define custom color variable */
-        :root {
-            --brand-red: #A6001A; /* Adjust if needed */
-        }
-        /* Apply base font */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Custom Tailwind utilities using the variable */
+        :root { --brand-red: #A6001A; }
+        body { font-family: 'Inter', sans-serif; }
         .bg-brand-red { background-color: var(--brand-red); }
         .text-brand-red { color: var(--brand-red); }
         .border-brand-red { border-color: var(--brand-red); }
-
-        /* Basic dropdown styling (hidden by default) */
-        .dropdown-menu {
-            display: none; /* Hidden by default */
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-            transform: translateY(-10px); /* Start slightly above */
-        }
-        .group:hover .dropdown-menu {
-            display: block; /* Show on hover */
-            opacity: 1;
-            transform: translateY(0); /* Move to position */
-        }
-        /* Style for active language button */
-        .lang-button.active {
-             font-weight: 700;
-             color: var(--brand-red);
-             cursor: default;
-        }
-        /* Add offset for sticky header when scrolling to sections using anchor links */
-        section[id] {
-            scroll-margin-top: 70px; /* Adjust based on header height */
-        }
-        html {
-            scroll-behavior: smooth; /* Enable smooth scrolling */
-        }
+        .dropdown-menu { display: none; opacity: 0; transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out; transform: translateY(-10px); }
+        .group:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
+        .lang-button.active { font-weight: 700; color: var(--brand-red); cursor: default; }
+        section[id] { scroll-margin-top: 70px; }
+        html { scroll-behavior: smooth; }
+        #consent-banner { transition: transform 0.3s ease-in-out; }
+        /* Add styles for login simulation elements if needed */
+        .login-form-container { display: flex; align-items: center; gap: 0.5rem; }
     </style>
 
-    <script type="text/javascript" src="https://cdn.c360a.salesforce.com/beacon/c360a/206a8735-d190-4736-8f71-efdcc0dc6d94/scripts/c360a.min.js" async></script>
+    <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/beacon/c360a/d2799336-52d2-4f39-832b-d481cbc97fed/scripts/c360a.min.js" async></script>
 
     <script type="text/javascript">
-      var salesforceSDKInitialized = false; // Flag for other scripts
-      var userLocationData = null; // Variable to store location data
+      var salesforceSDKInitialized = false;
+      var userLocationData = null;
+      const CONSENT_STORAGE_KEY = 'bwam_consent_status';
 
-      (function() {
-        // --- Consent Management Check ---
-        // CRITICAL: Implement proper consent check based on GDPR/FADP.
-        var userHasConsent = true; // <-- Replace this with your actual consent check logic from your CMP
+      function initializeSalesforceSDK() {
+          if (salesforceSDKInitialized) { return; }
+          if (typeof SalesforceInteractions === 'undefined') { console.error("SF SDK not loaded."); return; }
 
-        if (userHasConsent) {
-          SalesforceInteractions.init({
-            cookieDomain: "YOUR_COOKIE_DOMAIN" // REPLACE
-          }).then(() => {
+          SalesforceInteractions.init({ cookieDomain: "YOUR_COOKIE_DOMAIN" /* REPLACE */ }).then(() => {
             console.log("Salesforce SDK Initialized.");
-            salesforceSDKInitialized = true; // Set flag for use in script.js
-
-            // --- SFDC Account and Dataset Configuration ---
-            // CRITICAL: Replace placeholders with your actual values from Data Cloud Setup
-            const config = {
-              global: {
-                et: "YOUR_SFDC_ACCOUNT", // REPLACE
-                dataTrack: "1"
-              },
-              dataset: "YOUR_DATASET_ID" // REPLACE
-            };
+            salesforceSDKInitialized = true;
+            const config = { global: { et: "YOUR_SFDC_ACCOUNT" /* REPLACE */, dataTrack: "1" }, dataset: "YOUR_DATASET_ID" /* REPLACE */ };
             SalesforceInteractions.configure(config);
 
-            // --- Geolocation Request ---
-            // Attempt to get location AFTER SDK init and basic consent.
-            // The browser will prompt the user for permission separately for geolocation.
             if (navigator.geolocation) {
-                console.log("Requesting geolocation permission...");
                 navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        console.log("Geolocation permission granted.");
-                        userLocationData = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude
-                        };
-                        // Optional: Send an event specifically tracking location consent/retrieval
-                        SalesforceInteractions.sendEvent({
-                            interaction: { name: 'Geolocation Obtained' },
-                            user: { attributes: { // Add location to user attributes
-                                latitude: userLocationData.latitude,
-                                longitude: userLocationData.longitude
-                            }}
-                        });
-                        // Re-send page view or update user attributes if needed, now with location
-                        // For simplicity, subsequent events will pick up userLocationData
-                    },
-                    (error) => {
-                        console.warn(`Geolocation error (${error.code}): ${error.message}`);
-                        userLocationData = { error: error.code }; // Store error code if needed
-                        // Optional: Send an event tracking geolocation denial/error
-                        SalesforceInteractions.sendEvent({
-                            interaction: { name: 'Geolocation Denied or Error', attributes: { errorCode: error.code, errorMessage: error.message } }
-                        });
-                    },
-                    {
-                        // Geolocation options (optional)
-                        enableHighAccuracy: false, // Lower battery usage
-                        timeout: 10000, // 10 seconds
-                        maximumAge: 600000 // Use cached position up to 10 minutes old
-                    }
+                    (pos) => { userLocationData = { latitude: pos.coords.latitude, longitude: pos.coords.longitude }; SalesforceInteractions.sendEvent({ interaction: { name: 'Geolocation Obtained' }, user: { attributes: userLocationData } }); console.log("Geolocation obtained:", userLocationData); },
+                    (err) => { userLocationData = { error: err.code }; SalesforceInteractions.sendEvent({ interaction: { name: 'Geolocation Denied or Error', attributes: { errorCode: err.code, errorMessage: err.message } } }); console.warn(`Geolocation error: ${err.message}`); },
+                    { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 }
                 );
-            } else {
-                console.log("Geolocation is not supported by this browser.");
-                userLocationData = { error: 'unsupported' };
-            }
+            } else { userLocationData = { error: 'unsupported' }; console.log("Geolocation not supported."); }
 
-
-            // --- Determine Page Context (Type and Category) ---
-            function getPageContext() {
-                let pageType = "Homepage";
-                let pageCategory = "General Banking";
-                const hash = window.location.hash.substring(1);
-
-                switch (hash) {
-                    // Main Sections
-                    case 'home': pageType = "Homepage"; pageCategory = "General Banking"; break;
-                    case 'services': pageType = "Services Overview"; pageCategory = "Financial Services"; break;
-                    case 'news': pageType = "News Overview"; pageCategory = "Insights & News"; break;
-                    case 'events': pageType = "Events Information"; pageCategory = "Community & Events"; break;
-                    case 'contact': pageType = "Contact Information"; pageCategory = "Support & Contact"; break;
-                    // Simulated Subpages (Private Clients)
-                    case 'accounts-cards': pageType = "Service Detail"; pageCategory = "Accounts & Cards"; break;
-                    case 'investing': pageType = "Service Detail"; pageCategory = "Investing"; break;
-                    case 'pensions': pageType = "Service Detail"; pageCategory = "Pensions"; break;
-                    case 'financing': pageType = "Service Detail"; pageCategory = "Financing"; break;
-                    // Default / Fallback
-                    default:
-                        if (hash === "") { pageType = "Homepage"; pageCategory = "General Banking"; }
-                        else { pageType = "Other"; pageCategory = "General Banking"; }
-                        break;
-                }
-                return { type: pageType, category: pageCategory };
-            }
-
-            const currentPageContext = getPageContext();
-
-            // --- Basic Page View Event ---
-            // Include location data if available in user attributes
+            const currentPageContext = typeof getPageContext === 'function' ? getPageContext() : { type: 'Unknown', category: 'Unknown' };
             const pageViewPayload = {
-              interaction: {
-                 name: SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage,
-                 locale: document.documentElement.lang || "en_US"
-              },
-              page: {
-                 url: window.location.href,
-                 title: document.title,
-                 type: currentPageContext.type,
-                 category: currentPageContext.category,
-              },
-              user: { // Add user object to potentially include location
-                attributes: userLocationData && !userLocationData.error ? {
-                    latitude: userLocationData.latitude,
-                    longitude: userLocationData.longitude
-                    // Add city/country here if you integrate a reverse geocoding service
-                    // geoCity: 'USER_CITY',
-                    // geoCountry: 'USER_COUNTRY'
-                 } : {} // Send empty object if no location data
-              }
+              interaction: { name: SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage, locale: document.documentElement.lang || "en_US" },
+              page: { url: window.location.href, title: document.title, type: currentPageContext.type, category: currentPageContext.category, referrerUrl: document.referrer },
+              user: { attributes: userLocationData && !userLocationData.error ? userLocationData : {} }
             };
             SalesforceInteractions.sendEvent(pageViewPayload);
-            console.log(`Sent viewPage event for type: ${currentPageContext.type}, category: ${currentPageContext.category}`);
+            console.log(`Sent initial viewPage event: ${currentPageContext.type} | ${currentPageContext.category}`);
 
+            if (typeof attachTrackingListeners === 'function') { attachTrackingListeners(currentPageContext); } else { console.warn("attachTrackingListeners not found."); }
 
-            // --- Call function in script.js to attach the actual interaction listeners ---
-            if (typeof attachTrackingListeners === 'function') {
-                attachTrackingListeners(currentPageContext); // Pass context
-            } else {
-                console.warn("attachTrackingListeners function not found.");
+            // Check if user was already logged in (from sessionStorage) and identify them
+            const loggedInEmail = sessionStorage.getItem('bwam_logged_in_email');
+            if (loggedInEmail && typeof handleSuccessfulLogin === 'function') {
+                console.log('User already logged in from session. Identifying.');
+                // Use a consistent placeholder ID for simulation
+                handleSuccessfulLogin('SIMULATED_USER_123', loggedInEmail);
             }
 
-          }).catch((error) => {
-             console.error("Salesforce Interactions SDK Initialization Error: ", error);
-          });
-        } else {
-            console.log("Salesforce Interactions SDK not initialized due to lack of user consent.");
-        }
-      })();
+
+          }).catch((error) => { console.error("SF SDK Init Error: ", error); });
+      }
+      window.initializeSalesforceSDK = initializeSalesforceSDK;
+
+      try {
+          const consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY);
+          if (consentStatus === 'accepted') { setTimeout(initializeSalesforceSDK, 100); }
+          else { console.log(`Consent: ${consentStatus || 'Not Set'}. SDK not init on load.`); }
+      } catch (e) { console.error("localStorage consent check failed.", e); }
     </script>
     </head>
-<body class="antialiased text-gray-800 bg-white">
-
+<body class="antialiased text-gray-800 bg-white relative pb-32">
     <header class="bg-white shadow-md sticky top-0 z-50 w-full">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-2">
@@ -208,9 +93,7 @@
                 <nav class="hidden md:flex items-center space-x-5 lg:space-x-7">
                     <div class="group relative">
                         <button class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red inline-flex items-center py-3" data-lang-key="nav.private_clients">
-                            Private Clients <svg class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
+                            Private Clients <svg class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                         </button>
                         <div class="dropdown-menu absolute left-0 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
                             <div class="py-1" role="none">
@@ -231,7 +114,18 @@
                     <button aria-label="Search" class="p-1 text-gray-500 hover:text-brand-red" data-lang-key="aria.search" title="Search">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     </button>
-                    <button class="text-sm font-medium text-gray-500 hover:text-brand-red" data-lang-key="nav.login">Login</button>
+
+                    <div id="login-container" class="flex items-center">
+                        <button id="login-button" class="text-sm font-medium text-gray-500 hover:text-brand-red" data-lang-key="nav.login">Login</button>
+                        <div id="login-form" class="login-form-container hidden ml-2">
+                             <input type="email" id="login-email" placeholder="Enter email" class="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red">
+                             <button id="simulate-login-button" class="text-sm bg-brand-red text-white py-1 px-3 rounded-md hover:bg-opacity-85">Login</button>
+                        </div>
+                         <div id="logged-in-status" class="hidden items-center ml-2">
+                             <span class="text-sm text-gray-700 mr-2">Logged in: <span id="logged-in-email" class="font-medium"></span></span>
+                             <button id="logout-button" class="text-sm font-medium text-gray-500 hover:text-brand-red underline">Logout</button>
+                         </div>
+                    </div>
                     <div class="border-l pl-3 sm:pl-4 flex space-x-2">
                         <button class="lang-button text-sm font-medium text-gray-500 hover:text-brand-red" data-lang="de">DE</button>
                         <button class="lang-button text-sm font-medium text-gray-500 hover:text-brand-red" data-lang="en">EN</button>
@@ -246,7 +140,8 @@
         </div>
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200">
              <div class="px-2 pt-2 pb-3 space-y-1">
-                 <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-lang-key="nav.private_clients">Private Clients</a> <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.business_clients">Business Clients</a>
+                 <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-lang-key="nav.private_clients">Private Clients</a>
+                 <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.business_clients">Business Clients</a>
                  <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.institutional">Institutional</a>
                  <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.about_us">About Us</a>
                  <a href="#events" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.events">Events</a>
@@ -256,9 +151,10 @@
 
     <main>
         <section id="home" class="relative h-[60vh] md:h-[75vh] flex items-center text-white overflow-hidden">
-             <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 z-0">
                  <img src="https://placehold.co/1920x1080/111827/9ca3af?text=Dynamic+City+Background" alt="Zurich Financial District" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1920x1080/cccccc/ffffff?text=Image+Not+Found'">
-                <div class="absolute inset-0 bg-black opacity-40"></div> </div>
+                <div class="absolute inset-0 bg-black opacity-40"></div>
+             </div>
             <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
                 <div class="max-w-2xl">
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight" data-lang-key="hero.title">Welcome to BWAM</h1>
@@ -273,7 +169,8 @@
 
         <section id="services" class="py-12 md:py-20 bg-gray-50">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="nav.business_clients">Business Client Services</h2> <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 text-center">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="nav.business_clients">Business Client Services</h2>
+                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 text-center">
                     <a href="#accounts-cards" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
                         <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.accounts_cards">Accounts & Cards</h3>
@@ -290,36 +187,39 @@
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                         <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.financing">Financing</h3>
                     </a>
-                    <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"> <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                         <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.real_estate">Real Estate</h3>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section id="accounts-cards" class="py-16 lg:py-24 bg-white hidden"> <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="accounts-cards" class="py-16 lg:py-24 bg-white hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.accounts_cards">Accounts & Cards Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Accounts & Cards would go here...</p>
-             </div>
+                 </div>
         </section>
-        <section id="investing" class="py-16 lg:py-24 bg-gray-50 hidden"> <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="investing" class="py-16 lg:py-24 bg-gray-50 hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.investing">Investing Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Investing would go here...</p>
              </div>
         </section>
-         <section id="pensions" class="py-16 lg:py-24 bg-white hidden"> <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+         <section id="pensions" class="py-16 lg:py-24 bg-white hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.pensions">Pensions Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Pensions would go here...</p>
              </div>
         </section>
-         <section id="financing" class="py-16 lg:py-24 bg-gray-50 hidden"> <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+         <section id="financing" class="py-16 lg:py-24 bg-gray-50 hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.financing">Financing Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Financing would go here...</p>
              </div>
         </section>
         <section id="news" class="py-16 lg:py-24 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="news.title">News & Insights</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -422,6 +322,16 @@
         </div>
     </footer>
 
+    <div id="consent-banner" class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 shadow-lg z-[100] transform translate-y-full hidden" >
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p class="text-sm text-gray-300 flex-grow" data-consent-text="consent.message">
+                Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und relevante Inhalte anzuzeigen. Indem Sie auf „Alle akzeptieren“ klicken, stimmen Sie der Verwendung dieser Technologien zu. Sie können Ihre Auswahl jederzeit ändern. </p>
+            <div class="flex-shrink-0 flex gap-3">
+                <button id="consent-reject" class="bg-gray-600 hover:bg-gray-500 text-white text-sm font-medium py-2 px-4 rounded-md transition duration-150" data-consent-text="consent.reject">Alle ablehnen</button>
+                <button id="consent-accept" class="bg-brand-red hover:bg-opacity-85 text-white text-sm font-medium py-2 px-4 rounded-md transition duration-150" data-consent-text="consent.accept">Alle akzeptieren</button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
