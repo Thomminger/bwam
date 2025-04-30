@@ -140,81 +140,76 @@ function setLanguage(lang) {
     });
     document.querySelectorAll('.lang-button').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
     try { localStorage.setItem('bwam_preferred_lang', lang); } catch (e) { console.warn("Could not save lang preference."); }
+
+    // --- SF Language Change Tracking ---
     if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
-        SalesforceInteractions.sendEvent({ interaction: { name: 'Changed Language', attributes: { selectedLanguage: lang } }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
+        SalesforceInteractions.sendEvent({
+            interaction: { name: 'Changed Language', attributes: { selectedLanguage: lang } },
+            user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} }
+        });
         console.log(`Tracked Language Change: ${lang}`);
     }
 }
 
 // --- Simple Hash-Based Page/Section Visibility ---
+// This function now ONLY handles showing/hiding content.
+// Page view tracking is handled by initSitemap reacting to hash changes.
 function handleHashChange() {
     const hash = window.location.hash.substring(1);
+    console.log(`Hash changed to: #${hash}`);
     document.querySelectorAll('main > section').forEach(section => section.classList.add('hidden'));
-    let sectionToShowId = 'home';
-    if (hash && document.getElementById(hash)) { sectionToShowId = hash; }
-    else if (hash) { console.warn(`Section for hash #${hash} not found, showing home.`); }
-    document.getElementById(sectionToShowId)?.classList.remove('hidden');
-
-    // --- Trigger SF Page View on Hash Change ---
-     if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized && typeof SalesforceInteractions !== 'undefined') {
-        const newPageContext = getPageContext();
-        const pageViewPayload = {
-            interaction: { name: SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage, locale: document.documentElement.lang || "en_US" },
-            page: { url: window.location.href, title: document.title, type: newPageContext.type, category: newPageContext.category, referrerUrl: document.referrer },
-            user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} }
-        };
-        SalesforceInteractions.sendEvent(pageViewPayload);
-        console.log(`Tracked viewPage (Hash Change): ${newPageContext.type} | ${newPageContext.category}`);
-     }
+    let sectionToShowId = 'home'; // Default to home
+    if (hash && document.getElementById(hash)) {
+        sectionToShowId = hash;
+    } else if (hash) {
+        console.warn(`Section for hash #${hash} not found, showing home.`);
+    }
+    const sectionToShow = document.getElementById(sectionToShowId);
+    if (sectionToShow) {
+        sectionToShow.classList.remove('hidden');
+        console.log(`Showing section: #${sectionToShowId}`);
+    } else {
+        document.getElementById('home')?.classList.remove('hidden'); // Fallback
+         console.log(`Fallback: Showing section: #home`);
+    }
 }
 
-// --- Helper to get Page Context ---
-function getPageContext() {
-    let pageType = "Homepage"; let pageCategory = "General Banking";
-    const hash = window.location.hash.substring(1);
-    switch (hash) {
-        case 'home': pageType = "Homepage"; pageCategory = "General Banking"; break;
-        case 'services': pageType = "Services Overview"; pageCategory = "Financial Services"; break;
-        case 'news': pageType = "News Overview"; pageCategory = "Insights & News"; break;
-        case 'events': pageType = "Events Information"; pageCategory = "Community & Events"; break;
-        case 'contact': pageType = "Contact Information"; pageCategory = "Support & Contact"; break;
-        case 'accounts-cards': pageType = "Service Detail"; pageCategory = "Accounts & Cards"; break;
-        case 'investing': pageType = "Service Detail"; pageCategory = "Investing"; break;
-        case 'pensions': pageType = "Service Detail"; pageCategory = "Pensions"; break;
-        case 'financing': pageType = "Service Detail"; pageCategory = "Financing"; break;
-        default: if (hash === "") { pageType = "Homepage"; pageCategory = "General Banking"; } else { pageType = "Other"; pageCategory = "General Banking"; } break;
-    } return { type: pageType, category: pageCategory };
-}
-window.getPageContext = getPageContext; // Make global
+// NOTE: getPageContext function is removed as initSitemap handles context.
 
 // --- Salesforce Interaction Tracking Function ---
-function attachTrackingListeners(currentPageContext) {
-    console.log("Attaching SF listeners. Context:", currentPageContext);
-    if (!currentPageContext) { console.error("Cannot attach listeners: context missing."); return; }
+// Attaches listeners for clicks, etc. Context is handled by SDK based on initSitemap.
+function attachTrackingListeners() {
+    console.log("Attaching SF interaction listeners.");
 
-    // Helper to send interaction events
+    // Helper to send interaction events (aligned with WebClickEvent schema)
     function sendSalesforceClickInteraction(event, targetName, customAttributes = {}) {
         if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
             const targetElement = event.currentTarget;
             const payload = {
-                interaction: { name: 'Web Click', targetUrl: targetElement.href || '', targetElementText: targetElement.innerText?.trim().substring(0, 255) || '', targetElementSelector: getCssSelector(targetElement), attributes: { targetName: targetName, ...customAttributes } },
-                page: { type: currentPageContext.type, category: currentPageContext.category, url: window.location.href },
+                interaction: {
+                    name: 'Web Click', // Standard interaction name
+                    targetUrl: targetElement.href || '',
+                    targetElementText: targetElement.innerText?.trim().substring(0, 255) || '',
+                    targetElementSelector: getCssSelector(targetElement),
+                    attributes: { targetName: targetName, ...customAttributes } // Specific context
+                },
+                // No need to explicitly pass page context here, SDK associates it
                  user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} }
             };
             SalesforceInteractions.sendEvent(payload);
         } else { console.warn("SF SDK not ready, click event not sent:", targetName); }
     }
 
-    // Helper to generate CSS selector
+    // Helper function to generate CSS selector
     function getCssSelector(el) { if (!(el instanceof Element)) return; const path = []; while (el.nodeType === Node.ELEMENT_NODE) { let selector = el.nodeName.toLowerCase(); if (el.id) { selector += '#' + el.id; path.unshift(selector); break; } else { let sib = el, nth = 1; while (sib = sib.previousElementSibling) { if (sib.nodeName.toLowerCase() == selector) nth++; } if (nth != 1) selector += ":nth-of-type("+nth+")"; } path.unshift(selector); el = el.parentNode; } return path.join(" > "); }
 
-    // Attach Listeners
+    // Attach Listeners (No changes needed here from previous version)
     document.querySelector('[data-lang-key="hero.button_services"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Hero CTA - Explore Services', { targetSection: 'services' }); console.log('Tracked Hero CTA click'); });
     document.querySelector('[data-lang-key="hero.button_contact"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Hero CTA - Contact Us', { targetSection: 'contact' }); console.log('Tracked Hero Contact click'); });
     document.querySelectorAll('#news [data-lang-key="news.read_more"]').forEach(link => { link.addEventListener('click', (e) => { if (link.getAttribute('href') === '#') { e.preventDefault(); } const card = e.target.closest('.flex-col'); const title = card?.querySelector('h3[data-lang-key]')?.textContent.trim() ?? 'Unknown'; sendSalesforceClickInteraction(e, 'News Read More', { articleTitle: title, cardPosition: card?.parentNode ? Array.from(card.parentNode.children).indexOf(card) + 1 : 'Unknown' }); console.log(`Tracked News Read More: ${title}`); }); });
     document.querySelectorAll('#services .group').forEach(link => { link.addEventListener('click', (e) => { const title = link.querySelector('h3[data-lang-key]')?.textContent.trim() ?? 'Unknown'; const key = link.querySelector('h3[data-lang-key]')?.getAttribute('data-lang-key').replace('service_card.', '') ?? 'unknown'; sendSalesforceClickInteraction(e, 'Service Icon Click', { serviceName: title, serviceKey: key }); console.log(`Tracked Service Icon: ${title}`); }); });
     document.querySelector('#contact [data-lang-key="contact_cta.button"]')?.addEventListener('click', (e) => { if (e.currentTarget.getAttribute('href') === '#') { e.preventDefault(); } sendSalesforceClickInteraction(e, 'Contact CTA - Find Advisor'); console.log('Tracked Contact CTA click'); });
-    // Note: Login button listener is handled separately in DOMContentLoaded for UI changes
+    document.querySelector('header [data-lang-key="nav.login"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Header Login Prompt'); console.log('Tracked click to show login form'); }); // Track prompt display
     document.querySelectorAll('header .dropdown-menu a[role="menuitem"]').forEach(link => { link.addEventListener('click', (e) => { const key = link.getAttribute('data-lang-key'); const text = link.textContent.trim(); sendSalesforceClickInteraction(e, 'Private Client Submenu Click', { linkKey: key, linkText: text }); console.log(`Tracked Submenu click: ${text}`); }); });
 
 } // --- End of attachTrackingListeners ---
@@ -235,28 +230,18 @@ window.handleSuccessfulLogin = handleSuccessfulLogin; // Make global
 function handleLogout() {
     const loggedInEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
     console.log(`Logging out user: ${loggedInEmail}`);
-    sessionStorage.removeItem(LOGIN_STATUS_KEY); // Clear session storage
-
-    // Update UI
-    document.getElementById('login-button')?.classList.remove('hidden');
-    document.getElementById('login-form')?.classList.add('hidden');
-    document.getElementById('logged-in-status')?.classList.add('hidden');
-    document.getElementById('logged-in-email').textContent = '';
-
-    // Send Logout Event to Salesforce (if SDK is ready)
+    sessionStorage.removeItem(LOGIN_STATUS_KEY);
+    updateLoginUI(false); // Update UI (defined in DOMContentLoaded)
     if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
-        SalesforceInteractions.sendEvent({
-            interaction: {
-                name: 'User Logout' // Custom interaction name for logout
-            },
-             user: { // Include location if available
-                 attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {}
-             }
-        });
+        SalesforceInteractions.sendEvent({ interaction: { name: 'User Logout' }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
         console.log("Sent User Logout event to Salesforce.");
     }
 }
+window.handleLogout = handleLogout; // Make global
 
+
+// --- Global UI Update Function --- (Needed by handleLogout)
+let updateLoginUI = () => {}; // Placeholder, will be defined in DOMContentLoaded
 
 // --- Initial Page Load Logic ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -269,7 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const consentBanner = document.getElementById('consent-banner');
     const acceptBtn = document.getElementById('consent-accept');
     const rejectBtn = document.getElementById('consent-reject');
-    // Login Simulation Elements
     const loginButton = document.getElementById('login-button');
     const loginForm = document.getElementById('login-form');
     const loginEmailInput = document.getElementById('login-email');
@@ -277,7 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loggedInStatusDiv = document.getElementById('logged-in-status');
     const loggedInEmailSpan = document.getElementById('logged-in-email');
     const logoutButton = document.getElementById('logout-button');
-
 
     // --- Consent Banner Logic ---
     if (consentBanner && acceptBtn && rejectBtn) {
@@ -289,75 +272,53 @@ document.addEventListener('DOMContentLoaded', () => {
     } else { console.warn("Consent banner elements missing."); }
 
     // --- Login Simulation Logic ---
-    if (loginButton && loginForm && loginEmailInput && simulateLoginButton && loggedInStatusDiv && loggedInEmailSpan && logoutButton) {
-
-        // Function to update UI based on login state
-        function updateLoginUI(isLoggedIn, email = '') {
-            if (isLoggedIn) {
-                loginButton.classList.add('hidden');
-                loginForm.classList.add('hidden');
-                loggedInStatusDiv.classList.remove('hidden');
-                loggedInStatusDiv.classList.add('flex'); // Ensure it's displayed flex
-                loggedInEmailSpan.textContent = email;
-            } else {
-                loginButton.classList.remove('hidden');
-                loginForm.classList.add('hidden'); // Hide form by default after logout
-                loggedInStatusDiv.classList.add('hidden');
-                loggedInStatusDiv.classList.remove('flex');
-                loggedInEmailSpan.textContent = '';
-                loginEmailInput.value = ''; // Clear input on logout
-            }
-        }
-
-        // Check initial login state from sessionStorage
-        const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
-        if (initialEmail) {
-            updateLoginUI(true, initialEmail);
-            // Note: Salesforce identification for existing sessions happens in initializeSalesforceSDK
+    // Define the UI update function within this scope
+    updateLoginUI = (isLoggedIn, email = '') => {
+        if (!loginButton || !loginForm || !loggedInStatusDiv || !loggedInEmailSpan || !loginEmailInput) return; // Guard clause
+        if (isLoggedIn) {
+            loginButton.classList.add('hidden');
+            loginForm.classList.add('hidden');
+            loggedInStatusDiv.classList.remove('hidden');
+            loggedInStatusDiv.classList.add('flex');
+            loggedInEmailSpan.textContent = email;
         } else {
-            updateLoginUI(false);
+            loginButton.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            loggedInStatusDiv.classList.add('hidden');
+            loggedInStatusDiv.classList.remove('flex');
+            loggedInEmailSpan.textContent = '';
+            loginEmailInput.value = '';
         }
+    }
 
-        // Show login form when Login button is clicked
+    if (loginButton && loginForm && loginEmailInput && simulateLoginButton && loggedInStatusDiv && loggedInEmailSpan && logoutButton) {
+        const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
+        updateLoginUI(!!initialEmail, initialEmail || ''); // Update UI based on initial state
+
         loginButton.addEventListener('click', () => {
             loginButton.classList.add('hidden');
             loginForm.classList.remove('hidden');
             loginEmailInput.focus();
-            // Track click on initial login button
-            if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
-                 SalesforceInteractions.sendEvent({ interaction: { name: 'Web Click', attributes: { targetName: 'Header Login Prompt' } } });
-                 console.log('Tracked click to show login form');
-            }
+            // Tracking moved to attachTrackingListeners
         });
 
-        // Handle simulate login button click
         simulateLoginButton.addEventListener('click', () => {
             const email = loginEmailInput.value.trim();
-            // Basic email validation
             if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 console.log(`Simulating login for: ${email}`);
-                sessionStorage.setItem(LOGIN_STATUS_KEY, email); // Store email in session
+                sessionStorage.setItem(LOGIN_STATUS_KEY, email);
                 updateLoginUI(true, email);
-                // Call the identification function (if SDK ready)
-                if (typeof handleSuccessfulLogin === 'function') {
-                    handleSuccessfulLogin(SIMULATED_USER_ID, email);
-                } else {
-                    console.warn("handleSuccessfulLogin function not available when simulating login.");
-                }
-            } else {
-                alert('Please enter a valid email address.'); // Simple feedback
-            }
+                if (typeof handleSuccessfulLogin === 'function') { handleSuccessfulLogin(SIMULATED_USER_ID, email); }
+                else { console.warn("handleSuccessfulLogin not available."); }
+            } else { alert('Please enter a valid email address.'); }
         });
 
-        // Handle logout button click
         logoutButton.addEventListener('click', () => {
-            handleLogout(); // Call the logout handler
+            if (typeof handleLogout === 'function') { handleLogout(); }
+            else { console.error("handleLogout function not found!"); }
         });
 
-    } else {
-        console.warn("Login simulation elements not found. Login UI inactive.");
-    }
-
+    } else { console.warn("Login simulation elements missing."); }
 
     // --- Other Initializations ---
     if (mobileMenuButton && mobileMenu) { mobileMenuButton.addEventListener('click', () => { mobileMenuButton.setAttribute('aria-expanded', !(mobileMenuButton.getAttribute('aria-expanded') === 'true')); mobileMenu.classList.toggle('hidden'); }); }
