@@ -1,7 +1,7 @@
 // script.js
 
 // --- Constants ---
-const CONSENT_STORAGE_KEY = 'bwam_consent_status'; // Key for localStorage
+// REMOVED: const CONSENT_STORAGE_KEY = 'bwam_consent_status'; // This was declared in index.html inline script
 const LOGIN_STATUS_KEY = 'bwam_logged_in_email'; // Key for sessionStorage
 const SIMULATED_USER_ID = 'SIMULATED_USER_123'; // Placeholder User ID for simulation
 
