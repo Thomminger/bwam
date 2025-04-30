@@ -21,7 +21,6 @@
         section[id] { scroll-margin-top: 70px; }
         html { scroll-behavior: smooth; }
         #consent-banner { transition: transform 0.3s ease-in-out; }
-        /* Add styles for login simulation elements if needed */
         .login-form-container { display: flex; align-items: center; gap: 0.5rem; }
     </style>
 
@@ -32,16 +31,28 @@
       var userLocationData = null;
       const CONSENT_STORAGE_KEY = 'bwam_consent_status';
 
+      // --- Function to Initialize Salesforce SDK & Sitemap ---
       function initializeSalesforceSDK() {
           if (salesforceSDKInitialized) { return; }
           if (typeof SalesforceInteractions === 'undefined') { console.error("SF SDK not loaded."); return; }
 
-          SalesforceInteractions.init({ cookieDomain: "YOUR_COOKIE_DOMAIN" /* REPLACE */ }).then(() => {
+          SalesforceInteractions.init({
+            cookieDomain: "YOUR_COOKIE_DOMAIN" // REPLACE
+            // Add personalization dataspace if needed for Personalization.fetch later
+            // personalization: { dataspace: "YOUR_DATASPACE_NAME" }
+          }).then(() => {
             console.log("Salesforce SDK Initialized.");
             salesforceSDKInitialized = true;
-            const config = { global: { et: "YOUR_SFDC_ACCOUNT" /* REPLACE */, dataTrack: "1" }, dataset: "YOUR_DATASET_ID" /* REPLACE */ };
+
+            // --- SFDC Account and Dataset Configuration ---
+            const config = {
+              global: { et: "YOUR_SFDC_ACCOUNT" /* REPLACE */, dataTrack: "1" },
+              dataset: "YOUR_DATASET_ID" // REPLACE
+            };
             SalesforceInteractions.configure(config);
 
+            // --- Geolocation Request ---
+            // (Keep the existing geolocation logic here - omitted for brevity, but should be included)
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (pos) => { userLocationData = { latitude: pos.coords.latitude, longitude: pos.coords.longitude }; SalesforceInteractions.sendEvent({ interaction: { name: 'Geolocation Obtained' }, user: { attributes: userLocationData } }); console.log("Geolocation obtained:", userLocationData); },
@@ -50,30 +61,128 @@
                 );
             } else { userLocationData = { error: 'unsupported' }; console.log("Geolocation not supported."); }
 
-            const currentPageContext = typeof getPageContext === 'function' ? getPageContext() : { type: 'Unknown', category: 'Unknown' };
-            const pageViewPayload = {
-              interaction: { name: SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage, locale: document.documentElement.lang || "en_US" },
-              page: { url: window.location.href, title: document.title, type: currentPageContext.type, category: currentPageContext.category, referrerUrl: document.referrer },
-              user: { attributes: userLocationData && !userLocationData.error ? userLocationData : {} }
-            };
-            SalesforceInteractions.sendEvent(pageViewPayload);
-            console.log(`Sent initial viewPage event: ${currentPageContext.type} | ${currentPageContext.category}`);
+            // --- Define Sitemap Configuration ---
+            const sitemapConfig = {
+                global: {
+                    // Example: Add referrer URL and location data to all automatically generated events (like page views)
+                    onActionEvent: (event) => {
+                        // Add referrer if not already present
+                        if (!event.page?.referrerUrl) {
+                            event.page = { ...event.page, referrerUrl: document.referrer };
+                        }
+                        // Add location data if available
+                        if (userLocationData && !userLocationData.error) {
+                             event.user = { ...event.user, attributes: { ...event.user?.attributes, latitude: userLocationData.latitude, longitude: userLocationData.longitude } };
+                        }
+                        console.log("Sitemap Global onActionEvent:", event);
+                        // Example: Fetch a global personalization zone on every page view
+                        // if (event.interaction.name === SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage) {
+                        //    SalesforceInteractions.Personalization?.fetch(["global_header_promo"])
+                        //        .then(p => console.log("Fetched global promo", p))
+                        //        .catch(e => console.error("Error fetching global promo", e));
+                        // }
+                        return event; // Return the (potentially modified) event object
+                    }
+                },
+                pageTypes: [
+                    // --- Main Sections ---
+                    {
+                        name: "Homepage", // Maps to pageType__c or interaction name
+                        isMatch: () => { const hash = window.location.hash.substring(1); return hash === "" || hash === "home"; },
+                        interaction: { name: "View Homepage" }, // Specific interaction name for this view
+                        attributes: { pageCategory: "General Banking" }, // Custom attribute for category
+                        onActionEvent: (event) => {
+                             console.log("Homepage onActionEvent:", event);
+                             // Example: Fetch homepage specific personalization zones
+                             // SalesforceInteractions.Personalization?.fetch(["homepage_hero", "homepage_recs"])
+                             //    .then(p => console.log("Fetched homepage personalization", p))
+                             //    .catch(e => console.error("Error fetching homepage personalization", e));
+                             return event;
+                        }
+                    },
+                    {
+                        name: "Services Overview",
+                        isMatch: () => window.location.hash === "#services",
+                        interaction: { name: "View Services Overview" },
+                        attributes: { pageCategory: "Financial Services" }
+                        // Add onActionEvent for personalization zones on the services page if needed
+                    },
+                    {
+                        name: "News Overview",
+                        isMatch: () => window.location.hash === "#news",
+                        interaction: { name: "View News Overview" },
+                        attributes: { pageCategory: "Insights & News" }
+                    },
+                    {
+                        name: "Events Information",
+                        isMatch: () => window.location.hash === "#events",
+                        interaction: { name: "View Events Information" },
+                        attributes: { pageCategory: "Community & Events" }
+                    },
+                     {
+                        name: "Contact Information",
+                        isMatch: () => window.location.hash === "#contact",
+                        interaction: { name: "View Contact Information" },
+                        attributes: { pageCategory: "Support & Contact" }
+                    },
+                    // --- Service Detail "Subpages" ---
+                    {
+                        name: "Service Detail - Accounts & Cards",
+                        isMatch: () => window.location.hash === "#accounts-cards",
+                        interaction: { name: "View Service Detail" }, // Use a common name for type
+                        attributes: { pageCategory: "Accounts & Cards", serviceKey: "accounts-cards" } // Add specific attributes
+                    },
+                    {
+                        name: "Service Detail - Investing",
+                        isMatch: () => window.location.hash === "#investing",
+                        interaction: { name: "View Service Detail" },
+                        attributes: { pageCategory: "Investing", serviceKey: "investing" }
+                    },
+                    {
+                        name: "Service Detail - Pensions",
+                        isMatch: () => window.location.hash === "#pensions",
+                        interaction: { name: "View Service Detail" },
+                        attributes: { pageCategory: "Pensions", serviceKey: "pensions" }
+                    },
+                    {
+                        name: "Service Detail - Financing",
+                        isMatch: () => window.location.hash === "#financing",
+                        interaction: { name: "View Service Detail" },
+                        attributes: { pageCategory: "Financing", serviceKey: "financing" }
+                    },
+                     // --- Fallback Page Type ---
+                    {
+                        name: "Other",
+                        isMatch: () => true, // Matches if nothing else above matched
+                        interaction: { name: "View Other Page" },
+                        attributes: { pageCategory: "General Banking" }
+                    }
+                ]
+            }; // End of sitemapConfig
 
-            if (typeof attachTrackingListeners === 'function') { attachTrackingListeners(currentPageContext); } else { console.warn("attachTrackingListeners not found."); }
+            // Initialize the Sitemap
+            SalesforceInteractions.initSitemap(sitemapConfig);
+            console.log("Salesforce Sitemap Initialized.");
 
-            // Check if user was already logged in (from sessionStorage) and identify them
+            // --- Initial Login Check & Identification ---
+            // (Keep the existing logic here - check sessionStorage and call handleSuccessfulLogin if needed)
             const loggedInEmail = sessionStorage.getItem('bwam_logged_in_email');
-            if (loggedInEmail && typeof handleSuccessfulLogin === 'function') {
-                console.log('User already logged in from session. Identifying.');
-                // Use a consistent placeholder ID for simulation
-                handleSuccessfulLogin('SIMULATED_USER_123', loggedInEmail);
-            }
+             if (loggedInEmail && typeof handleSuccessfulLogin === 'function') {
+                 console.log('User already logged in from session. Identifying.');
+                 handleSuccessfulLogin('SIMULATED_USER_123', loggedInEmail);
+             }
 
+            // --- Call function in script.js to attach interaction listeners ---
+            // Note: We no longer pass currentPageContext explicitly
+            if (typeof attachTrackingListeners === 'function') {
+                attachTrackingListeners(); // Context is now handled internally by the SDK
+            } else { console.warn("attachTrackingListeners function not found."); }
 
-          }).catch((error) => { console.error("SF SDK Init Error: ", error); });
+          }).catch((error) => { console.error("SF SDK Init/Sitemap Error: ", error); });
       }
       window.initializeSalesforceSDK = initializeSalesforceSDK;
 
+      // --- Consent Check on Load ---
       try {
           const consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY);
           if (consentStatus === 'accepted') { setTimeout(initializeSalesforceSDK, 100); }
@@ -114,7 +223,6 @@
                     <button aria-label="Search" class="p-1 text-gray-500 hover:text-brand-red" data-lang-key="aria.search" title="Search">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                     </button>
-
                     <div id="login-container" class="flex items-center">
                         <button id="login-button" class="text-sm font-medium text-gray-500 hover:text-brand-red" data-lang-key="nav.login">Login</button>
                         <div id="login-form" class="login-form-container hidden ml-2">
