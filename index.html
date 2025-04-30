@@ -50,7 +50,7 @@
 
           console.log("Attempting SF SDK Initialization...");
           SalesforceInteractions.init({
-            cookieDomain: "YOUR_COOKIE_DOMAIN" // REPLACE with your actual domain (e.g., "yourdomain.com") or leave blank for default subdomain handling
+            // cookieDomain: "YOUR_COOKIE_DOMAIN" // REMOVED - Let SDK default for github.io
             // personalization: { dataspace: "YOUR_DATASPACE_NAME" } // Uncomment and replace if using Personalization features
           }).then(() => {
             console.log("Salesforce SDK Initialized.");
