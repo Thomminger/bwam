@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BWAM</title> <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
+    <link rel="stylesheet" href="style.css"> <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,7 +18,7 @@
         .group:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
         /* Ensure active language button is clickable */
         .lang-button.active { font-weight: 700; color: var(--brand-red); }
-        section[id] { scroll-margin-top: 70px; }
+        section[id] { scroll-margin-top: 70px; /* Adjust based on your actual header height */ }
         html { scroll-behavior: smooth; }
         #consent-banner { transition: transform 0.3s ease-in-out; }
         .login-form-container { display: flex; align-items: center; gap: 0.5rem; }
@@ -30,13 +29,17 @@
     <script type="text/javascript">
       // Global flags/variables needed before DOM ready or SDK init
       var salesforceSDKInitialized = false;
-      var userLocationData = null;
-      const CONSENT_STORAGE_KEY = 'bwam_consent_status';
+      var userLocationData = null; // Stores {latitude, longitude} or {error}
+      const CONSENT_STORAGE_KEY = 'bwam_consent_status'; // Key for localStorage
 
       // --- Function to Initialize Salesforce SDK & Sitemap ---
       // Called only after consent is explicitly accepted.
       function initializeSalesforceSDK() {
-          if (salesforceSDKInitialized) { console.log("SF SDK already init."); return; }
+          // Prevent multiple initializations
+          if (salesforceSDKInitialized) {
+              console.log("SF SDK initializeSalesforceSDK called but already initialized.");
+              return;
+          }
           // Ensure the SDK library is loaded before proceeding
           if (typeof SalesforceInteractions === 'undefined' || typeof SalesforceInteractions.init !== 'function') {
               console.error("Salesforce Interactions SDK not ready or loaded yet. Retrying...");
@@ -47,67 +50,168 @@
 
           console.log("Attempting SF SDK Initialization...");
           SalesforceInteractions.init({
-            cookieDomain: "YOUR_COOKIE_DOMAIN" // REPLACE
-            // personalization: { dataspace: "YOUR_DATASPACE_NAME" }
+            cookieDomain: "YOUR_COOKIE_DOMAIN" // REPLACE with your actual domain (e.g., "yourdomain.com") or leave blank for default subdomain handling
+            // personalization: { dataspace: "YOUR_DATASPACE_NAME" } // Uncomment and replace if using Personalization features
           }).then(() => {
             console.log("Salesforce SDK Initialized.");
-            salesforceSDKInitialized = true;
+            salesforceSDKInitialized = true; // Set flag indicating SDK is ready
 
             // --- SFDC Account and Dataset Configuration ---
+            // CRITICAL: Replace placeholders with your actual values from Data Cloud Setup
             const config = {
-              global: { et: "YOUR_SFDC_ACCOUNT" /* REPLACE */, dataTrack: "1" },
-              dataset: "YOUR_DATASET_ID" // REPLACE
+              global: {
+                  et: "YOUR_SFDC_ACCOUNT", // REPLACE with your Marketing Cloud MID
+                  dataTrack: "1" // Enable automatic data capture features
+              },
+              dataset: "YOUR_DATASET_ID" // REPLACE with your Website/Data Stream ID
             };
             SalesforceInteractions.configure(config);
 
             // --- Geolocation Request ---
+            // Attempt to get location after SDK init. Browser prompts user separately.
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    (pos) => { userLocationData = { latitude: pos.coords.latitude, longitude: pos.coords.longitude }; SalesforceInteractions.sendEvent({ interaction: { name: 'Geolocation Obtained' }, user: { attributes: userLocationData } }); console.log("Geolocation obtained:", userLocationData); },
-                    (err) => { userLocationData = { error: err.code }; SalesforceInteractions.sendEvent({ interaction: { name: 'Geolocation Denied or Error', attributes: { errorCode: err.code, errorMessage: err.message } } }); console.warn(`Geolocation error: ${err.message}`); },
+                    // Success callback
+                    (pos) => {
+                        userLocationData = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+                        // Send an event confirming location obtained and update user attributes
+                        SalesforceInteractions.sendEvent({
+                            interaction: { name: 'Geolocation Obtained' },
+                            user: { attributes: userLocationData }
+                        });
+                        console.log("Geolocation obtained:", userLocationData);
+                    },
+                    // Error callback
+                    (err) => {
+                        userLocationData = { error: err.code }; // Store error code
+                        SalesforceInteractions.sendEvent({
+                            interaction: { name: 'Geolocation Denied or Error', attributes: { errorCode: err.code, errorMessage: err.message } }
+                        });
+                        console.warn(`Geolocation error (${err.code}): ${err.message}`);
+                    },
+                    // Geolocation options
                     { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 }
                 );
-            } else { userLocationData = { error: 'unsupported' }; console.log("Geolocation not supported."); }
+            } else {
+                userLocationData = { error: 'unsupported' }; // Mark as unsupported
+                console.log("Geolocation is not supported by this browser.");
+            }
 
             // --- Define Sitemap Configuration ---
+            // This structure helps the SDK understand the different page types/sections.
             const sitemapConfig = {
                 global: {
+                    // This function runs for *every* event automatically sent by the SDK (like page views from initSitemap)
+                    // or manually sent via sendEvent.
                     onActionEvent: (event) => {
-                        if (!event.page?.referrerUrl) { event.page = { ...event.page, referrerUrl: document.referrer }; }
-                        if (userLocationData && !userLocationData.error) { event.user = { ...event.user, attributes: { ...event.user?.attributes, latitude: userLocationData.latitude, longitude: userLocationData.longitude } }; }
-                        console.log("Sitemap Global onActionEvent:", event.interaction.name);
-                        return event;
+                        // Add referrer URL if not already present on the event's page object
+                        if (!event.page?.referrerUrl) {
+                            event.page = { ...event.page, referrerUrl: document.referrer };
+                        }
+                        // Add location data to the event's user attributes if available
+                        if (userLocationData && !userLocationData.error) {
+                             event.user = { ...event.user, attributes: { ...event.user?.attributes, latitude: userLocationData.latitude, longitude: userLocationData.longitude } };
+                        }
+                        console.log("Sitemap Global onActionEvent:", event.interaction.name); // Log the event name processed globally
+                        // Example: Fetch a global personalization zone on every page view
+                        // if (event.interaction.name === SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage) {
+                        //    SalesforceInteractions.Personalization?.fetch(["global_header_promo"])
+                        //        .then(p => console.log("Fetched global promo", p))
+                        //        .catch(e => console.error("Error fetching global promo", e));
+                        // }
+                        return event; // IMPORTANT: Always return the event object
                     }
                 },
-                pageTypes: [ // Page type definitions remain the same as v6
-                    { name: "Homepage", isMatch: () => { const h = window.location.hash.substring(1); return h === "" || h === "home"; }, interaction: { name: "View Homepage" }, attributes: { pageCategory: "General Banking" }, onActionEvent: (e) => { console.log("Homepage Action:", e.interaction.name); return e; } },
-                    { name: "Services Overview", isMatch: () => window.location.hash === "#services", interaction: { name: "View Services Overview" }, attributes: { pageCategory: "Financial Services" } },
-                    { name: "News Overview", isMatch: () => window.location.hash === "#news", interaction: { name: "View News Overview" }, attributes: { pageCategory: "Insights & News" } },
-                    { name: "Events Information", isMatch: () => window.location.hash === "#events", interaction: { name: "View Events Information" }, attributes: { pageCategory: "Community & Events" } },
-                    { name: "Contact Information", isMatch: () => window.location.hash === "#contact", interaction: { name: "View Contact Information" }, attributes: { pageCategory: "Support & Contact" } },
-                    { name: "Service Detail - Accounts & Cards", isMatch: () => window.location.hash === "#accounts-cards", interaction: { name: "View Service Detail" }, attributes: { pageCategory: "Accounts & Cards", serviceKey: "accounts-cards" } },
-                    { name: "Service Detail - Investing", isMatch: () => window.location.hash === "#investing", interaction: { name: "View Service Detail" }, attributes: { pageCategory: "Investing", serviceKey: "investing" } },
-                    { name: "Service Detail - Pensions", isMatch: () => window.location.hash === "#pensions", interaction: { name: "View Service Detail" }, attributes: { pageCategory: "Pensions", serviceKey: "pensions" } },
-                    { name: "Service Detail - Financing", isMatch: () => window.location.hash === "#financing", interaction: { name: "View Service Detail" }, attributes: { pageCategory: "Financing", serviceKey: "financing" } },
-                    { name: "Other", isMatch: () => true, interaction: { name: "View Other Page" }, attributes: { pageCategory: "General Banking" } }
+                // Define different types of pages/sections on your site
+                pageTypes: [
+                    // --- Main Sections ---
+                    {
+                        name: "Homepage", // This name can be used for segmentation/reporting
+                        isMatch: () => { const h = window.location.hash.substring(1); return h === "" || h === "home"; }, // Matches empty hash or #home
+                        interaction: { name: "View Homepage" }, // Specific interaction name for this view event
+                        attributes: { pageCategory: "General Banking" } // Custom attributes for this page type
+                        // Optional: Add onActionEvent specific to the Homepage
+                        // onActionEvent: (e) => { console.log("Homepage Action:", e.interaction.name); /* Fetch homepage personalization */ return e; }
+                    },
+                    {
+                        name: "Services Overview",
+                        isMatch: () => window.location.hash === "#services",
+                        interaction: { name: "View Services Overview" },
+                        attributes: { pageCategory: "Financial Services" }
+                    },
+                    {
+                        name: "News Overview",
+                        isMatch: () => window.location.hash === "#news",
+                        interaction: { name: "View News Overview" },
+                        attributes: { pageCategory: "Insights & News" }
+                    },
+                    {
+                        name: "Events Information",
+                        isMatch: () => window.location.hash === "#events",
+                        interaction: { name: "View Events Information" },
+                        attributes: { pageCategory: "Community & Events" }
+                    },
+                     {
+                        name: "Contact Information",
+                        isMatch: () => window.location.hash === "#contact",
+                        interaction: { name: "View Contact Information" },
+                        attributes: { pageCategory: "Support & Contact" }
+                    },
+                    // --- Service Detail "Subpages" ---
+                    {
+                        name: "Service Detail - Accounts & Cards",
+                        isMatch: () => window.location.hash === "#accounts-cards",
+                        interaction: { name: "View Service Detail" }, // Use a common name for this type of page
+                        attributes: { pageCategory: "Accounts & Cards", serviceKey: "accounts-cards" } // Add specific attributes
+                    },
+                    {
+                        name: "Service Detail - Investing",
+                        isMatch: () => window.location.hash === "#investing",
+                        interaction: { name: "View Service Detail" },
+                        attributes: { pageCategory: "Investing", serviceKey: "investing" }
+                    },
+                    {
+                        name: "Service Detail - Pensions",
+                        isMatch: () => window.location.hash === "#pensions",
+                        interaction: { name: "View Service Detail" },
+                        attributes: { pageCategory: "Pensions", serviceKey: "pensions" }
+                    },
+                    {
+                        name: "Service Detail - Financing",
+                        isMatch: () => window.location.hash === "#financing",
+                        interaction: { name: "View Service Detail" },
+                        attributes: { pageCategory: "Financing", serviceKey: "financing" }
+                    },
+                     // --- Fallback Page Type ---
+                     // This should be the last entry, matches if nothing else above matched
+                    {
+                        name: "Other",
+                        isMatch: () => true,
+                        interaction: { name: "View Other Page" },
+                        attributes: { pageCategory: "General Banking" }
+                    }
                 ]
-            };
+            }; // End of sitemapConfig
 
-            // Initialize the Sitemap (this triggers the first page view event)
+            // Initialize the Sitemap - This automatically sends the first page view event
+            // based on the matched pageType and listens for hash changes to send subsequent views.
             SalesforceInteractions.initSitemap(sitemapConfig);
             console.log("Salesforce Sitemap Initialized.");
 
             // --- Initial Login Check & Identification ---
+            // Check if user was already logged in during this browser session
             const loggedInEmail = sessionStorage.getItem('bwam_logged_in_email');
              if (loggedInEmail && typeof handleSuccessfulLogin === 'function') {
                  console.log('User already logged in from session. Identifying.');
-                 handleSuccessfulLogin('SIMULATED_USER_123', loggedInEmail);
+                 // Identify the user in Salesforce
+                 handleSuccessfulLogin('SIMULATED_USER_123', loggedInEmail); // Use placeholder ID for simulation
              }
 
             // --- Call function in script.js to attach interaction listeners ---
+            // These listeners handle clicks, etc., which are not automatically tracked by initSitemap
             if (typeof attachTrackingListeners === 'function') {
-                attachTrackingListeners();
-            } else { console.warn("attachTrackingListeners function not found."); }
+                attachTrackingListeners(); // Context is now handled internally by the SDK
+            } else { console.warn("attachTrackingListeners function not found in script.js."); }
 
           }).catch((error) => { console.error("SF SDK Init/Sitemap Error: ", error); });
       }
@@ -123,7 +227,7 @@
               // Use setTimeout to allow the async SDK script to potentially load first
               setTimeout(initializeSalesforceSDK, 150);
           } else {
-              console.log(`Consent status: ${consentStatus || 'Not Set'}. SDK init deferred.`);
+              console.log(`Consent status: ${consentStatus || 'Not Set'}. SDK init deferred until consent given.`);
           }
       } catch (e) { console.error("localStorage consent check failed.", e); }
 
@@ -135,7 +239,8 @@
             <div class="flex justify-between items-center py-2">
                 <div class="flex-shrink-0">
                     <a href="#home" class="flex items-center">
-                        <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 w-auto mr-2" onerror="this.style.display='none'"> </a>
+                        <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 w-auto mr-2" onerror="this.style.display='none'">
+                    </a>
                 </div>
 
                 <nav class="hidden md:flex items-center space-x-5 lg:space-x-7">
@@ -245,7 +350,7 @@
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.accounts_cards">Accounts & Cards Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Accounts & Cards would go here...</p>
-                 </div>
+             </div>
         </section>
         <section id="investing" class="py-16 lg:py-24 bg-gray-50 hidden">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -265,6 +370,7 @@
                  <p class="text-center text-gray-600">Detailed content about Financing would go here...</p>
              </div>
         </section>
+
         <section id="news" class="py-16 lg:py-24 bg-white">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="news.title">News & Insights</h2>
@@ -383,382 +489,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
-```
-
-**script.js:**
-
-
-```javascript
-// script.js
-
-// --- Constants ---
-const CONSENT_STORAGE_KEY = 'bwam_consent_status'; // Key for localStorage
-const LOGIN_STATUS_KEY = 'bwam_logged_in_email'; // Key for sessionStorage
-const SIMULATED_USER_ID = 'SIMULATED_USER_123'; // Placeholder User ID for simulation
-
-// --- Language Data ---
-const translations = { // Same as previous version...
-    'de': {
-        'page_title': 'BWAM - Ihr Finanzpartner',
-        'nav.private_clients': 'Privatkunden',
-        'nav.business_clients': 'Firmenkunden',
-        'nav.institutional': 'Institutionelle',
-        'nav.about_us': 'Über uns',
-        'nav.events': 'Veranstaltungen',
-        'nav.accounts_cards': 'Konto & Karten',
-        'nav.investing': 'Anlegen',
-        'nav.pensions': 'Vorsorgen',
-        'nav.financing': 'Finanzieren',
-        'nav.login': 'Anmelden',
-        'aria.search': 'Suche',
-        'aria.open_menu': 'Menü öffnen',
-        'hero.title': 'Willkommen bei BWAM',
-        'hero.subtitle': 'Ihr zuverlässiger Partner für umfassende Finanzlösungen in Zürich und darüber hinaus.',
-        'hero.button_services': 'Dienstleistungen entdecken',
-        'hero.button_contact': 'Kontakt aufnehmen',
-        'service_card.accounts_cards': 'Konto & Karten',
-        'service_card.investing': 'Sparen & Anlegen',
-        'service_card.pensions': 'Vorsorgen',
-        'service_card.financing': 'Finanzieren',
-        'service_card.real_estate': 'Immobilien',
-        'news.title': 'News & Insights',
-        'news.card1_title': 'Marktausblick Q3 2025',
-        'news.card1_desc': 'Unsere Analyse aktueller Markttrends und potenzieller Chancen für Investoren.',
-        'news.card2_title': 'Planung für einen sicheren Ruhestand',
-        'news.card2_desc': 'Wichtige Überlegungen zum Aufbau eines soliden Vorsorgeplans in der Schweiz.',
-        'news.card3_title': 'Tipps für sicheres Digital Banking',
-        'news.card3_desc': 'Wie Sie sich schützen, während Sie Ihre Finanzen online mit BWAM verwalten.',
-        'news.read_more': 'Mehr lesen →',
-        'news.more_news': 'Weitere News',
-        'events.title': 'Kommende Veranstaltungen',
-        'events.subtitle': 'Nehmen Sie an unseren aufschlussreichen Seminaren und Workshops teil. Melden Sie unten Ihr Interesse an.',
-        'events.form_placeholder': '(Formular zur Veranstaltungsanmeldung kommt hier hin)',
-        'contact_cta.title': 'Kontaktieren Sie BWAM',
-        'contact_cta.subtitle': 'Unsere Berater helfen Ihnen gerne, Ihre finanziellen Ziele zu erreichen. Melden Sie sich noch heute.',
-        'contact_cta.button': 'Berater finden',
-        'footer.tagline': 'Ihr zuverlässiger Finanzpartner.',
-        'footer.quicklinks': 'Schnellzugriff',
-        'footer.careers': 'Karriere',
-        'footer.contact': 'Kontakt',
-        'footer.newsroom': 'Newsroom',
-        'footer.services': 'Dienstleistungen',
-        'footer.mortgages': 'Hypotheken',
-        'footer.digital_banking': 'Digital Banking',
-        'footer.legal': 'Rechtliches',
-        'footer.privacy': 'Datenschutz',
-        'footer.terms': 'Nutzungsbedingungen',
-        'footer.imprint': 'Impressum',
-        'footer.cookies': 'Cookie-Einstellungen',
-        'footer.accessibility': 'Barrierefreiheit',
-        'footer.rights': 'Alle Rechte vorbehalten.',
-        'footer.location': 'Standort: Zürich, Schweiz.',
-        'consent.message': 'Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und relevante Inhalte anzuzeigen. Indem Sie auf „Alle akzeptieren“ klicken, stimmen Sie der Verwendung dieser Technologien zu. Sie können Ihre Auswahl jederzeit ändern.',
-        'consent.reject': 'Alle ablehnen',
-        'consent.accept': 'Alle akzeptieren'
-    },
-    'en': { // Same as previous version...
-        'page_title': 'BWAM - Your Financial Partner',
-        'nav.private_clients': 'Private Clients',
-        'nav.business_clients': 'Business Clients',
-        'nav.institutional': 'Institutional',
-        'nav.about_us': 'About Us',
-        'nav.events': 'Events',
-        'nav.accounts_cards': 'Accounts & Cards',
-        'nav.investing': 'Investing',
-        'nav.pensions': 'Pensions',
-        'nav.financing': 'Financing',
-        'nav.login': 'Login',
-        'aria.search': 'Search',
-        'aria.open_menu': 'Open menu',
-        'hero.title': 'Welcome to BWAM',
-        'hero.subtitle': 'Your trusted partner for comprehensive financial solutions in Zürich and beyond.',
-        'hero.button_services': 'Explore Services',
-        'hero.button_contact': 'Contact Us',
-        'service_card.accounts_cards': 'Accounts & Cards',
-        'service_card.investing': 'Savings & Investments',
-        'service_card.pensions': 'Pensions',
-        'service_card.financing': 'Financing',
-        'service_card.real_estate': 'Real Estate',
-        'news.title': 'News & Insights',
-        'news.card1_title': 'Market Outlook Q3 2025',
-        'news.card1_desc': 'Our analysis of current market trends and potential opportunities for investors.',
-        'news.card2_title': 'Planning for a Secure Retirement',
-        'news.card2_desc': 'Key considerations for building a robust pension plan in Switzerland.',
-        'news.card3_title': 'Tips for Secure Digital Banking',
-        'news.card3_desc': 'How to protect yourself while managing your finances online with BWAM.',
-        'news.read_more': 'Read More →',
-        'news.more_news': 'More News',
-        'events.title': 'Upcoming Events',
-        'events.subtitle': 'Join us for insightful seminars and workshops. Register your interest below.',
-        'events.form_placeholder': '(Event registration form will be here)',
-        'contact_cta.title': 'Contact BWAM',
-        'contact_cta.subtitle': 'Our advisors are ready to help you achieve your financial goals. Reach out today.',
-        'contact_cta.button': 'Find an Advisor',
-        'footer.tagline': 'Your reliable financial partner.',
-        'footer.quicklinks': 'Quick Links',
-        'footer.careers': 'Careers',
-        'footer.contact': 'Contact Us',
-        'footer.newsroom': 'Newsroom',
-        'footer.services': 'Services',
-        'footer.mortgages': 'Mortgages',
-        'footer.digital_banking': 'Digital Banking',
-        'footer.legal': 'Legal',
-        'footer.privacy': 'Privacy Policy',
-        'footer.terms': 'Terms of Use',
-        'footer.imprint': 'Imprint',
-        'footer.cookies': 'Cookie Settings',
-        'footer.accessibility': 'Accessibility',
-        'footer.rights': 'All rights reserved.',
-        'footer.location': 'Location: Zürich, Switzerland.',
-        'consent.message': 'We use cookies and similar technologies to enhance your experience and display relevant content. By clicking "Accept All," you agree to the use of these technologies. You can change your selection at any time.',
-        'consent.reject': 'Reject All',
-        'consent.accept': 'Accept All'
-    }
-};
-
-// --- Language Switching Function ---
-function setLanguage(lang) {
-    if (!translations[lang]) { console.error(`Lang ${lang} not found.`); return; }
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-lang-key], [data-consent-text]').forEach(el => {
-        const key = el.getAttribute('data-lang-key') || el.getAttribute('data-consent-text');
-        const txt = translations[lang][key];
-        if (txt !== undefined) {
-            if (key?.startsWith('aria.') || key === 'page_title') {
-                if (key === 'page_title') { document.title = txt; } else { el.setAttribute(key.split('.')[0], txt); }
-            } else { el.textContent = txt; }
-        } else { console.warn(`Translation key "${key}" missing for lang "${lang}".`); }
-    });
-    document.querySelectorAll('.lang-button').forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-lang') === lang));
-    try { localStorage.setItem('bwam_preferred_lang', lang); } catch (e) { console.warn("Could not save lang preference."); }
-
-    // --- SF Language Change Tracking ---
-    if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
-        SalesforceInteractions.sendEvent({
-            interaction: { name: 'Changed Language', attributes: { selectedLanguage: lang } },
-            user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} }
-        });
-        console.log(`Tracked Language Change: ${lang}`);
-    }
-}
-
-// --- Simple Hash-Based Page/Section Visibility ---
-function handleHashChange() {
-    const hash = window.location.hash.substring(1);
-    console.log(`Hash changed to: #${hash}`);
-    document.querySelectorAll('main > section').forEach(section => section.classList.add('hidden'));
-    let sectionToShowId = 'home';
-    if (hash && document.getElementById(hash)) { sectionToShowId = hash; }
-    else if (hash) { console.warn(`Section for hash #${hash} not found, showing home.`); }
-    const sectionToShow = document.getElementById(sectionToShowId);
-    if (sectionToShow) { sectionToShow.classList.remove('hidden'); console.log(`Showing section: #${sectionToShowId}`); }
-    else { document.getElementById('home')?.classList.remove('hidden'); console.log(`Fallback: Showing section: #home`); }
-    // NOTE: Page View event is now automatically handled by initSitemap on hash change
-}
-
-// --- Salesforce Interaction Tracking Function ---
-function attachTrackingListeners() {
-    console.log("Attaching SF interaction listeners.");
-
-    // Helper to send interaction events
-    function sendSalesforceClickInteraction(event, targetName, customAttributes = {}) {
-        // Ensure SDK is ready before sending
-        if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized && typeof SalesforceInteractions !== 'undefined') {
-            const targetElement = event.currentTarget;
-            const payload = {
-                interaction: { name: 'Web Click', targetUrl: targetElement.href || '', targetElementText: targetElement.innerText?.trim().substring(0, 255) || '', targetElementSelector: getCssSelector(targetElement), attributes: { targetName: targetName, ...customAttributes } },
-                user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} }
-            };
-            SalesforceInteractions.sendEvent(payload);
-        } else { console.warn("SF SDK not ready, click event not sent:", targetName); }
-    }
-
-    // Helper function to generate CSS selector
-    function getCssSelector(el) { if (!(el instanceof Element)) return; const path = []; while (el.nodeType === Node.ELEMENT_NODE) { let selector = el.nodeName.toLowerCase(); if (el.id) { selector += '#' + el.id; path.unshift(selector); break; } else { let sib = el, nth = 1; while (sib = sib.previousElementSibling) { if (sib.nodeName.toLowerCase() == selector) nth++; } if (nth != 1) selector += ":nth-of-type("+nth+")"; } path.unshift(selector); el = el.parentNode; } return path.join(" > "); }
-
-    // Attach Listeners
-    document.querySelector('[data-lang-key="hero.button_services"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Hero CTA - Explore Services', { targetSection: 'services' }); console.log('Tracked Hero CTA click'); });
-    document.querySelector('[data-lang-key="hero.button_contact"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Hero CTA - Contact Us', { targetSection: 'contact' }); console.log('Tracked Hero Contact click'); });
-    document.querySelectorAll('#news [data-lang-key="news.read_more"]').forEach(link => { link.addEventListener('click', (e) => { if (link.getAttribute('href') === '#') { e.preventDefault(); } const card = e.target.closest('.flex-col'); const title = card?.querySelector('h3[data-lang-key]')?.textContent.trim() ?? 'Unknown'; sendSalesforceClickInteraction(e, 'News Read More', { articleTitle: title, cardPosition: card?.parentNode ? Array.from(card.parentNode.children).indexOf(card) + 1 : 'Unknown' }); console.log(`Tracked News Read More: ${title}`); }); });
-    document.querySelectorAll('#services .group').forEach(link => { link.addEventListener('click', (e) => { const title = link.querySelector('h3[data-lang-key]')?.textContent.trim() ?? 'Unknown'; const key = link.querySelector('h3[data-lang-key]')?.getAttribute('data-lang-key').replace('service_card.', '') ?? 'unknown'; sendSalesforceClickInteraction(e, 'Service Icon Click', { serviceName: title, serviceKey: key }); console.log(`Tracked Service Icon: ${title}`); }); });
-    document.querySelector('#contact [data-lang-key="contact_cta.button"]')?.addEventListener('click', (e) => { if (e.currentTarget.getAttribute('href') === '#') { e.preventDefault(); } sendSalesforceClickInteraction(e, 'Contact CTA - Find Advisor'); console.log('Tracked Contact CTA click'); });
-    // Listener for the main "Login" button (to show the form)
-    document.querySelector('#login-button')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Header Login Prompt'); console.log('Tracked click to show login form'); });
-    document.querySelectorAll('header .dropdown-menu a[role="menuitem"]').forEach(link => { link.addEventListener('click', (e) => { const key = link.getAttribute('data-lang-key'); const text = link.textContent.trim(); sendSalesforceClickInteraction(e, 'Private Client Submenu Click', { linkKey: key, linkText: text }); console.log(`Tracked Submenu click: ${text}`); }); });
-
-} // --- End of attachTrackingListeners ---
-window.attachTrackingListeners = attachTrackingListeners; // Make global
-
-// --- User Identification Function ---
-function handleSuccessfulLogin(userId, userEmail) {
-    if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized && userId) {
-        SalesforceInteractions.identify({ identityType: SalesforceInteractions.SalesforceInteractionsConstants.IdentityType.CustomerId, id: userId });
-        if (userEmail) { SalesforceInteractions.identify({ identityType: SalesforceInteractions.SalesforceInteractionsConstants.IdentityType.EmailAddress, id: userEmail }); }
-        SalesforceInteractions.sendEvent({ user: { attributes: { loginStatus: "Logged In", lastLoginDate: new Date().toISOString(), email: userEmail || '', ...(typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error && { latitude: userLocationData.latitude, longitude: userLocationData.longitude }) } } });
-        console.log(`SF SDK: Identified user: ${userId} (${userEmail || 'No email'})`);
-    } else { console.warn(`SF SDK: Could not identify user. SDK Initialized: ${salesforceSDKInitialized}, User ID: ${!!userId}`); }
-}
-window.handleSuccessfulLogin = handleSuccessfulLogin; // Make global
-
-// --- Logout Function ---
-function handleLogout() {
-    const loggedInEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
-    console.log(`Logging out user: ${loggedInEmail || 'Unknown'}`);
-    sessionStorage.removeItem(LOGIN_STATUS_KEY);
-    updateLoginUI(false); // Update UI
-    if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
-        SalesforceInteractions.sendEvent({ interaction: { name: 'User Logout' }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
-        console.log("Sent User Logout event to Salesforce.");
-    }
-}
-window.handleLogout = handleLogout; // Make global
-
-
-// --- Global UI Update Function --- (Defined later in DOMContentLoaded)
-let updateLoginUI = () => {};
-
-// --- Initial Page Load Logic ---
-document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Element Selectors ---
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const currentYearSpan = document.getElementById('current-year');
-    const langButtons = document.querySelectorAll('.lang-button');
-    const consentBanner = document.getElementById('consent-banner');
-    const acceptBtn = document.getElementById('consent-accept');
-    const rejectBtn = document.getElementById('consent-reject');
-    const loginButton = document.getElementById('login-button');
-    const loginForm = document.getElementById('login-form');
-    const loginEmailInput = document.getElementById('login-email');
-    const simulateLoginButton = document.getElementById('simulate-login-button');
-    const loggedInStatusDiv = document.getElementById('logged-in-status');
-    const loggedInEmailSpan = document.getElementById('logged-in-email');
-    const logoutButton = document.getElementById('logout-button');
-
-    // --- Consent Banner Logic ---
-    // Show banner if consent not set, and attach button listeners
-    if (consentBanner && acceptBtn && rejectBtn) {
-        let consentStatus = null;
-        try { consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY); }
-        catch (e) { console.error("localStorage consent check failed.", e); }
-
-        // Show banner only if no choice has been made
-        if (!consentStatus) {
-            console.log("Consent not set, showing banner via DOMContentLoaded.");
-            consentBanner.classList.remove('hidden');
-            setTimeout(() => { consentBanner.style.transform = 'translateY(0)'; }, 50); // Animate in
-        } else {
-             console.log(`Consent already set to: ${consentStatus}. Banner remains hidden.`);
-        }
-
-        // Attach listeners regardless of initial state
-        acceptBtn.addEventListener('click', () => {
-            console.log("Consent Accepted button clicked.");
-            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted'); } catch (e) { console.error("localStorage consent save failed.", e); }
-            consentBanner.style.transform = 'translateY(100%)';
-            setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
-
-            // Send Consent Accepted Event
-             if (typeof SalesforceInteractions !== 'undefined' && typeof SalesforceInteractions.sendEvent === 'function') {
-                 SalesforceInteractions.sendEvent({ interaction: { name: 'Consent Accepted', attributes: { consentType: 'All' } }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
-             } else {
-                 console.warn("SF SDK not ready to send Consent Accepted event.");
-             }
-             // Initialize SDK
-            if (typeof initializeSalesforceSDK === 'function') {
-                initializeSalesforceSDK();
-            } else { console.error("initializeSalesforceSDK function not found!"); }
-        });
-
-        rejectBtn.addEventListener('click', () => {
-            console.log("Consent Rejected button clicked.");
-            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'rejected'); } catch (e) { console.error("localStorage consent save failed.", e); }
-            consentBanner.style.transform = 'translateY(100%)';
-            setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
-             // Send Consent Rejected Event
-             if (typeof SalesforceInteractions !== 'undefined' && typeof SalesforceInteractions.sendEvent === 'function') {
-                 SalesforceInteractions.sendEvent({ interaction: { name: 'Consent Rejected', attributes: { consentType: 'All' } } });
-             }
-        });
-    } else { console.warn("Consent banner elements missing."); }
-
-    // --- Login Simulation Logic ---
-    // Define the UI update function within this scope
-    updateLoginUI = (isLoggedIn, email = '') => {
-        const loginBtn = document.getElementById('login-button');
-        const form = document.getElementById('login-form');
-        const statusDiv = document.getElementById('logged-in-status');
-        const emailSpan = document.getElementById('logged-in-email');
-        const emailInput = document.getElementById('login-email');
-        if (!loginBtn || !form || !statusDiv || !emailSpan || !emailInput) { console.warn("Login UI elements missing for update."); return; }
-        if (isLoggedIn) {
-            loginBtn.classList.add('hidden');
-            form.classList.add('hidden');
-            statusDiv.classList.remove('hidden'); statusDiv.classList.add('flex');
-            emailSpan.textContent = email;
-        } else {
-            loginBtn.classList.remove('hidden');
-            form.classList.add('hidden');
-            statusDiv.classList.add('hidden'); statusDiv.classList.remove('flex');
-            emailSpan.textContent = ''; emailInput.value = '';
-        }
-    }
-
-    // Setup Login Listeners only if all elements are found
-    if (loginButton && loginForm && loginEmailInput && simulateLoginButton && loggedInStatusDiv && loggedInEmailSpan && logoutButton) {
-        const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
-        updateLoginUI(!!initialEmail, initialEmail || '');
-
-        loginButton.addEventListener('click', () => {
-            loginButton.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-            loginEmailInput.focus();
-            // Tracking moved to attachTrackingListeners
-        });
-
-        simulateLoginButton.addEventListener('click', () => {
-            const email = loginEmailInput.value.trim();
-            if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                console.log(`Simulating login for: ${email}`);
-                sessionStorage.setItem(LOGIN_STATUS_KEY, email);
-                updateLoginUI(true, email);
-                 // Send click event for the simulate login button itself
-                 if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
-                     SalesforceInteractions.sendEvent({ interaction: { name: 'Web Click', attributes: { targetName: 'Simulate Login Button' } } });
-                 }
-                 // Identify the user
-                if (typeof handleSuccessfulLogin === 'function') { handleSuccessfulLogin(SIMULATED_USER_ID, email); }
-                else { console.warn("handleSuccessfulLogin not available."); }
-            } else { alert('Please enter a valid email address.'); }
-        });
-
-        logoutButton.addEventListener('click', () => {
-            if (typeof handleLogout === 'function') { handleLogout(); }
-            else { console.error("handleLogout function not found!"); }
-        });
-
-    } else { console.warn("Login simulation elements missing. Login UI inactive."); }
-
-    // --- Other Initializations ---
-    if (mobileMenuButton && mobileMenu) { mobileMenuButton.addEventListener('click', () => { mobileMenuButton.setAttribute('aria-expanded', !(mobileMenuButton.getAttribute('aria-expanded') === 'true')); mobileMenu.classList.toggle('hidden'); }); }
-    mobileMenu?.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { if (!mobileMenu.classList.contains('hidden')) { mobileMenu.classList.add('hidden'); mobileMenuButton.setAttribute('aria-expanded', 'false'); } }); });
-    // Ensure language buttons have listeners attached correctly
-    langButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const lang = button.getAttribute('data-lang');
-            console.log(`Language button clicked: ${lang}`); // Debug log
-            setLanguage(lang);
-        });
-    });
-    if (currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
-    let preferredLang = 'de';
-    try { const savedLang = localStorage.getItem('bwam_preferred_lang'); if (savedLang && translations[savedLang]) { preferredLang = savedLang; } } catch(e) { console.warn("Could not read lang preference."); }
-    setLanguage(preferredLang); // Apply language (this will also translate the banner if it's visible)
-    handleHashChange(); // Initial section display
-    window.addEventListener('hashchange', handleHashChange); // Listen for SPA navigation
-
-    console.log("BWAM Script Loaded. Initial language:", preferredLang);
-}); // End of DOMContentLoaded
-
