@@ -162,7 +162,7 @@ function handleHashChange() {
     const sectionToShow = document.getElementById(sectionToShowId);
     if (sectionToShow) { sectionToShow.classList.remove('hidden'); console.log(`Showing section: #${sectionToShowId}`); }
     else { document.getElementById('home')?.classList.remove('hidden'); console.log(`Fallback: Showing section: #home`); }
-    // NOTE: Page View event is now automatically handled by initSitemap on hash change
+    // Page View event handled by initSitemap reacting to hash change
 }
 
 // --- Salesforce Interaction Tracking Function ---
@@ -217,8 +217,6 @@ function handleLogout() {
     if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
         SalesforceInteractions.sendEvent({ interaction: { name: 'User Logout' }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
         console.log("Sent User Logout event to Salesforce.");
-        // Optionally, clear user attributes if needed upon logout
-        // SalesforceInteractions.sendEvent({ user: { attributes: { loginStatus: "Logged Out", email: null } } });
     }
 }
 window.handleLogout = handleLogout; // Make global
@@ -247,28 +245,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutButton = document.getElementById('logout-button');
 
     // --- Consent Banner Logic ---
+    // This section only sets up the button listeners.
+    // The logic to *show* the banner is now in the inline script in index.html
     if (consentBanner && acceptBtn && rejectBtn) {
-        let consentStatus = null;
-        try { consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY); } catch (e) { console.error("localStorage consent check failed.", e); }
-        if (!consentStatus) { consentBanner.classList.remove('hidden'); setTimeout(() => { consentBanner.style.transform = 'translateY(0)'; }, 50); }
         acceptBtn.addEventListener('click', () => {
             console.log("Consent Accepted.");
             try { localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted'); } catch (e) { console.error("localStorage consent save failed.", e); }
             consentBanner.style.transform = 'translateY(100%)';
             setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
             // Send Consent Accepted Event
-             if (typeof SalesforceInteractions !== 'undefined') { // Check if SDK object exists (might not if script failed)
+             if (typeof SalesforceInteractions !== 'undefined') {
                  SalesforceInteractions.sendEvent({ interaction: { name: 'Consent Accepted', attributes: { consentType: 'All' } }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
              }
             // Initialize SDK
             if (typeof initializeSalesforceSDK === 'function') { initializeSalesforceSDK(); } else { console.error("initializeSalesforceSDK not found!"); }
         });
+
         rejectBtn.addEventListener('click', () => {
             console.log("Consent Rejected.");
             try { localStorage.setItem(CONSENT_STORAGE_KEY, 'rejected'); } catch (e) { console.error("localStorage consent save failed.", e); }
             consentBanner.style.transform = 'translateY(100%)';
             setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
-             // Send Consent Rejected Event (even if SDK isn't fully initialized, try sending)
+             // Send Consent Rejected Event
              if (typeof SalesforceInteractions !== 'undefined') {
                  SalesforceInteractions.sendEvent({ interaction: { name: 'Consent Rejected', attributes: { consentType: 'All' } } });
              }
@@ -278,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Login Simulation Logic ---
     // Define the UI update function within this scope
     updateLoginUI = (isLoggedIn, email = '') => {
-        if (!loginButton || !loginForm || !loggedInStatusDiv || !loggedInEmailSpan || !loginEmailInput) return; // Guard clause
+        if (!loginButton || !loginForm || !loggedInStatusDiv || !loggedInEmailSpan || !loginEmailInput) return;
         if (isLoggedIn) {
             loginButton.classList.add('hidden');
             loginForm.classList.add('hidden');
@@ -287,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loggedInEmailSpan.textContent = email;
         } else {
             loginButton.classList.remove('hidden');
-            loginForm.classList.add('hidden'); // Hide form by default after logout
+            loginForm.classList.add('hidden');
             loggedInStatusDiv.classList.add('hidden');
             loggedInStatusDiv.classList.remove('flex');
             loggedInEmailSpan.textContent = '';
@@ -297,20 +295,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (loginButton && loginForm && loginEmailInput && simulateLoginButton && loggedInStatusDiv && loggedInEmailSpan && logoutButton) {
         const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
-        updateLoginUI(!!initialEmail, initialEmail || ''); // Update UI based on initial state
+        updateLoginUI(!!initialEmail, initialEmail || '');
 
         loginButton.addEventListener('click', () => {
             loginButton.classList.add('hidden');
             loginForm.classList.remove('hidden');
             loginEmailInput.focus();
-            // Tracking for showing the form is now in attachTrackingListeners
+            // Tracking moved to attachTrackingListeners
         });
 
         simulateLoginButton.addEventListener('click', () => {
             const email = loginEmailInput.value.trim();
             if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 console.log(`Simulating login for: ${email}`);
-                sessionStorage.setItem(LOGIN_STATUS_KEY, email); // Store email in session
+                sessionStorage.setItem(LOGIN_STATUS_KEY, email);
                 updateLoginUI(true, email);
                  // Send click event for the simulate login button itself
                  if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
@@ -320,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (typeof handleSuccessfulLogin === 'function') { handleSuccessfulLogin(SIMULATED_USER_ID, email); }
                 else { console.warn("handleSuccessfulLogin not available."); }
             } else {
-                alert('Please enter a valid email address.'); // Provide feedback
+                alert('Please enter a valid email address.');
             }
         });
 
@@ -338,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentYearSpan) { currentYearSpan.textContent = new Date().getFullYear(); }
     let preferredLang = 'de';
     try { const savedLang = localStorage.getItem('bwam_preferred_lang'); if (savedLang && translations[savedLang]) { preferredLang = savedLang; } } catch(e) { console.warn("Could not read lang preference."); }
-    setLanguage(preferredLang);
+    setLanguage(preferredLang); // Apply language (this will also translate the banner if it's visible)
     handleHashChange(); // Initial section display
     window.addEventListener('hashchange', handleHashChange); // Listen for SPA navigation
 
