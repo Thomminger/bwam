@@ -152,49 +152,30 @@ function setLanguage(lang) {
 }
 
 // --- Simple Hash-Based Page/Section Visibility ---
-// This function now ONLY handles showing/hiding content.
-// Page view tracking is handled by initSitemap reacting to hash changes.
 function handleHashChange() {
     const hash = window.location.hash.substring(1);
     console.log(`Hash changed to: #${hash}`);
     document.querySelectorAll('main > section').forEach(section => section.classList.add('hidden'));
-    let sectionToShowId = 'home'; // Default to home
-    if (hash && document.getElementById(hash)) {
-        sectionToShowId = hash;
-    } else if (hash) {
-        console.warn(`Section for hash #${hash} not found, showing home.`);
-    }
+    let sectionToShowId = 'home';
+    if (hash && document.getElementById(hash)) { sectionToShowId = hash; }
+    else if (hash) { console.warn(`Section for hash #${hash} not found, showing home.`); }
     const sectionToShow = document.getElementById(sectionToShowId);
-    if (sectionToShow) {
-        sectionToShow.classList.remove('hidden');
-        console.log(`Showing section: #${sectionToShowId}`);
-    } else {
-        document.getElementById('home')?.classList.remove('hidden'); // Fallback
-         console.log(`Fallback: Showing section: #home`);
-    }
+    if (sectionToShow) { sectionToShow.classList.remove('hidden'); console.log(`Showing section: #${sectionToShowId}`); }
+    else { document.getElementById('home')?.classList.remove('hidden'); console.log(`Fallback: Showing section: #home`); }
+    // NOTE: Page View event is now automatically handled by initSitemap on hash change
 }
 
-// NOTE: getPageContext function is removed as initSitemap handles context.
-
 // --- Salesforce Interaction Tracking Function ---
-// Attaches listeners for clicks, etc. Context is handled by SDK based on initSitemap.
 function attachTrackingListeners() {
     console.log("Attaching SF interaction listeners.");
 
-    // Helper to send interaction events (aligned with WebClickEvent schema)
+    // Helper to send interaction events
     function sendSalesforceClickInteraction(event, targetName, customAttributes = {}) {
         if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
             const targetElement = event.currentTarget;
             const payload = {
-                interaction: {
-                    name: 'Web Click', // Standard interaction name
-                    targetUrl: targetElement.href || '',
-                    targetElementText: targetElement.innerText?.trim().substring(0, 255) || '',
-                    targetElementSelector: getCssSelector(targetElement),
-                    attributes: { targetName: targetName, ...customAttributes } // Specific context
-                },
-                // No need to explicitly pass page context here, SDK associates it
-                 user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} }
+                interaction: { name: 'Web Click', targetUrl: targetElement.href || '', targetElementText: targetElement.innerText?.trim().substring(0, 255) || '', targetElementSelector: getCssSelector(targetElement), attributes: { targetName: targetName, ...customAttributes } },
+                user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} }
             };
             SalesforceInteractions.sendEvent(payload);
         } else { console.warn("SF SDK not ready, click event not sent:", targetName); }
@@ -203,13 +184,14 @@ function attachTrackingListeners() {
     // Helper function to generate CSS selector
     function getCssSelector(el) { if (!(el instanceof Element)) return; const path = []; while (el.nodeType === Node.ELEMENT_NODE) { let selector = el.nodeName.toLowerCase(); if (el.id) { selector += '#' + el.id; path.unshift(selector); break; } else { let sib = el, nth = 1; while (sib = sib.previousElementSibling) { if (sib.nodeName.toLowerCase() == selector) nth++; } if (nth != 1) selector += ":nth-of-type("+nth+")"; } path.unshift(selector); el = el.parentNode; } return path.join(" > "); }
 
-    // Attach Listeners (No changes needed here from previous version)
+    // Attach Listeners
     document.querySelector('[data-lang-key="hero.button_services"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Hero CTA - Explore Services', { targetSection: 'services' }); console.log('Tracked Hero CTA click'); });
     document.querySelector('[data-lang-key="hero.button_contact"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Hero CTA - Contact Us', { targetSection: 'contact' }); console.log('Tracked Hero Contact click'); });
     document.querySelectorAll('#news [data-lang-key="news.read_more"]').forEach(link => { link.addEventListener('click', (e) => { if (link.getAttribute('href') === '#') { e.preventDefault(); } const card = e.target.closest('.flex-col'); const title = card?.querySelector('h3[data-lang-key]')?.textContent.trim() ?? 'Unknown'; sendSalesforceClickInteraction(e, 'News Read More', { articleTitle: title, cardPosition: card?.parentNode ? Array.from(card.parentNode.children).indexOf(card) + 1 : 'Unknown' }); console.log(`Tracked News Read More: ${title}`); }); });
     document.querySelectorAll('#services .group').forEach(link => { link.addEventListener('click', (e) => { const title = link.querySelector('h3[data-lang-key]')?.textContent.trim() ?? 'Unknown'; const key = link.querySelector('h3[data-lang-key]')?.getAttribute('data-lang-key').replace('service_card.', '') ?? 'unknown'; sendSalesforceClickInteraction(e, 'Service Icon Click', { serviceName: title, serviceKey: key }); console.log(`Tracked Service Icon: ${title}`); }); });
     document.querySelector('#contact [data-lang-key="contact_cta.button"]')?.addEventListener('click', (e) => { if (e.currentTarget.getAttribute('href') === '#') { e.preventDefault(); } sendSalesforceClickInteraction(e, 'Contact CTA - Find Advisor'); console.log('Tracked Contact CTA click'); });
-    document.querySelector('header [data-lang-key="nav.login"]')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Header Login Prompt'); console.log('Tracked click to show login form'); }); // Track prompt display
+    // Listener for the main "Login" button (to show the form)
+    document.querySelector('#login-button')?.addEventListener('click', (e) => { sendSalesforceClickInteraction(e, 'Header Login Prompt'); console.log('Tracked click to show login form'); });
     document.querySelectorAll('header .dropdown-menu a[role="menuitem"]').forEach(link => { link.addEventListener('click', (e) => { const key = link.getAttribute('data-lang-key'); const text = link.textContent.trim(); sendSalesforceClickInteraction(e, 'Private Client Submenu Click', { linkKey: key, linkText: text }); console.log(`Tracked Submenu click: ${text}`); }); });
 
 } // --- End of attachTrackingListeners ---
@@ -221,7 +203,7 @@ function handleSuccessfulLogin(userId, userEmail) {
         SalesforceInteractions.identify({ identityType: SalesforceInteractions.SalesforceInteractionsConstants.IdentityType.CustomerId, id: userId });
         if (userEmail) { SalesforceInteractions.identify({ identityType: SalesforceInteractions.SalesforceInteractionsConstants.IdentityType.EmailAddress, id: userEmail }); }
         SalesforceInteractions.sendEvent({ user: { attributes: { loginStatus: "Logged In", lastLoginDate: new Date().toISOString(), email: userEmail || '', ...(typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error && { latitude: userLocationData.latitude, longitude: userLocationData.longitude }) } } });
-        console.log(`SF SDK: Identified user: ${userId} (${userEmail})`);
+        console.log(`SF SDK: Identified user: ${userId} (${userEmail || 'No email'})`);
     } else { console.warn(`SF SDK: Could not identify user. SDK Initialized: ${salesforceSDKInitialized}, User ID: ${!!userId}`); }
 }
 window.handleSuccessfulLogin = handleSuccessfulLogin; // Make global
@@ -229,19 +211,21 @@ window.handleSuccessfulLogin = handleSuccessfulLogin; // Make global
 // --- Logout Function ---
 function handleLogout() {
     const loggedInEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
-    console.log(`Logging out user: ${loggedInEmail}`);
+    console.log(`Logging out user: ${loggedInEmail || 'Unknown'}`);
     sessionStorage.removeItem(LOGIN_STATUS_KEY);
-    updateLoginUI(false); // Update UI (defined in DOMContentLoaded)
+    updateLoginUI(false); // Update UI
     if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
         SalesforceInteractions.sendEvent({ interaction: { name: 'User Logout' }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
         console.log("Sent User Logout event to Salesforce.");
+        // Optionally, clear user attributes if needed upon logout
+        // SalesforceInteractions.sendEvent({ user: { attributes: { loginStatus: "Logged Out", email: null } } });
     }
 }
 window.handleLogout = handleLogout; // Make global
 
 
-// --- Global UI Update Function --- (Needed by handleLogout)
-let updateLoginUI = () => {}; // Placeholder, will be defined in DOMContentLoaded
+// --- Global UI Update Function --- (Defined later in DOMContentLoaded)
+let updateLoginUI = () => {};
 
 // --- Initial Page Load Logic ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -267,8 +251,28 @@ document.addEventListener('DOMContentLoaded', () => {
         let consentStatus = null;
         try { consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY); } catch (e) { console.error("localStorage consent check failed.", e); }
         if (!consentStatus) { consentBanner.classList.remove('hidden'); setTimeout(() => { consentBanner.style.transform = 'translateY(0)'; }, 50); }
-        acceptBtn.addEventListener('click', () => { console.log("Consent Accepted."); try { localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted'); } catch (e) { console.error("localStorage consent save failed.", e); } consentBanner.style.transform = 'translateY(100%)'; setTimeout(() => { consentBanner.classList.add('hidden'); }, 300); if (typeof initializeSalesforceSDK === 'function') { initializeSalesforceSDK(); } else { console.error("initializeSalesforceSDK not found!"); } });
-        rejectBtn.addEventListener('click', () => { console.log("Consent Rejected."); try { localStorage.setItem(CONSENT_STORAGE_KEY, 'rejected'); } catch (e) { console.error("localStorage consent save failed.", e); } consentBanner.style.transform = 'translateY(100%)'; setTimeout(() => { consentBanner.classList.add('hidden'); }, 300); });
+        acceptBtn.addEventListener('click', () => {
+            console.log("Consent Accepted.");
+            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted'); } catch (e) { console.error("localStorage consent save failed.", e); }
+            consentBanner.style.transform = 'translateY(100%)';
+            setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
+            // Send Consent Accepted Event
+             if (typeof SalesforceInteractions !== 'undefined') { // Check if SDK object exists (might not if script failed)
+                 SalesforceInteractions.sendEvent({ interaction: { name: 'Consent Accepted', attributes: { consentType: 'All' } }, user: { attributes: typeof userLocationData !== 'undefined' && userLocationData && !userLocationData.error ? userLocationData : {} } });
+             }
+            // Initialize SDK
+            if (typeof initializeSalesforceSDK === 'function') { initializeSalesforceSDK(); } else { console.error("initializeSalesforceSDK not found!"); }
+        });
+        rejectBtn.addEventListener('click', () => {
+            console.log("Consent Rejected.");
+            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'rejected'); } catch (e) { console.error("localStorage consent save failed.", e); }
+            consentBanner.style.transform = 'translateY(100%)';
+            setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
+             // Send Consent Rejected Event (even if SDK isn't fully initialized, try sending)
+             if (typeof SalesforceInteractions !== 'undefined') {
+                 SalesforceInteractions.sendEvent({ interaction: { name: 'Consent Rejected', attributes: { consentType: 'All' } } });
+             }
+        });
     } else { console.warn("Consent banner elements missing."); }
 
     // --- Login Simulation Logic ---
@@ -283,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loggedInEmailSpan.textContent = email;
         } else {
             loginButton.classList.remove('hidden');
-            loginForm.classList.add('hidden');
+            loginForm.classList.add('hidden'); // Hide form by default after logout
             loggedInStatusDiv.classList.add('hidden');
             loggedInStatusDiv.classList.remove('flex');
             loggedInEmailSpan.textContent = '';
@@ -299,18 +303,25 @@ document.addEventListener('DOMContentLoaded', () => {
             loginButton.classList.add('hidden');
             loginForm.classList.remove('hidden');
             loginEmailInput.focus();
-            // Tracking moved to attachTrackingListeners
+            // Tracking for showing the form is now in attachTrackingListeners
         });
 
         simulateLoginButton.addEventListener('click', () => {
             const email = loginEmailInput.value.trim();
             if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                 console.log(`Simulating login for: ${email}`);
-                sessionStorage.setItem(LOGIN_STATUS_KEY, email);
+                sessionStorage.setItem(LOGIN_STATUS_KEY, email); // Store email in session
                 updateLoginUI(true, email);
+                 // Send click event for the simulate login button itself
+                 if (typeof salesforceSDKInitialized !== 'undefined' && salesforceSDKInitialized) {
+                     SalesforceInteractions.sendEvent({ interaction: { name: 'Web Click', attributes: { targetName: 'Simulate Login Button' } } });
+                 }
+                 // Identify the user
                 if (typeof handleSuccessfulLogin === 'function') { handleSuccessfulLogin(SIMULATED_USER_ID, email); }
                 else { console.warn("handleSuccessfulLogin not available."); }
-            } else { alert('Please enter a valid email address.'); }
+            } else {
+                alert('Please enter a valid email address.'); // Provide feedback
+            }
         });
 
         logoutButton.addEventListener('click', () => {
@@ -333,3 +344,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("BWAM Script Loaded. Initial language:", preferredLang);
 }); // End of DOMContentLoaded
+
