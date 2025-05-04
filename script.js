@@ -5,7 +5,7 @@ const LOGIN_STATUS_KEY = 'bwam_logged_in_email'; // Key for sessionStorage
 const SIMULATED_USER_ID = 'SIMULATED_USER_123'; // Placeholder User ID for simulation
 // Consent key is now defined globally in index.html
 
-// --- Language Data (Includes new sections) ---
+// --- Language Data (Includes new sections + Profile) ---
 const translations = {
     'de': {
         'page_title': 'BWAM - Ihr Finanzpartner',
@@ -67,7 +67,7 @@ const translations = {
         'financing.option2_title': 'Privatkredite',
         'financing.option2_desc': 'Flexible Privatkreditoptionen für geplante oder unerwartete Ausgaben.',
         'financing.credit_check': 'Kreditgenehmigung vorbehaltlich Bonitätsprüfung und Vergabekriterien der Bank.',
-        // Business Client Subsections (NEW)
+        // Business Client Subsections
         'corporate_accounts.intro': 'Optimieren Sie Ihre Geschäftsabläufe mit unseren robusten Firmenkonten, die auf Effizienz und Wachstum im Schweizer Markt ausgelegt sind.',
         'corporate_accounts.feature1': 'Multiwährungsfähigkeit für internationale Geschäfte.',
         'corporate_accounts.feature2': 'Fortschrittliche Online- und Mobile-Banking-Plattform mit Benutzerverwaltung.',
@@ -96,13 +96,13 @@ const translations = {
         'news.read_more': 'Mehr lesen',
         'news.more_news': 'Weitere News',
         // Events Section
-        'events.title': 'Veranstaltungen', // Changed title slightly
-        'events.subtitle': 'Nehmen Sie an unseren aufschlussreichen Seminaren und Workshops teil.', // Shortened subtitle
+        'events.title': 'Veranstaltungen',
+        'events.subtitle': 'Nehmen Sie an unseren aufschlussreichen Seminaren und Workshops teil.',
         'events.featured_title': 'Top-Event: Anlagestrategien 2025',
         'events.featured_date': 'Datum: 15. Oktober 2025',
         'events.featured_location': 'Ort: BWAM Hauptsitz, Zürich',
         'events.button_register': 'Jetzt anmelden',
-        'events.form_placeholder': '(Formular zur Veranstaltungsanmeldung kommt hier hin)', // Kept for fallback
+        'events.form_placeholder': '(Formular zur Veranstaltungsanmeldung kommt hier hin)',
         // Contact Section (Hidden)
         'contact_cta.title': 'Kontaktieren Sie BWAM',
         'contact_cta.subtitle': 'Unsere Berater helfen Ihnen gerne, Ihre finanziellen Ziele zu erreichen. Melden Sie sich noch heute.',
@@ -136,7 +136,24 @@ const translations = {
         'modal.advisor3_name': 'Sophie Dubois',
         'modal.advisor3_title': 'Expertin für Ruhestandsplanung',
         'modal.button_connect': 'Verbinden',
-        'modal.schedule_message': 'Vereinbaren Sie einen Termin mit Ihrem Berater.'
+        'modal.schedule_message': 'Vereinbaren Sie einen Termin mit Ihrem Berater.',
+        // Profile Section (NEW)
+        'profile.welcome': 'Willkommen,', // Name added after this
+        'profile.subtitle': 'Hier ist eine schnelle Übersicht über Ihre Konten.',
+        'profile.summary_title': 'Kontozusammenfassung',
+        'profile.checking_label': 'Girokonto:',
+        'profile.savings_label': 'Sparkonto:',
+        'profile.total_label': 'Gesamtsaldo:',
+        'profile.goal_title': 'Sparziel: Urlaub',
+        'profile.goal_desc': 'Fortschritt Ihres Urlaubfonds.',
+        'profile.goal_complete': 'Erreicht',
+        'profile.actions_title': 'Schnellaktionen',
+        'profile.action_transfer': 'Überweisung tätigen',
+        'profile.action_statement': 'Kontoauszüge anzeigen',
+        'profile.transactions_title': 'Letzte Transaktionen',
+        'profile.th_date': 'Datum',
+        'profile.th_description': 'Beschreibung',
+        'profile.th_amount': 'Betrag (CHF)',
     },
     'en': {
         'page_title': 'BWAM - Your Financial Partner',
@@ -198,7 +215,7 @@ const translations = {
         'financing.option2_title': 'Personal Loans',
         'financing.option2_desc': 'Flexible personal credit options for planned or unexpected expenses.',
         'financing.credit_check': 'Loan approval is subject to credit check and bank\'s lending criteria.',
-         // Business Client Subsections (NEW)
+         // Business Client Subsections
         'corporate_accounts.intro': 'Streamline your business operations with our robust corporate accounts, designed for efficiency and growth in the Swiss market.',
         'corporate_accounts.feature1': 'Multi-currency capabilities for international business.',
         'corporate_accounts.feature2': 'Advanced online and mobile banking platform with user management.',
@@ -227,13 +244,13 @@ const translations = {
         'news.read_more': 'Read More',
         'news.more_news': 'More News',
         // Events Section
-        'events.title': 'Events', // Changed title slightly
-        'events.subtitle': 'Join us for insightful seminars and workshops.', // Shortened subtitle
+        'events.title': 'Events',
+        'events.subtitle': 'Join us for insightful seminars and workshops.',
         'events.featured_title': 'Featured Event: Investment Strategies 2025',
         'events.featured_date': 'Date: October 15, 2025',
         'events.featured_location': 'Location: BWAM Headquarters, Zurich',
         'events.button_register': 'Register Now',
-        'events.form_placeholder': '(Event registration form will be here)', // Kept for fallback
+        'events.form_placeholder': '(Event registration form will be here)',
         // Contact Section (Hidden)
         'contact_cta.title': 'Contact BWAM',
         'contact_cta.subtitle': 'Our advisors are ready to help you achieve your financial goals. Reach out today.',
@@ -267,9 +284,41 @@ const translations = {
         'modal.advisor3_name': 'Sophie Dubois',
         'modal.advisor3_title': 'Retirement Planning Expert',
         'modal.button_connect': 'Connect',
-        'modal.schedule_message': 'Schedule an appointment with your advisor.'
+        'modal.schedule_message': 'Schedule an appointment with your advisor.',
+        // Profile Section (NEW)
+        'profile.welcome': 'Welcome,', // Name added after this
+        'profile.subtitle': 'Here\'s a quick overview of your accounts.',
+        'profile.summary_title': 'Account Summary',
+        'profile.checking_label': 'Checking Account:',
+        'profile.savings_label': 'Savings Account:',
+        'profile.total_label': 'Total Balance:',
+        'profile.goal_title': 'Savings Goal: Vacation',
+        'profile.goal_desc': 'Progress towards your next vacation fund.',
+        'profile.goal_complete': 'Complete',
+        'profile.actions_title': 'Quick Actions',
+        'profile.action_transfer': 'Make a Transfer',
+        'profile.action_statement': 'View Statements',
+        'profile.transactions_title': 'Recent Transactions',
+        'profile.th_date': 'Date',
+        'profile.th_description': 'Description',
+        'profile.th_amount': 'Amount (CHF)',
     }
 };
+
+// --- Helper Function: Extract First Name ---
+function extractFirstName(email) {
+    if (!email || typeof email !== 'string') {
+        return 'User'; // Default fallback
+    }
+    const namePart = email.split('@')[0];
+    // Remove numbers and common separators like ., _, -
+    const cleanedName = namePart.replace(/[\d._-]+/g, ' ');
+    // Take the first part (if multiple words resulted)
+    const firstName = cleanedName.split(' ')[0];
+    // Capitalize the first letter, handle empty string
+    return firstName ? firstName.charAt(0).toUpperCase() + firstName.slice(1) : 'User';
+}
+
 
 // --- Language Switching Function ---
 function setLanguage(lang) {
@@ -342,7 +391,7 @@ function handleHashChange() {
     console.log(`Hash changed to: #${currentHash}`);
 
     // Default sections to show on the 'homepage' view (empty hash or #home)
-    const homeSections = ['home', 'about-us', 'business-clients', 'news', 'events']; // Added about-us and events here
+    const homeSections = ['home', 'about-us', 'business-clients', 'news', 'events'];
 
     // Hide all main sections first
     document.querySelectorAll('main > section').forEach(section => {
@@ -385,6 +434,12 @@ function handleHashChange() {
 // --- User Identification Function (Simplified) ---
 function handleSuccessfulLogin(userId, userEmail) {
     console.log(`User logged in (simulated): ${userId} (${userEmail || 'No email'})`);
+    // Update profile section with name
+    const profileNameElement = document.getElementById('profile-welcome-name');
+    if (profileNameElement) {
+        profileNameElement.textContent = extractFirstName(userEmail);
+    }
+    // TODO: Update fictional stats if needed
 }
 window.handleSuccessfulLogin = handleSuccessfulLogin; // Make global
 
@@ -393,7 +448,16 @@ function handleLogout() {
     const loggedInEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
     console.log(`Logging out user: ${loggedInEmail || 'Unknown'}`);
     sessionStorage.removeItem(LOGIN_STATUS_KEY);
-    updateLoginUI(false);
+    updateLoginUI(false); // Update header UI
+    // Reset profile name
+    const profileNameElement = document.getElementById('profile-welcome-name');
+    if (profileNameElement) {
+        profileNameElement.textContent = 'User'; // Reset to default
+    }
+    // Navigate back to home if currently on profile page
+    if(window.location.hash === '#my-profile') {
+        window.location.hash = '#home';
+    }
     console.log("User logged out.");
 }
 window.handleLogout = handleLogout; // Make global
@@ -492,6 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCloseButton = document.getElementById('modal-close-button');
     const modalOverlay = document.getElementById('modal-overlay');
     const scrollBankerIcon = document.getElementById('scroll-banker'); // Get banker icon
+    const myProfileIcon = document.getElementById('my-profile-icon'); // Profile Icon
 
     const CONSENT_STORAGE_KEY = window.CONSENT_STORAGE_KEY || 'bwam_consent_status';
 
@@ -517,26 +582,73 @@ document.addEventListener('DOMContentLoaded', () => {
     } else { console.warn("Consent banner elements missing."); }
 
     // --- Login Simulation Logic ---
+    // Define the UI update function within this scope
     updateLoginUI = (isLoggedIn, email = '') => {
-        const loginBtn = document.getElementById('login-button'); const form = document.getElementById('login-form');
-        const statusDiv = document.getElementById('logged-in-status'); const emailSpan = document.getElementById('logged-in-email');
+        const loginBtn = document.getElementById('login-button');
+        const form = document.getElementById('login-form');
+        const statusDiv = document.getElementById('logged-in-status');
+        const emailSpan = document.getElementById('logged-in-email');
         const emailInput = document.getElementById('login-email');
-        if (!loginBtn || !form || !statusDiv || !emailSpan || !emailInput) { console.warn("Login UI elements missing."); return; }
-        if (isLoggedIn) { loginBtn.classList.add('hidden'); form.classList.add('hidden'); statusDiv.classList.remove('hidden'); statusDiv.classList.add('flex'); emailSpan.textContent = email; }
-        else { loginBtn.classList.remove('hidden'); form.classList.add('hidden'); statusDiv.classList.add('hidden'); statusDiv.classList.remove('flex'); emailSpan.textContent = ''; emailInput.value = ''; }
+        const profileIcon = document.getElementById('my-profile-icon'); // Get profile icon
+
+        if (!loginBtn || !form || !statusDiv || !emailSpan || !emailInput || !profileIcon) {
+            console.warn("One or more login/profile UI elements missing. Cannot update UI.");
+            return;
+        }
+
+        if (isLoggedIn) {
+            // User is logged in
+            loginBtn.classList.add('hidden');
+            form.classList.add('hidden');
+            statusDiv.classList.remove('hidden');
+            statusDiv.classList.add('flex'); // Show logged-in status div
+            emailSpan.textContent = email; // Display user email
+            profileIcon.classList.remove('hidden'); // Show profile icon
+            profileIcon.classList.add('inline-flex'); // Make sure it's displayed correctly
+
+            // Update profile name immediately
+            const profileNameElement = document.getElementById('profile-welcome-name');
+            if (profileNameElement) {
+                profileNameElement.textContent = extractFirstName(email);
+            }
+        } else {
+            // User is logged out
+            loginBtn.classList.remove('hidden');
+            form.classList.add('hidden'); // Ensure form is hidden
+            statusDiv.classList.add('hidden');
+            statusDiv.classList.remove('flex');
+            emailSpan.textContent = ''; // Clear email display
+            emailInput.value = ''; // Clear email input field
+            profileIcon.classList.add('hidden'); // Hide profile icon
+            profileIcon.classList.remove('inline-flex');
+        }
     }
-    if (loginButton && loginForm && loginEmailInput && simulateLoginButton && loggedInStatusDiv && loggedInEmailSpan && logoutButton) {
-        const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY); updateLoginUI(!!initialEmail, initialEmail || '');
-        loginButton.addEventListener('click', () => { loginButton.classList.add('hidden'); loginForm.classList.remove('hidden'); loginEmailInput.focus(); });
+
+    // Setup Login Listeners only if all necessary elements are found
+    if (loginButton && loginForm && loginEmailInput && simulateLoginButton && loggedInStatusDiv && loggedInEmailSpan && logoutButton && myProfileIcon) {
+        const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
+        updateLoginUI(!!initialEmail, initialEmail || ''); // Update UI on load
+
+        loginButton.addEventListener('click', () => {
+            loginButton.classList.add('hidden'); loginForm.classList.remove('hidden');
+            loginEmailInput.focus(); console.log('Clicked to show login form');
+        });
+
         simulateLoginButton.addEventListener('click', () => {
             const email = loginEmailInput.value.trim();
             if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                sessionStorage.setItem(LOGIN_STATUS_KEY, email); updateLoginUI(true, email);
-                if (typeof handleSuccessfulLogin === 'function') handleSuccessfulLogin(SIMULATED_USER_ID, email);
+                console.log(`Simulating login for: ${email}`);
+                sessionStorage.setItem(LOGIN_STATUS_KEY, email);
+                updateLoginUI(true, email); // Update header UI
+                if (typeof handleSuccessfulLogin === 'function') handleSuccessfulLogin(SIMULATED_USER_ID, email); // Update profile name
             } else { alert('Please enter a valid email address.'); }
         });
-        logoutButton.addEventListener('click', () => { if (typeof handleLogout === 'function') handleLogout(); });
-    } else { console.warn("Login elements missing."); }
+
+        logoutButton.addEventListener('click', () => {
+            if (typeof handleLogout === 'function') handleLogout();
+            else console.error("handleLogout function not found!");
+        });
+    } else { console.warn("Login/Profile elements missing."); }
 
     // --- Advisor Modal Listeners ---
     if (contactCtaButton && advisorModal && modalCloseButton && modalOverlay) {
@@ -561,7 +673,15 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
         if (!mobileMenu.classList.contains('hidden')) { mobileMenu.classList.add('hidden'); mobileMenuButton?.setAttribute('aria-expanded', 'false'); }
         const targetId = link.getAttribute('href');
-        if (targetId?.startsWith('#')) setTimeout(() => { document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' }); }, 100);
+        // Ensure smooth scrolling works after menu closes
+        if (targetId?.startsWith('#')) {
+             // Use requestAnimationFrame for smoother scroll after state change
+             requestAnimationFrame(() => {
+                setTimeout(() => {
+                    document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                }, 50); // Small delay helps ensure menu is visually closed
+             });
+        }
     }));
     langButtons.forEach(button => button.addEventListener('click', () => { const lang = button.getAttribute('data-lang'); if (lang) setLanguage(lang); }));
     if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
@@ -584,6 +704,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add hashchange listener AFTER initial setup
     window.addEventListener('hashchange', handleHashChange);
 
-    console.log("BWAM Script Loaded (Visibility Fixed). Initial language:", preferredLang);
+    console.log("BWAM Script Loaded (Profile Added). Initial language:", preferredLang);
 
 }); // End of DOMContentLoaded
