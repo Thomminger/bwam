@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
-    <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/beacon/c360a/d2799336-52d2-4f39-832b-d481cbc97fed/scripts/c360a.min.js" async></script>
+    <script src="datalayer.js"></script> <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/beacon/c360a/d2799336-52d2-4f39-832b-d481cbc97fed/scripts/c360a.min.js" async></script>
     <script type="text/javascript">
         window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
         // Make script.js functions accessible globally
@@ -90,6 +90,13 @@
          }
          .login-form-container button:hover {
              background-color: #850015; /* bg-brand-red-dark */
+         }
+         .login-error-message { /* Style for login error */
+            color: #dc2626; /* text-red-600 */
+            font-size: 0.75rem; /* text-xs */
+            position: absolute;
+            margin-top: 2.75rem; /* Adjust as needed below the form */
+            left: 0; /* Align with the form container */
          }
         /* Styling for the main profile section container */
          #react-profile-section {
@@ -214,7 +221,7 @@
                  </div>
             </section>
 
-            <section id="about-us" class="main-section py-16 md:py-24 bg-white"> {/* Now visible by default */}
+            <section id="about-us" class="main-section py-16 md:py-24 bg-white">
                  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                      <div class="grid md:grid-cols-2 gap-12 items-center">
                          <div class="fade-in-element">
@@ -234,7 +241,7 @@
                  </div>
             </section>
 
-            <section id="events" class="main-section py-16 lg:py-24 bg-gray-light"> {/* Now visible by default */}
+             <section id="events" class="main-section py-16 lg:py-24 bg-gray-light">
                   <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-element">
                       <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center justify-center w-full"><i data-lucide="calendar" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="events.title">Upcoming Events</span></h2>
                       <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
@@ -609,8 +616,7 @@
                 profilePage: { title: "Mein Profil", subtitle: "Verwalten Sie Ihre persönlichen Daten und Kontodetails.", summaryTitle: "Kontoübersicht", checkingLabel: "Kontokorrent", savingsLabel: "Sparkonto", investmentLabel: "Anlageportfolio", totalLabel: "Gesamtvermögen", goalTitle: "Sparziel: Weltreise", goalDesc: "Fortschritt für Ihr Abenteuer.", goalComplete: "Vollständig", actionsTitle: "Schnellzugriff", actionTransfer: "Überweisung tätigen", actionStatement: "Kontoauszüge ansehen", actionAdvisor: "Berater kontaktieren", transactionsTitle: "Letzte Transaktionen", thDate: "Datum", thDescription: "Beschreibung", thAmount: "Betrag (CHF)", txDesc1: "Einkauf Coop", txDesc2: "Lohnzahlung - Arbeitgeber AG", txDesc3: "Online-Kauf - Galaxus", txDesc4: "Restaurant Kronenhalle", txDesc5: "Mietzahlung - Verwaltung GmbH", personalInfoTitle: "Persönliche Informationen", editButton: "Bearbeiten", nameLabel: "Name", emailLabel: "E-Mail", phoneLabel: "Telefon", addressLabel: "Adresse", memberSinceLabel: "Mitglied seit" }
             }
         };
-        // Make translations globally available for script.js immediately
-        window.bwamTranslations = translations;
+        window.bwamTranslations = translations; // Make available globally
 
         // --- Inline SVG Icons ---
         const UserCircleIcon = ({ size = 28 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg> );
@@ -637,22 +643,9 @@
           const initialUser = JSON.parse(localStorage.getItem('bwamUser'));
           const [user, setUser] = useState(initialUser);
           const [loading, setLoading] = useState(true);
-
-          useEffect(() => {
-            const timer = setTimeout(() => setLoading(false), 300);
-            return () => clearTimeout(timer);
-          }, []);
-
-          useEffect(() => {
-             if (user) { localStorage.setItem('bwamUser', JSON.stringify(user)); }
-             else { localStorage.removeItem('bwamUser'); }
-          }, [user]);
-
-          const login = (email) => {
-              if (typeof email === 'string' && email.includes('@') && email.length > 5) {
-                 setUser({ email }); return true;
-              } return false;
-          };
+          useEffect(() => { const timer = setTimeout(() => setLoading(false), 300); return () => clearTimeout(timer); }, []);
+          useEffect(() => { if (user) { localStorage.setItem('bwamUser', JSON.stringify(user)); } else { localStorage.removeItem('bwamUser'); } }, [user]);
+          const login = (email) => { if (typeof email === 'string' && email.includes('@') && email.length > 5) { setUser({ email }); return true; } return false; };
           const logout = () => setUser(null);
           return { user, loading, login, logout };
         };
@@ -666,18 +659,15 @@
             const [view, setView] = useState('main'); // 'main' or 'profile'
 
             const t = useCallback((key) => {
-                const keys = key.split('.');
-                let text = translations[language];
+                const keys = key.split('.'); let text = translations[language];
                 try { keys.forEach(k => { text = text[k]; }); return typeof text === 'string' ? text : key; }
-                catch (e) { /* console.warn(`Translation key '${key}' not found for lang '${language}'`); */ return key; }
+                catch (e) { return key; }
             }, [language]);
 
             const changeLanguage = (newLang) => {
                 if (translations[newLang] && newLang !== language) {
-                    setLanguage(newLang);
-                    document.documentElement.lang = newLang;
+                    setLanguage(newLang); document.documentElement.lang = newLang;
                     if (window.bwamScripts && typeof window.bwamScripts.updateStaticContentLanguage === 'function') {
-                        // Use setTimeout to ensure React state update finishes before calling script.js
                         setTimeout(() => window.bwamScripts.updateStaticContentLanguage(newLang), 0);
                     } else { console.warn("bwamScripts.updateStaticContentLanguage function not found."); }
                 }
@@ -686,39 +676,35 @@
             const changeView = (newView) => {
                 const staticContent = document.getElementById('static-content-wrapper');
                 const profileSection = document.getElementById('react-profile-section');
+                const currentView = view; // Capture current view before potential update
 
-                if (newView === 'profile' && view !== 'profile') {
+                if (newView === 'profile' && currentView !== 'profile') {
                     setView('profile');
                     if (staticContent) staticContent.classList.add('hidden-by-react');
                     if (profileSection) profileSection.classList.add('visible');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else if (newView === 'main' && view !== 'main') {
+                     // Track profile view
+                     if (typeof window.bwamDataLayer?.trackProfileView === 'function' && auth.user) {
+                        window.bwamDataLayer.trackProfileView(auth.user.email); // Use email or a proper ID
+                    }
+                } else if (newView === 'main' && currentView !== 'main') {
                     setView('main');
                     if (profileSection) profileSection.classList.remove('visible');
                     if (staticContent) staticContent.classList.remove('hidden-by-react');
+                    // Scrolling is handled by nav link listener in script.js or popstate
                 }
             };
 
-             // Handle browser back/forward
             useEffect(() => {
                 const handlePopState = () => {
-                    if (window.location.hash === '#profile') { changeView('profile'); }
+                    if (window.location.hash === '#profile' && auth.user) { changeView('profile'); }
                     else { changeView('main'); }
                 };
                 window.addEventListener('popstate', handlePopState);
-                // Initial check in case page loaded with #profile hash
-                if (window.location.hash === '#profile') {
-                    // Only switch view if user is logged in, otherwise redirect might be better
-                    if(auth.user) {
-                        changeView('profile');
-                    } else {
-                        // If not logged in and hash is #profile, maybe redirect to home
-                        history.replaceState(null, null, '#home');
-                        changeView('main');
-                    }
-                }
+                if (window.location.hash === '#profile' && auth.user) { changeView('profile'); }
+                else if (window.location.hash === '#profile' && !auth.user) { history.replaceState(null, null, '#home'); changeView('main'); } // Redirect if not logged in
                 return () => window.removeEventListener('popstate', handlePopState);
-            }, [auth.user]); // Re-run if auth state changes
+            }, [auth.user]); // Dependency on auth.user
 
             const value = { ...auth, language, changeLanguage, t, view, changeView };
             return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
@@ -747,11 +733,19 @@
                 e.preventDefault(); setLoginError(false);
                 const success = login(emailInput);
                 if (!success) { setLoginError(true); }
-                else { setEmailInput(''); }
+                else {
+                     setEmailInput('');
+                     if (typeof window.bwamDataLayer?.trackLoginSuccess === 'function') {
+                         window.bwamDataLayer.trackLoginSuccess(emailInput); // Use email or proper ID
+                     }
+                }
             };
 
             const handleLogout = () => {
                 logout(); setIsProfileOpen(false);
+                 if (typeof window.bwamDataLayer?.trackLogout === 'function') {
+                     window.bwamDataLayer.trackLogout();
+                 }
                 if (view === 'profile') { changeView('main'); history.pushState(null, null, '#home'); }
             };
 
@@ -760,10 +754,9 @@
                 changeView('profile'); history.pushState(null, null, '#profile');
             };
 
-            // Corrected getUsername function
             const getUsername = (email) => {
                 if (!email || !email.includes('@')) return 'User';
-                return email.split('@')[0]; // Takes everything before @
+                return email.split('@')[0];
             };
 
             if (loading) { return <div className="h-8 w-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>; }
@@ -802,10 +795,10 @@
                             )}
                         </div>
                     ) : (
-                        <form onSubmit={handleLogin} className="login-form-container">
+                        <form onSubmit={handleLogin} className="login-form-container relative"> {/* Added relative for error positioning */}
                             <input type="email" value={emailInput} onChange={(e) => { setEmailInput(e.target.value); setLoginError(false); }} placeholder={t('emailPlaceholder')} className={`border ${loginError ? 'border-red-500' : 'border-gray-300'}`} required />
                             <button type="submit">{t('login')}</button>
-                            {loginError && <p className="text-xs text-red-500 absolute mt-16 -ml-40">{t('loginError')}</p>}
+                            {loginError && <p className="login-error-message">{t('loginError')}</p>}
                         </form>
                     )}
                 </div>
@@ -815,19 +808,11 @@
         // --- Profile Section Component ---
         function ProfileSection() {
             const { user, t, view } = useContext(AppContext);
+            if (view !== 'profile' || !user) return null; // Render only when view is 'profile' and user exists
 
-            // Only render if the view is 'profile' and user is logged in
-            if (view !== 'profile' || !user) return null;
-
-             // Corrected getUsername for profile display
-             const getUsername = (email) => {
-                 if (!email || !email.includes('@')) return 'User';
-                 return email.split('@')[0];
-             };
-
+             const getUsername = (email) => { if (!email || !email.includes('@')) return 'User'; return email.split('@')[0]; };
              const profileData = {
-                 name: getUsername(user.email).replace('.', ' '), // Use the corrected function
-                 phone: "+41 79 123 45 67", address: "Bahnhofstrasse 1, 8001 Zürich", memberSince: "2018-03-15", checkingBalance: 12345.67, savingsBalance: 87654.32, investmentValue: 150250.80, savingsGoalTarget: 15000, savingsGoalCurrent: 11250,
+                 name: getUsername(user.email).replace('.', ' '), phone: "+41 79 123 45 67", address: "Bahnhofstrasse 1, 8001 Zürich", memberSince: "2018-03-15", checkingBalance: 12345.67, savingsBalance: 87654.32, investmentValue: 150250.80, savingsGoalTarget: 15000, savingsGoalCurrent: 11250,
                  transactions: [ { date: "2025-05-04", descKey: "profilePage.txDesc1", amount: -85.50 }, { date: "2025-05-03", descKey: "profilePage.txDesc2", amount: 5200.00 }, { date: "2025-05-02", descKey: "profilePage.txDesc3", amount: -249.90 }, { date: "2025-05-01", descKey: "profilePage.txDesc4", amount: -120.00 }, { date: "2025-05-01", descKey: "profilePage.txDesc5", amount: -2100.00 } ]
              };
              const totalAssets = profileData.checkingBalance + profileData.savingsBalance + profileData.investmentValue;
