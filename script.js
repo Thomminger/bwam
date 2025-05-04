@@ -292,6 +292,7 @@ function setLanguage(lang) {
             } else {
                 // Set text content for regular elements, preserving child icons
                 const icon = el.querySelector('i[data-lucide]');
+                // Find the first text node that is not just whitespace
                 const existingTextNode = Array.from(el.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '');
 
                 if (icon && existingTextNode) {
@@ -299,9 +300,20 @@ function setLanguage(lang) {
                      existingTextNode.textContent = ' ' + txt; // Add space before text
                 } else if (icon) {
                      // Icon exists, but no text node, add text after icon
-                     el.appendChild(document.createTextNode(' ' + txt));
-                }
-                 else {
+                     // Check if last child is already the icon to prevent adding text multiple times
+                     if (el.lastChild !== icon) {
+                        el.appendChild(document.createTextNode(' ' + txt));
+                     } else {
+                         // If icon is the last child, update the previous text node or add new one
+                         const prevNode = icon.previousSibling;
+                         if (prevNode && prevNode.nodeType === Node.TEXT_NODE) {
+                             prevNode.textContent = ' ' + txt;
+                         } else {
+                             // Insert text before the icon if no preceding text node
+                             el.insertBefore(document.createTextNode(' ' + txt), icon);
+                         }
+                     }
+                } else {
                     // No icon, just set text content
                     el.textContent = txt;
                 }
@@ -427,7 +439,8 @@ function handleBankerScroll() {
     // Calculate max vertical movement (e.g., 80% of viewport height minus icon height and initial bottom offset)
     const iconHeight = bankerIcon.offsetHeight; // Get actual height
     const initialBottomOffset = 32; // Corresponds to 'bottom: 2rem' (1rem = 16px)
-    const maxMove = winHeight - iconHeight - initialBottomOffset - (winHeight * 0.1); // Leave some margin at top
+    // Ensure maxMove is not negative if window is very short
+    const maxMove = Math.max(0, winHeight - iconHeight - initialBottomOffset - (winHeight * 0.1)); // Leave some margin at top
     const moveDistance = Math.min(maxMove, maxMove * scrollPercent); // Move up based on scroll %
 
     // Apply the transform to move the icon up from its initial bottom position
