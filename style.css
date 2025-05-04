@@ -1,228 +1,142 @@
 /* style.css */
 
-/* --- Base Styles & Imports --- */
-/* Font is imported via CDN in HTML */
+/* Import base Tailwind styles (optional if you fully rely on CDN) */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
 
-/* Apply border-box sizing to all elements for more predictable layouts */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* --- CSS Variables --- */
+/* Define custom properties for brand colors */
 :root {
-    --brand-red: #A6001A; /* BWAM Red */
-    --brand-red-dark: #850015;
-    --gray-light: #f8f9fa; /* Light gray for backgrounds */
-    --gray-medium: #e9ecef;
-    --text-primary: #212529; /* Darker text for better contrast */
-    --text-secondary: #6c757d; /* Lighter text */
-}
-
-/* --- Layout Adjustments --- */
-html, body {
-    height: 100%; /* Ensure html and body can take full height */
+    --brand-red: #A6001A; /* Example BWAM Red */
+    --brand-red-dark: #850015; /* Darker shade for hover */
+    --gray-light: #f9fafb; /* bg-gray-light equivalent */
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Ensure body is at least viewport height */
-    /* Improve font rendering */
+    font-family: 'Inter', sans-serif;
+    color: #374151; /* text-gray-700 */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Set default body font */
-    font-family: 'Inter', sans-serif;
-    color: var(--text-primary);
-    /* Base Tailwind styles applied via class in body tag */
-    background-color: #fff; /* Default white background */
-    position: relative; /* Needed for pseudo-element */
-    z-index: 1; /* Ensure body content is above the background */
 }
 
-/* --- Mountain Background --- */
+/* Mountain Background Effect */
+.has-mountain-bg {
+    position: relative;
+    /* Add other body styles if needed */
+}
+
+/* You might use a pseudo-element for the background if needed,
+   or apply background directly. Example using pseudo-element: */
+/*
 body.has-mountain-bg::before {
     content: '';
-    position: fixed; /* Fixed position */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Use a subtle, high-quality mountain image */
-    background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+    background-image: url('path/to/your/mountain-bg.jpg');
     background-size: cover;
-    background-position: center bottom; /* Position mountains towards the bottom */
-    background-attachment: fixed; /* Parallax effect */
-    opacity: 0.08; /* Make it very subtle */
-    z-index: -1; /* Place it behind all content */
-    /* Optional: Add a very light overlay */
-    /* background-color: rgba(255, 255, 255, 0.5); */
-    /* background-blend-mode: overlay; */
+    background-position: center;
+    z-index: -1;
+    opacity: 0.1; // Adjust opacity as needed
+}
+*/
+
+/* Custom Tailwind Component Styles (Example) */
+@layer components {
+    .nav-link {
+        @apply inline-flex items-center py-3 transition-colors duration-200;
+        /* Add any specific non-Tailwind styles here */
+    }
+    .service-card {
+        @apply group block bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2;
+    }
+    .service-icon {
+         @apply text-brand-red w-10 h-10 mb-4 block mx-auto transition-transform duration-300 group-hover:scale-110;
+    }
 }
 
-
-main {
-    flex-grow: 1; /* Ensures main content pushes footer down */
-    background-color: transparent; /* Allow body background to show through */
+/* Brand Color Utilities (if not defined via Tailwind config) */
+.text-brand-red { color: var(--brand-red); }
+.bg-brand-red { background-color: var(--brand-red); }
+.hover\:text-brand-red:hover { color: var(--brand-red); }
+.hover\:bg-brand-red-dark:hover { background-color: var(--brand-red-dark); }
+.focus-visible\:ring-brand-red:focus-visible {
+    --tw-ring-color: var(--brand-red);
+    /* Tailwind applies the ring offset and width */
 }
+.bg-gray-light { background-color: var(--gray-light); }
 
-/* --- Header/Nav Specific Styles --- */
-/* Dropdown menu styling and animation */
+
+/* Desktop Navigation Dropdown */
 .dropdown-menu {
-    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
     opacity: 0;
-    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-    transform: translateY(-10px);
-    /* Base Tailwind dropdown styles applied via class */
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    min-width: 200px; /* Ensure minimum width */
+    padding: 0.5rem; /* Add some padding */
 }
-/* Show dropdown on hover */
-.group:hover .dropdown-menu {
-    display: block;
+
+.dropdown-menu.show {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
 }
-/* Style for the active language button */
-.lang-button.active {
-    font-weight: 700;
-    color: var(--brand-red);
-    /* Underline applied via Tailwind class */
-}
 
-/* --- Base Link Styling --- */
-a {
-  color: inherit; /* Inherit color from parent by default */
-  text-decoration: none; /* Remove default underline */
-  transition: color 0.2s ease-in-out; /* Smooth color transition */
-}
-
-/* --- Section & Scrolling --- */
-/* Offset for fixed header when scrolling to sections */
-section[id] {
-    scroll-margin-top: 80px; /* Adjusted for potentially taller header */
-}
-/* Enable smooth scrolling */
-html {
-    scroll-behavior: smooth;
-}
-
-/* --- Component Styles --- */
-/* Consent banner animation */
-#consent-banner {
+/* Mobile Menu Transition (Example - Tailwind handles hidden/block) */
+#mobile-menu {
     transition: transform 0.3s ease-in-out;
-}
-/* Login form layout */
-.login-form-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-/* Modal styles */
-.modal-overlay {
-    transition: opacity 0.3s ease-in-out;
-}
-.modal-content {
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    /* Add transform origin if needed */
 }
 
-/* --- Scrolling Banker Icon --- */
-#scroll-banker {
-    position: fixed;
-    bottom: 2rem; /* Initial position at the bottom */
-    right: 1.5rem;
-    z-index: 40; /* Below header/modal but above content */
-    opacity: 0.8;
-    transition: transform 0.2s ease-out, opacity 0.3s ease-in-out; /* Smooth transition for movement */
-    transform: translateY(0); /* Start at the bottom */
-    pointer-events: none; /* Prevent icon from interfering with clicks */
-}
-#scroll-banker .banker-svg {
-    width: 48px; /* Adjust size as needed */
-    height: 48px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); /* Add subtle shadow */
-}
-
-
-/* --- Animations --- */
-/* Scroll Animation Base */
+/* Fade-in Animation */
 .fade-in-element {
     opacity: 0;
-    transform: translateY(30px); /* Slightly more pronounced initial offset */
-    transition: opacity 0.7s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1); /* Smoother ease */
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
+
 .fade-in-element.is-visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* --- Utility Overrides & Helpers --- */
-/* Utility classes for brand color */
-.bg-brand-red { background-color: var(--brand-red); }
-.text-brand-red { color: var(--brand-red); }
-.border-brand-red { border-color: var(--brand-red); }
-.hover\:bg-brand-red-dark:hover { background-color: var(--brand-red-dark); }
-
-/* Custom focus ring (applied via Tailwind focus:ring classes where possible) */
-*:focus-visible {
-   /* Outline/ring applied via Tailwind classes */
+/* Modal Styles */
+#advisor-modal .modal-overlay {
+    transition: opacity 0.3s ease;
+}
+#advisor-modal .modal-content {
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Ensure icons are sized correctly and aligned */
-i[data-lucide] {
-    width: 1.1em; /* Slightly larger default icon size */
-    height: 1.1em;
-    display: inline-block;
-    vertical-align: -0.15em; /* Better vertical alignment */
-    margin-right: 0.35em; /* Consistent spacing */
-    stroke-width: 2; /* Standard stroke width */
-}
-/* Specific adjustments */
-h2 i[data-lucide], h3 i[data-lucide] {
-   margin-right: 0.5em;
-   vertical-align: -0.1em;
-}
-button i[data-lucide] {
-   margin-right: 0.5em;
-}
-a i[data-lucide] {
-   margin-right: 0.4em;
-}
-/* Service card icons */
-.service-icon i[data-lucide] {
-    width: 2.5rem; /* 40px */
-    height: 2.5rem; /* 40px */
-    margin-bottom: 0.75rem; /* 12px */
-    margin-right: 0; /* Reset margin for centered icons */
-    stroke-width: 1.5; /* Thinner stroke for larger icons */
-}
-/* Footer icons */
-footer i[data-lucide] {
-    width: 1.25rem; /* 20px */
-    height: 1.25rem;
-    margin-right: 0; /* No margin needed here */
-}
-/* Modal close icon */
-#modal-close-button i[data-lucide] {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0;
-}
-/* Checkmark icons */
-ul i[data-lucide="check-circle"] {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.75rem;
-    vertical-align: top; /* Align with top of text */
+/* Consent Banner Transition */
+#consent-banner {
+    transition: transform 0.5s ease-out;
 }
 
+/* Scrolling Banker Icon Styles */
+#scroll-banker {
+    position: fixed;
+    right: 20px; /* Initial position */
+    top: 100px; /* Initial position */
+    z-index: 45; /* Below header */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, top 0.1s linear;
+    /* Ensure SVG inside has pointer-events none if needed */
+}
 
-/* --- IMPORTANT --- */
-/* Most styling (layout, colors, spacing, typography) for this page
-   is handled by Tailwind CSS classes directly within the index.html file.
-   Add custom CSS here primarily for:
-   - CSS Variables (--brand-red, etc.)
-   - Base element styling (body, html, *, a)
-   - Complex selectors not easily targeted by Tailwind.
-   - CSS features not covered by Tailwind utilities (e.g., scroll-margin-top, complex animations).
-   - Overriding Tailwind styles when absolutely necessary.
-*/
+#scroll-banker .banker-svg {
+    /* Styles for the SVG itself if needed */
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Text Shadow for Hero */
+.text-shadow {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
