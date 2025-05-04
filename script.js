@@ -1,12 +1,5 @@
 // Wait for the DOM to be fully loaded before executing scripts
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Initialize Lucide Icons ---
-    // Moved to the bottom script tag in HTML for potentially faster initial load
-    // if (typeof lucide !== 'undefined') {
-    //     lucide.createIcons();
-    // } else {
-    //     console.warn("Lucide icons library not loaded.");
-    // }
 
     // --- Cache DOM Elements ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -28,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoLink = document.getElementById('logo-link');
 
     // --- State ---
-    let currentSection = 'home'; // Track the currently visible static section
+    let currentStaticSectionId = 'home'; // Track the currently visible static section ID
 
     // --- Helper Functions ---
 
@@ -38,12 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const smoothScrollTo = (target) => {
         let targetPosition = 0;
+        const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+
         if (typeof target === 'string') {
             const element = document.querySelector(target);
             if (element) {
-                // Calculate position considering the sticky header height
-                const headerHeight = document.querySelector('header')?.offsetHeight || 0;
-                targetPosition = window.scrollY + element.getBoundingClientRect().top - headerHeight - 10; // Small offset
+                targetPosition = window.scrollY + element.getBoundingClientRect().top - headerHeight - 20; // Increased offset slightly
             } else {
                 console.warn(`Smooth scroll target not found: ${target}`);
                 return; // Exit if target element doesn't exist
@@ -53,48 +46,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         window.scrollTo({
-            top: targetPosition,
+            top: Math.max(0, targetPosition), // Ensure not scrolling to negative position
             behavior: 'smooth'
         });
     };
 
     /**
-     * Shows a specific main section and hides others.
-     * Handles interaction with the React-controlled profile view.
-     * @param {string} sectionId - The ID of the section to show (e.g., 'home', 'about-us').
+     * Shows a specific static main section and hides others.
+     * Does NOT interact with React visibility directly; React handles its own section.
+     * @param {string} sectionId - The ID of the static section to show (e.g., 'home', 'about-us').
      */
-    const showSection = (sectionId) => {
-        // If trying to show a static section, ensure React profile section is hidden
-        if (sectionId !== 'profile' && reactProfileSection?.classList.contains('visible')) {
-             // Let React handle hiding its section via changeView('main') triggered by popstate/link click
-             console.log("Switching from profile view to static section:", sectionId);
-        }
-
-        // Hide all static sections first
+    const showStaticSection = (sectionId) => {
+        let sectionFound = false;
         mainSections.forEach(section => {
-            if (section.id && section.id !== sectionId) {
+            if (section.id && section.id === sectionId) {
+                section.classList.remove('hidden');
+                sectionFound = true;
+                currentStaticSectionId = sectionId; // Update tracked section
+                // Trigger fade-in for elements within the newly shown section
+                observeFadeInElements(section.querySelectorAll('.fade-in-element'));
+            } else if (section.id) {
                 section.classList.add('hidden');
             }
         });
 
-        // Show the target static section
-        const targetSection = document.getElementById(sectionId);
-        if (targetSection && targetSection.classList.contains('main-section')) {
-            targetSection.classList.remove('hidden');
-            currentSection = sectionId; // Update tracked section
-            // Trigger fade-in for elements within the newly shown section (if needed immediately)
-             observeFadeInElements(targetSection.querySelectorAll('.fade-in-element'));
-        } else if (sectionId !== 'profile') {
-            console.warn(`Section with ID "${sectionId}" not found or not a main section.`);
-            // Fallback: show the home section if the target is invalid
-            showSection('home');
-            history.replaceState(null, null, '#home'); // Update hash silently
+        if (!sectionFound) {
+            console.warn(`Static section with ID "${sectionId}" not found.`);
+            // Fallback: Show the home section if the target is invalid
+            const homeSection = document.getElementById('home');
+            if (homeSection) {
+                homeSection.classList.remove('hidden');
+                currentStaticSectionId = 'home';
+                observeFadeInElements(homeSection.querySelectorAll('.fade-in-element'));
+            }
         }
     };
 
     /**
-     * Updates the text content of static HTML elements based on the current language.
-     * Relies on `data-lang-key` attributes and the global `window.bwamTranslations`.
+     * Updates the text content and specific attributes of static HTML elements based on the current language.
+     * Relies on `data-lang-key`, `data-lang-key-*` attributes and the global `window.bwamTranslations`.
+     * Targets specific `.translatable-text` spans where necessary.
      * @param {string} lang - The language code ('en', 'de', etc.).
      */
     const updateStaticContentLanguage = (lang) => {
@@ -104,12 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const translations = window.bwamTranslations[lang];
 
-        document.querySelectorAll('[data-lang-key]').forEach(element => {
-            const key = element.dataset.langKey;
+        // Helper to get nested translation value
+        const getTranslation = (key) => {
             const keys = key.split('.');
             let text = translations;
-            let translationFound = true;
-
             try {
                 keys.forEach(k => {
                     if (text[k] === undefined) {
@@ -117,164 +106,179 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     text = text[k];
                 });
+                return typeof text === 'string' ? text : null; // Return only if string
             } catch (e) {
-                translationFound = false;
-                // console.warn(`Translation key not found: ${key} for language ${lang}`);
-                text = key; // Fallback to the key itself
+                console.warn(`Translation key not found: ${key} for language ${lang}`);
+                return null; // Return null if key not found
             }
+        };
 
-            if (typeof text === 'string') {
-                // Handle specific attributes or innerText
-                const isAriaLabel = element.hasAttribute('aria-label') && (key.startsWith('aria.') || key.endsWith('_label'));
-                const isTitle = element.hasAttribute('title') && !isAriaLabel; // Prioritize aria-label if key suggests it
-                const isPlaceholder = element.tagName === 'INPUT' && element.hasAttribute('placeholder');
+        // --- Update Text Content ---
+        document.querySelectorAll('[data-lang-key]').forEach(element => {
+            const key = element.dataset.langKey;
+            const translation = getTranslation(key);
 
-                if (isAriaLabel) {
-                    element.setAttribute('aria-label', text);
-                } else if (isTitle) {
-                    element.setAttribute('title', text);
-                } else if (isPlaceholder) {
-                     element.setAttribute('placeholder', text);
+            if (translation !== null) {
+                // Check if the element itself is a designated translatable span
+                if (element.classList.contains('translatable-text')) {
+                    element.textContent = translation;
                 } else {
-                    // Update innerText, preserving child elements like icons
-                    // Find the first text node and update it, or append if none exists
-                    let textNode = null;
-                    for(let node of element.childNodes) {
-                        if(node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
-                            textNode = node;
-                            break;
-                        }
-                    }
-                    if (textNode) {
-                        textNode.textContent = ' ' + text + ' '; // Add spaces for separation from icons
+                    // Otherwise, look for a child translatable span
+                    const translatableSpan = element.querySelector('.translatable-text[data-lang-key="' + key + '"]');
+                    if (translatableSpan) {
+                        translatableSpan.textContent = translation;
+                    } else if (element.children.length === 0 || element.closest('ul, div.grid')) {
+                         // If no children (likely simple text) OR it's a list item/grid item where direct update is safe
+                         // Avoid replacing content of complex elements like nav dropdown buttons entirely
+                        element.textContent = translation;
                     } else {
-                        // If no text node, find where to insert (e.g., after an icon)
-                        const icon = element.querySelector('i[data-lucide]');
-                        if (icon) {
-                             // Insert text after the icon
-                             icon.insertAdjacentText('afterend', ' ' + text);
-                        } else {
-                             // Default: replace all content (might remove icons if not handled carefully)
-                             element.textContent = text;
-                        }
+                         // Fallback for elements with children but no specific span (might be risky)
+                         // Attempt to replace only the first text node if it exists
+                         let replaced = false;
+                         for (let node of element.childNodes) {
+                             if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                                 node.textContent = translation;
+                                 replaced = true;
+                                 break;
+                             }
+                         }
+                         if (!replaced) {
+                             console.warn(`Could not find specific text node to update for key "${key}" in element:`, element);
+                         }
                     }
                 }
-            } else if (translationFound) {
-                console.warn(`Translation for key "${key}" is not a string:`, text);
             }
         });
 
-        // Re-initialize Lucide icons after text changes, as text nodes might be replaced
+        // --- Update Attributes (aria-label, title, placeholder) ---
+        document.querySelectorAll('[data-lang-key-aria]').forEach(element => {
+            const key = element.dataset.langKeyAria;
+            const translation = getTranslation(key);
+            if (translation !== null) element.setAttribute('aria-label', translation);
+        });
+        document.querySelectorAll('[data-lang-key-title]').forEach(element => {
+            const key = element.dataset.langKeyTitle;
+            const translation = getTranslation(key);
+            if (translation !== null) element.setAttribute('title', translation);
+        });
+         document.querySelectorAll('[data-lang-key-placeholder]').forEach(element => {
+            const key = element.dataset.langKeyPlaceholder;
+            const translation = getTranslation(key);
+            if (translation !== null) element.setAttribute('placeholder', translation);
+        });
+
+
+        // Re-initialize Lucide icons after text changes, as icons might be inside updated elements
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
     };
 
-    // Expose the language update function globally
+    // Expose the language update function globally for React to call
     window.bwamScripts.updateStaticContentLanguage = updateStaticContentLanguage;
 
 
     // --- Navigation Handling ---
 
+    // Function to handle view switching logic
+    const handleNavigation = (hash) => {
+        const sectionId = hash ? hash.substring(1) : 'home';
+        const isProfileTarget = (sectionId === 'profile');
+        const isStaticTarget = document.getElementById(sectionId)?.classList.contains('main-section');
+
+        // Get current view state from React if possible (via exposed context)
+        const currentReactView = window.AppContext?.view || (reactProfileSection?.classList.contains('visible') ? 'profile' : 'main');
+
+        console.log(`Navigating. Hash: ${hash}, Target Section ID: ${sectionId}, Is Profile Target: ${isProfileTarget}, Is Static Target: ${isStaticTarget}, Current React View: ${currentReactView}`);
+
+        if (isProfileTarget) {
+            // Target is #profile
+            // Let React handle this. It should check login status and call changeView('profile') or redirect.
+            // If React context is available, explicitly tell it to change view.
+             if (window.AppContext?.changeView) {
+                 window.AppContext.changeView('profile'); // React handles showing profile/hiding static
+             } else {
+                 console.warn("React AppContext.changeView not available to handle #profile navigation.");
+                 // As a fallback (less ideal), manually manage visibility if React isn't ready
+                 // This assumes the user *should* see the profile (e.g., they are logged in)
+                 // staticContentWrapper?.classList.add('hidden-by-react');
+                 // reactProfileSection?.classList.add('visible');
+             }
+        } else if (isStaticTarget) {
+            // Target is a valid static section
+            // If React profile is currently visible, tell React to switch back to main
+            if (currentReactView === 'profile' && window.AppContext?.changeView) {
+                 window.AppContext.changeView('main'); // React hides profile/shows static wrapper
+                 // Need a delay for React render before showing the specific static section
+                 setTimeout(() => {
+                     showStaticSection(sectionId);
+                     smoothScrollTo(hash);
+                 }, 50); // Adjust delay if needed
+            } else {
+                 // React profile is not visible, just show the static section
+                 staticContentWrapper?.classList.remove('hidden-by-react'); // Ensure static wrapper is visible
+                 reactProfileSection?.classList.remove('visible'); // Ensure profile section is hidden
+                 showStaticSection(sectionId);
+                 smoothScrollTo(hash);
+            }
+        } else {
+            // Target is invalid or not a main section (e.g., #, #nonexistent)
+            // Default to showing the home section
+            console.log(`Invalid or non-main section target: "${sectionId}". Defaulting to home.`);
+            if (currentReactView === 'profile' && window.AppContext?.changeView) {
+                window.AppContext.changeView('main');
+                setTimeout(() => {
+                    showStaticSection('home');
+                    smoothScrollTo('#home');
+                }, 50);
+            } else {
+                staticContentWrapper?.classList.remove('hidden-by-react');
+                reactProfileSection?.classList.remove('visible');
+                showStaticSection('home');
+                smoothScrollTo('#home');
+            }
+            // Update hash to #home if it wasn't already
+            if (window.location.hash !== '#home') {
+                history.replaceState(null, null, '#home'); // Use replaceState to avoid polluting history
+            }
+        }
+
+        // Close mobile menu if open
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            mobileMenuButton?.setAttribute('aria-expanded', 'false');
+        }
+    };
+
+
     // Handle clicks on navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-
-            // Check if it's an internal hash link
             if (href && href.startsWith('#')) {
                 e.preventDefault(); // Prevent default jump
-                const sectionId = href.substring(1);
-
-                // If clicking a link to a static section
-                if (document.getElementById(sectionId)?.classList.contains('main-section')) {
-                    // If the profile section is visible, tell React to switch back to main view
-                    if (reactProfileSection?.classList.contains('visible')) {
-                        if (window.AppContext?.changeView) { // Check if React context function is available
-                            window.AppContext.changeView('main'); // This should hide profile and show static wrapper
-                        } else {
-                            // Fallback if React context isn't ready/available (less ideal)
-                            reactProfileSection.classList.remove('visible');
-                            staticContentWrapper?.classList.remove('hidden-by-react');
-                        }
-                        // Need a slight delay to allow React to hide its section before showing the static one
-                        setTimeout(() => {
-                             showSection(sectionId);
-                             smoothScrollTo(href);
-                             history.pushState(null, null, href); // Update URL hash
-                        }, 50); // Adjust delay if needed
-                    } else {
-                        // If profile section is already hidden, just show the target static section
-                        showSection(sectionId);
-                        smoothScrollTo(href);
-                        history.pushState(null, null, href); // Update URL hash
-                    }
-                } else if (sectionId === 'profile') {
-                    // Let React handle showing the profile via its handleViewProfile/changeView
-                    // The React component's useEffect[auth.user] handles the history.pushState
-                    console.log("Profile link clicked - React should handle view change.");
-                    // We might manually trigger React's view change if needed, but it should happen via popstate or direct call
-                } else {
-                    // Handle links to non-section elements or external links if necessary
-                    console.log(`Link to non-section element or external: ${href}`);
-                    // Potentially just scroll if element exists but isn't a main section
-                    if(document.querySelector(href)) {
-                        smoothScrollTo(href);
-                        history.pushState(null, null, href);
-                    }
+                const currentHash = window.location.hash;
+                // Only push state if the hash is actually changing
+                if (href !== currentHash) {
+                    history.pushState({ section: href.substring(1) }, null, href); // Push new state
                 }
-
-                // Close mobile menu if open
-                if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenuButton.setAttribute('aria-expanded', 'false');
-                    // Optional: Change icon back to menu if you have separate open/close icons
-                }
+                handleNavigation(href); // Handle showing the section/view
             }
         });
     });
 
     // Handle browser back/forward buttons (popstate)
-    window.addEventListener('popstate', () => {
-        const hash = window.location.hash;
-        const sectionId = hash ? hash.substring(1) : 'home';
-
-        // Let React handle the #profile hash via its own useEffect
-        if (sectionId === 'profile') {
-            // React's AppProvider useEffect should catch this and call changeView('profile')
-            console.log("Popstate detected #profile - React should handle.");
-        } else {
-            // For static sections, ensure React profile is hidden and show the correct static section
-            if (reactProfileSection?.classList.contains('visible')) {
-                 // Assume React's changeView('main') was triggered by its popstate handler
-                 console.log("Popstate switching from profile to static:", sectionId);
-                 // Need a slight delay again
-                 setTimeout(() => {
-                    showSection(sectionId || 'home'); // Show target or default to home
-                    // Optional: scroll to the section after it's shown
-                    // smoothScrollTo(hash || '#home');
-                 }, 50);
-            } else {
-                 showSection(sectionId || 'home');
-                 // Optional: scroll to the section after it's shown
-                 // smoothScrollTo(hash || '#home');
-            }
-        }
+    window.addEventListener('popstate', (event) => {
+        console.log("Popstate event triggered. New hash:", window.location.hash);
+        handleNavigation(window.location.hash);
     });
 
-    // Initial page load: Show section based on hash or default to 'home'
-    const initialHash = window.location.hash;
-    const initialSectionId = initialHash ? initialHash.substring(1) : 'home';
-
-    // Let React handle the initial load if hash is #profile
-    if (initialSectionId !== 'profile') {
-        showSection(initialSectionId);
-        // Scroll to the section on initial load if there's a hash
-        if (initialHash && initialSectionId !== 'home') {
-            // Use setTimeout to ensure the layout is stable after initial rendering
-            setTimeout(() => smoothScrollTo(initialHash), 100);
-        }
-    } // React's useEffect in AppProvider handles the #profile case
+    // Initial page load: Handle navigation based on the initial hash
+    console.log("Initial page load. Hash:", window.location.hash);
+    // Let React handle the initial #profile check via its useEffect.
+    // For other hashes, handleNavigation will show the correct static section.
+    // If React determines user isn't logged in for #profile, it should redirect to #home, triggering popstate/handleNavigation again.
+    handleNavigation(window.location.hash);
 
 
     // --- Mobile Menu Toggle ---
@@ -282,8 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileMenuButton.addEventListener('click', () => {
             const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
             mobileMenu.classList.toggle('hidden');
-            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
-            // Optional: Toggle icon between menu and X if using separate icons
+            mobileMenuButton.setAttribute('aria-expanded', String(!isExpanded)); // Use String()
         });
     }
 
@@ -291,22 +294,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const consentStatus = localStorage.getItem(window.CONSENT_STORAGE_KEY);
 
     if (!consentStatus && consentBanner) { // Only show if status is not set
-        // Use setTimeout to allow CSS transition to work after initial render
         setTimeout(() => {
             consentBanner.classList.remove('hidden');
             consentBanner.classList.add('show'); // Add class to trigger transition
-        }, 500); // Delay showing the banner slightly
+        }, 500);
     }
 
     const handleConsent = (status) => {
         localStorage.setItem(window.CONSENT_STORAGE_KEY, status); // 'accepted' or 'rejected'
         if (consentBanner) {
             consentBanner.classList.remove('show');
-            // Optionally add a class to fade out before hiding
             setTimeout(() => consentBanner.classList.add('hidden'), 500); // Match transition duration
         }
         console.log(`Consent status set to: ${status}`);
-        // Here you would typically initialize analytics based on consentStatus='accepted'
         if (status === 'accepted' && typeof window.bwamDataLayer?.initializeTracking === 'function') {
              window.bwamDataLayer.initializeTracking();
         }
@@ -324,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!advisorModal) return;
         advisorModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        // Trigger animations by adding 'show' class after a tiny delay
         setTimeout(() => advisorModal.classList.add('show'), 10);
         if (typeof window.bwamDataLayer?.trackModalOpen === 'function') {
              window.bwamDataLayer.trackModalOpen('advisor');
@@ -333,36 +332,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeModal = () => {
         if (!advisorModal) return;
-        advisorModal.classList.remove('show'); // Remove 'show' to trigger exit animations
+        advisorModal.classList.remove('show');
         document.body.style.overflow = ''; // Restore background scrolling
-        // Wait for animations to finish before hiding
-        setTimeout(() => advisorModal.classList.add('hidden'), 300); // Adjust timing based on CSS transition duration
+        setTimeout(() => advisorModal.classList.add('hidden'), 300); // Match CSS transition
     };
 
-    // Open modal when hero contact button is clicked
     if (contactCtaButton) {
         contactCtaButton.addEventListener('click', openModal);
     }
-    // Close modal triggers
     if (modalCloseButton) {
         modalCloseButton.addEventListener('click', closeModal);
     }
     if (modalOverlay) {
-        modalOverlay.addEventListener('click', closeModal); // Close on overlay click
+        modalOverlay.addEventListener('click', closeModal);
     }
-    // Close modal with Escape key
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && advisorModal && !advisorModal.classList.contains('hidden')) {
             closeModal();
         }
     });
 
-
     // --- Fade-in Animations on Scroll ---
     const observerOptions = {
-        root: null, // Use the viewport as the root
+        root: null,
         rootMargin: '0px',
-        threshold: 0.1 // Trigger when 10% of the element is visible
+        threshold: 0.1 // Trigger when 10% visible
     };
 
     const intersectionCallback = (entries, observer) => {
@@ -378,53 +372,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const observeFadeInElements = (elements) => {
         elements.forEach(el => {
-            // Only observe if not already visible (e.g., on initial load for elements already in view)
             if (!el.classList.contains('is-visible')) {
                  fadeInObserver.observe(el);
             } else {
-                 // If already marked visible (e.g., by React), ensure styles apply immediately
+                 // Ensure styles apply immediately if already marked visible
                  el.style.opacity = 1;
                  el.style.transform = 'translateY(0)';
             }
         });
     };
 
-    // Initial observation run
+    // Initial observation run for elements potentially visible on load
     observeFadeInElements(fadeInElements);
 
-
     // --- Scrolling Banker Icon Logic ---
-    let lastScrollTop = 0;
     const scrollThreshold = 300; // Pixels from top to show the icon
 
     const handleScrollBanker = () => {
         if (!scrollBanker) return;
         let st = window.pageYOffset || document.documentElement.scrollTop;
-
         if (st > scrollThreshold) {
-            // Show icon if scrolled down enough
             scrollBanker.classList.add('visible');
         } else {
-            // Hide icon if near the top
             scrollBanker.classList.remove('visible');
         }
-
-        // Optional: Hide on scroll up, show on scroll down (more complex)
-        // if (st > lastScrollTop && st > scrollThreshold){
-        //    scrollBanker.classList.add('visible'); // Show on scroll down
-        // } else {
-        //    scrollBanker.classList.remove('visible'); // Hide on scroll up or near top
-        // }
-        // lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
     };
 
     window.addEventListener('scroll', handleScrollBanker, { passive: true });
-    // Initial check in case the page loads already scrolled down
-    handleScrollBanker();
+    handleScrollBanker(); // Initial check
 
     // --- Initial Language Update ---
-    // Update static content to match the initial language set by React/HTML tag
+    // Update static content based on the initial HTML lang attribute
     const initialLang = document.documentElement.lang || 'de';
+    console.log(`Initial language detected: ${initialLang}. Updating static content.`);
     updateStaticContentLanguage(initialLang);
+
+    // Set footer year
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
 
 }); // End DOMContentLoaded
