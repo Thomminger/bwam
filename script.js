@@ -5,7 +5,7 @@ const LOGIN_STATUS_KEY = 'bwam_logged_in_email'; // Key for sessionStorage
 const SIMULATED_USER_ID = 'SIMULATED_USER_123'; // Placeholder User ID for simulation
 // Consent key is now defined globally in index.html
 
-// --- Language Data ---
+// --- Language Data (Includes new sections) ---
 const translations = {
     'de': {
         'page_title': 'BWAM - Ihr Finanzpartner',
@@ -24,7 +24,12 @@ const translations = {
         'hero.title': 'Willkommen bei BWAM',
         'hero.subtitle': 'Ihr zuverlässiger Partner für umfassende Finanzlösungen in Zürich und darüber hinaus.',
         'hero.button_services': 'Dienstleistungen entdecken',
-        'hero.button_contact': 'Kontakt aufnehmen', // Button text in Hero
+        'hero.button_contact': 'Kontakt aufnehmen',
+        // About Us Section
+        'about.p1': 'Gegründet in Zürich mit tiefen Wurzeln in der Schweizer Bankentradition, verbindet BWAM (Banking & Wealth Asset Management) jahrzehntelange Finanzexpertise mit einem zukunftsorientierten Ansatz.',
+        'about.p2': 'Unsere Mission ist es, personalisierte, transparente und zuverlässige Finanzdienstleistungen für Privatpersonen, Unternehmen und Institutionen anzubieten. Wir glauben an den Aufbau langfristiger Beziehungen, die auf Vertrauen und gemeinsamem Erfolg basieren.',
+        'about.p3': 'Mit Sitz im Herzen des Zürcher Finanzdistrikts verpflichten wir uns zur Einhaltung höchster Integritätsstandards und leisten einen positiven Beitrag zu unserer Gemeinschaft.',
+        // Business Clients Section (#business-clients)
         'services.subtitle': 'Massgeschneiderte Finanzlösungen für Ihr Unternehmen, von Start-ups bis zu etablierten Firmen in der Region Zürich.',
         'services.business.card1_title': 'Firmenkonten',
         'services.business.card1_desc': 'Flexible Geschäftskonten mit Online-Banking, Multiwährungsoptionen und dediziertem Support.',
@@ -32,11 +37,13 @@ const translations = {
         'services.business.card2_desc': 'Kapital für Wachstum, Anschaffungen oder operative Bedürfnisse mit unseren wettbewerbsfähigen Krediten und Kreditlinien.',
         'services.business.card3_title': 'Cash Management',
         'services.business.card3_desc': 'Optimieren Sie Ihren Cashflow mit unseren Dienstleistungen für Zahlungsabwicklung, Inkasso und Liquiditätsmanagement.',
+        // Institutional Clients Section (#institutional)
         'institutional.subtitle': 'Anspruchsvolle Vermögensverwaltung und Beratungsdienstleistungen für Pensionskassen, Stiftungen, Family Offices und Vermögensverwalter.',
         'institutional.card1_title': 'Vermögensverwaltung',
         'institutional.card1_desc': 'Diskretionäre und beratende Mandate über verschiedene Anlageklassen, zugeschnitten auf das Risikoprofil und die Ziele Ihrer Institution.',
         'institutional.card2_title': 'Depotbank & Ausführung',
         'institutional.card2_desc': 'Sichere Verwahrung von Vermögenswerten, effiziente Handelsausführung und umfassende Reporting-Dienstleistungen.',
+        // Private Client Subsections
         'accounts.intro': 'Verwalten Sie Ihre täglichen Finanzen mühelos mit unserem Angebot an Kontokorrentkonten und Zahlungskarten. Profitieren Sie von sicherem Online-Banking, mobilem Zugriff und persönlichem Service.',
         'accounts.feature1': 'Wettbewerbsfähige Zinssätze auf Sparkonten.',
         'accounts.feature2': 'Verschiedene Kreditkartenoptionen mit Prämien und Vorteilen.',
@@ -60,6 +67,25 @@ const translations = {
         'financing.option2_title': 'Privatkredite',
         'financing.option2_desc': 'Flexible Privatkreditoptionen für geplante oder unerwartete Ausgaben.',
         'financing.credit_check': 'Kreditgenehmigung vorbehaltlich Bonitätsprüfung und Vergabekriterien der Bank.',
+        // Business Client Subsections (NEW)
+        'corporate_accounts.intro': 'Optimieren Sie Ihre Geschäftsabläufe mit unseren robusten Firmenkonten, die auf Effizienz und Wachstum im Schweizer Markt ausgelegt sind.',
+        'corporate_accounts.feature1': 'Multiwährungsfähigkeit für internationale Geschäfte.',
+        'corporate_accounts.feature2': 'Fortschrittliche Online- und Mobile-Banking-Plattform mit Benutzerverwaltung.',
+        'corporate_accounts.feature3': 'Integrationsmöglichkeiten mit Buchhaltungssoftware.',
+        'corporate_accounts.feature4': 'Dedizierter Kundenbetreuer für persönlichen Support.',
+        'corporate_accounts.button_contact': 'Vertrieb kontaktieren',
+        'business_financing.intro': 'Treiben Sie das Wachstum Ihres Unternehmens mit flexiblen Finanzierungslösungen voran, die auf Ihre spezifischen Bedürfnisse und Ihre Branche zugeschnitten sind.',
+        'business_financing.option1_title': 'Festkredite',
+        'business_financing.option1_desc': 'Strukturierte Kredite für bedeutende Investitionen wie Gerätekauf oder Expansionsprojekte.',
+        'business_financing.option2_title': 'Kreditlinien',
+        'business_financing.option2_desc': 'Flexibler Zugang zu Mitteln zur Verwaltung des Betriebskapitals und kurzfristiger Bedürfnisse.',
+        'cash_management.intro': 'Optimieren Sie die Liquidität Ihres Unternehmens und rationalisieren Sie Zahlungsprozesse mit unseren effizienten Cash-Management-Tools.',
+        'cash_management.feature1': 'Automatisierte Zahlungsabwicklung (Inland und Ausland).',
+        'cash_management.feature2': 'Debitorenmanagement und Inkassodienste.',
+        'cash_management.feature3': 'Liquiditätslösungen und Prognosetools.',
+        'cash_management.feature4': 'Echtzeit-Reporting und Kontoübersicht.',
+        'cash_management.button_explore': 'Tools entdecken',
+        // News Section
         'news.title': 'News & Insights',
         'news.card1_title': 'Marktausblick Q3 2025',
         'news.card1_desc': 'Unsere Analyse aktueller Markttrends und potenzieller Chancen für Investoren.',
@@ -67,13 +93,20 @@ const translations = {
         'news.card2_desc': 'Wichtige Überlegungen zum Aufbau eines soliden Vorsorgeplans in der Schweiz.',
         'news.card3_title': 'Tipps für sicheres Digital Banking',
         'news.card3_desc': 'Wie Sie sich schützen, während Sie Ihre Finanzen online mit BWAM verwalten.',
-        'news.read_more': 'Mehr lesen →',
+        'news.read_more': 'Mehr lesen',
         'news.more_news': 'Weitere News',
-        'events.title': 'Kommende Veranstaltungen',
-        'events.subtitle': 'Nehmen Sie an unseren aufschlussreichen Seminaren und Workshops teil. Melden Sie unten Ihr Interesse an.',
-        'events.form_placeholder': '(Formular zur Veranstaltungsanmeldung kommt hier hin)',
-        'contact_cta.title': 'Kontaktieren Sie BWAM', // Title in dedicated contact section (now hidden by default)
+        // Events Section
+        'events.title': 'Veranstaltungen', // Changed title slightly
+        'events.subtitle': 'Nehmen Sie an unseren aufschlussreichen Seminaren und Workshops teil.', // Shortened subtitle
+        'events.featured_title': 'Top-Event: Anlagestrategien 2025',
+        'events.featured_date': 'Datum: 15. Oktober 2025',
+        'events.featured_location': 'Ort: BWAM Hauptsitz, Zürich',
+        'events.button_register': 'Jetzt anmelden',
+        'events.form_placeholder': '(Formular zur Veranstaltungsanmeldung kommt hier hin)', // Kept for fallback
+        // Contact Section (Hidden)
+        'contact_cta.title': 'Kontaktieren Sie BWAM',
         'contact_cta.subtitle': 'Unsere Berater helfen Ihnen gerne, Ihre finanziellen Ziele zu erreichen. Melden Sie sich noch heute.',
+        // Footer
         'footer.tagline': 'Ihr zuverlässiger Finanzpartner.',
         'footer.quicklinks': 'Schnellzugriff',
         'footer.careers': 'Karriere',
@@ -90,9 +123,11 @@ const translations = {
         'footer.accessibility': 'Barrierefreiheit',
         'footer.rights': 'Alle Rechte vorbehalten.',
         'footer.location': 'Standort: Zürich, Schweiz.',
+        // Consent Banner
         'consent.message': 'Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und relevante Inhalte anzuzeigen. Indem Sie auf „Alle akzeptieren“ klicken, stimmen Sie der Verwendung dieser Technologien zu. Sie können Ihre Auswahl jederzeit ändern.',
         'consent.reject': 'Alle ablehnen',
         'consent.accept': 'Alle akzeptieren',
+        // Modal
         'modal.title': 'Finden Sie Ihren Berater',
         'modal.advisor1_name': 'Anna Müller',
         'modal.advisor1_title': 'Senior Vermögensverwalterin',
@@ -120,7 +155,12 @@ const translations = {
         'hero.title': 'Welcome to BWAM',
         'hero.subtitle': 'Your trusted partner for comprehensive financial solutions in Zürich and beyond.',
         'hero.button_services': 'Explore Services',
-        'hero.button_contact': 'Contact Us', // Button text in Hero
+        'hero.button_contact': 'Contact Us',
+        // About Us Section
+        'about.p1': 'Founded in Zurich with deep roots in Swiss banking tradition, BWAM (Banking & Wealth Asset Management) combines decades of financial expertise with a forward-thinking approach.',
+        'about.p2': 'Our mission is to provide personalized, transparent, and reliable financial services to private individuals, businesses, and institutions. We believe in building long-term relationships based on trust and mutual success.',
+        'about.p3': 'Located in the heart of Zurich\'s financial district, we are committed to upholding the highest standards of integrity and contributing positively to our community.',
+        // Business Clients Section (#business-clients)
         'services.subtitle': 'Tailored financial solutions designed to help your business thrive, from startups to established corporations in the Zurich region.',
         'services.business.card1_title': 'Corporate Accounts',
         'services.business.card1_desc': 'Flexible business accounts with online banking, multi-currency options, and dedicated support.',
@@ -128,11 +168,13 @@ const translations = {
         'services.business.card2_desc': 'Access capital for growth, equipment purchase, or operational needs with our competitive loan and credit line options.',
         'services.business.card3_title': 'Cash Management',
         'services.business.card3_desc': 'Optimize your cash flow with our payment processing, collection, and liquidity management services.',
+        // Institutional Clients Section (#institutional)
         'institutional.subtitle': 'Sophisticated investment management and advisory services for pension funds, foundations, family offices, and asset managers.',
         'institutional.card1_title': 'Asset Management',
         'institutional.card1_desc': 'Discretionary and advisory mandates across various asset classes, tailored to your institution\'s risk profile and objectives.',
         'institutional.card2_title': 'Custody & Execution',
         'institutional.card2_desc': 'Secure safekeeping of assets, efficient trade execution, and comprehensive reporting services.',
+        // Private Client Subsections
         'accounts.intro': 'Manage your daily finances effortlessly with our range of current accounts and payment cards. Enjoy secure online banking, mobile access, and personalized service.',
         'accounts.feature1': 'Competitive interest rates on savings accounts.',
         'accounts.feature2': 'Various credit card options with rewards and benefits.',
@@ -156,6 +198,25 @@ const translations = {
         'financing.option2_title': 'Personal Loans',
         'financing.option2_desc': 'Flexible personal credit options for planned or unexpected expenses.',
         'financing.credit_check': 'Loan approval is subject to credit check and bank\'s lending criteria.',
+         // Business Client Subsections (NEW)
+        'corporate_accounts.intro': 'Streamline your business operations with our robust corporate accounts, designed for efficiency and growth in the Swiss market.',
+        'corporate_accounts.feature1': 'Multi-currency capabilities for international business.',
+        'corporate_accounts.feature2': 'Advanced online and mobile banking platform with user management.',
+        'corporate_accounts.feature3': 'Integration options with accounting software.',
+        'corporate_accounts.feature4': 'Dedicated relationship manager for personalized support.',
+        'corporate_accounts.button_contact': 'Contact Sales',
+        'business_financing.intro': 'Fuel your company\'s growth with flexible financing solutions tailored to your specific needs and industry.',
+        'business_financing.option1_title': 'Term Loans',
+        'business_financing.option1_desc': 'Structured loans for significant investments like equipment purchase or expansion projects.',
+        'business_financing.option2_title': 'Lines of Credit',
+        'business_financing.option2_desc': 'Flexible access to funds for managing working capital and short-term needs.',
+        'cash_management.intro': 'Optimize your company\'s liquidity and streamline payment processes with our efficient cash management tools.',
+        'cash_management.feature1': 'Automated payment processing (domestic and international).',
+        'cash_management.feature2': 'Receivables management and collection services.',
+        'cash_management.feature3': 'Liquidity solutions and forecasting tools.',
+        'cash_management.feature4': 'Real-time reporting and account overview.',
+        'cash_management.button_explore': 'Explore Tools',
+        // News Section
         'news.title': 'News & Insights',
         'news.card1_title': 'Market Outlook Q3 2025',
         'news.card1_desc': 'Our analysis of current market trends and potential opportunities for investors.',
@@ -163,13 +224,20 @@ const translations = {
         'news.card2_desc': 'Key considerations for building a robust pension plan in Switzerland.',
         'news.card3_title': 'Tips for Secure Digital Banking',
         'news.card3_desc': 'How to protect yourself while managing your finances online with BWAM.',
-        'news.read_more': 'Read More →',
+        'news.read_more': 'Read More',
         'news.more_news': 'More News',
-        'events.title': 'Upcoming Events',
-        'events.subtitle': 'Join us for insightful seminars and workshops. Register your interest below.',
-        'events.form_placeholder': '(Event registration form will be here)',
-        'contact_cta.title': 'Contact BWAM', // Title in dedicated contact section (now hidden by default)
+        // Events Section
+        'events.title': 'Events', // Changed title slightly
+        'events.subtitle': 'Join us for insightful seminars and workshops.', // Shortened subtitle
+        'events.featured_title': 'Featured Event: Investment Strategies 2025',
+        'events.featured_date': 'Date: October 15, 2025',
+        'events.featured_location': 'Location: BWAM Headquarters, Zurich',
+        'events.button_register': 'Register Now',
+        'events.form_placeholder': '(Event registration form will be here)', // Kept for fallback
+        // Contact Section (Hidden)
+        'contact_cta.title': 'Contact BWAM',
         'contact_cta.subtitle': 'Our advisors are ready to help you achieve your financial goals. Reach out today.',
+        // Footer
         'footer.tagline': 'Your reliable financial partner.',
         'footer.quicklinks': 'Quick Links',
         'footer.careers': 'Careers',
@@ -186,9 +254,11 @@ const translations = {
         'footer.accessibility': 'Accessibility',
         'footer.rights': 'All rights reserved.',
         'footer.location': 'Location: Zürich, Switzerland.',
+        // Consent Banner
         'consent.message': 'We use cookies and similar technologies to enhance your experience and display relevant content. By clicking "Accept All," you agree to the use of these technologies. You can change your selection at any time.',
         'consent.reject': 'Reject All',
         'consent.accept': 'Accept All',
+        // Modal
         'modal.title': 'Find Your Advisor',
         'modal.advisor1_name': 'Anna Müller',
         'modal.advisor1_title': 'Senior Wealth Manager',
@@ -205,78 +275,77 @@ const translations = {
 function setLanguage(lang) {
     // Check if the requested language exists in translations
     if (!translations[lang]) {
-        console.error(`Language "${lang}" not found in translations.`);
+        console.error(`Language "${lang}" not found.`);
         return; // Exit if language is not supported
     }
-
     // Set the 'lang' attribute on the HTML element
     document.documentElement.lang = lang;
-
     // Update text content for elements with data-lang-key or data-consent-text attributes
     document.querySelectorAll('[data-lang-key], [data-consent-text]').forEach(el => {
         const key = el.getAttribute('data-lang-key') || el.getAttribute('data-consent-text');
         const txt = translations[lang][key]; // Get translation text
-
         if (txt !== undefined) {
             // Handle special cases: page title and ARIA attributes
             if (key?.startsWith('aria.') || key === 'page_title') {
-                if (key === 'page_title') {
-                    document.title = txt; // Set page title
-                } else {
-                    // Set ARIA attribute (e.g., aria-label)
-                    el.setAttribute(key.split('.')[0], txt);
-                }
+                if (key === 'page_title') document.title = txt; // Set page title
+                else el.setAttribute(key.split('.')[0], txt); // Set ARIA attribute
             } else {
-                // Set text content for regular elements
-                el.textContent = txt;
+                // Set text content for regular elements, preserving child icons
+                const icon = el.querySelector('i[data-lucide]');
+                const existingTextNode = Array.from(el.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '');
+
+                if (icon && existingTextNode) {
+                     // Update only the text node if icon exists
+                     existingTextNode.textContent = ' ' + txt; // Add space before text
+                } else if (icon) {
+                     // Icon exists, but no text node, add text after icon
+                     el.appendChild(document.createTextNode(' ' + txt));
+                }
+                 else {
+                    // No icon, just set text content
+                    el.textContent = txt;
+                }
             }
         } else {
-            // Warn if a translation key is missing for the selected language
             console.warn(`Translation key "${key}" missing for lang "${lang}".`);
         }
     });
-
     // Update active state for language switcher buttons
     document.querySelectorAll('.lang-button').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
     });
-
     // Try to save the selected language preference to localStorage
     try {
         localStorage.setItem('bwam_preferred_lang', lang);
     } catch (e) {
-        console.warn("Could not save language preference to localStorage.", e);
+        console.warn("Could not save language preference.", e);
     }
+    // Re-initialize Lucide icons after potential text changes affecting icons
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // --- Simple Hash-Based Page/Section Visibility ---
 function handleHashChange() {
-    // Get the hash fragment from the URL (without the '#')
-    const hash = window.location.hash.substring(1);
-    console.log(`Hash changed to: #${hash}`);
-
-    // Hide all main sections initially
+    const currentHash = window.location.hash.substring(1);
+    console.log(`Hash changed to: #${currentHash}`);
+    let sectionToShowId = 'home'; // Default section
+    if (currentHash && document.getElementById(currentHash)) {
+        sectionToShowId = currentHash; // Use hash if valid section exists
+    } else if (currentHash) {
+        console.warn(`Section for hash #${currentHash} not found, showing home.`);
+    }
+    // Hide all main sections first
     document.querySelectorAll('main > section').forEach(section => {
         section.classList.add('hidden');
     });
-
-    // Determine which section to show (default to 'home')
-    let sectionToShowId = 'home';
-    if (hash && document.getElementById(hash)) {
-        // If a valid hash exists and corresponds to an element ID, use it
-        sectionToShowId = hash;
-    } else if (hash) {
-        // If hash exists but no corresponding element, warn and show home
-        console.warn(`Section for hash #${hash} not found, showing home.`);
-    }
-
-    // Show the selected section
+    // Show the target section
     const sectionToShow = document.getElementById(sectionToShowId);
     if (sectionToShow) {
         sectionToShow.classList.remove('hidden');
         console.log(`Showing section: #${sectionToShowId}`);
+        // Animation is handled by Intersection Observer
     } else {
-        // Fallback to showing 'home' if the target section wasn't found (e.g., 'home' itself is missing)
+        // Fallback to 'home' if the target or default is missing
         const homeSection = document.getElementById('home');
         if (homeSection) {
             homeSection.classList.remove('hidden');
@@ -287,12 +356,9 @@ function handleHashChange() {
     }
 }
 
-
 // --- User Identification Function (Simplified) ---
 function handleSuccessfulLogin(userId, userEmail) {
-    // This function now primarily serves to log the successful login attempt.
     console.log(`User logged in (simulated): ${userId} (${userEmail || 'No email'})`);
-    // Any non-Salesforce logic related to successful login could be added here.
 }
 window.handleSuccessfulLogin = handleSuccessfulLogin; // Make global
 
@@ -300,23 +366,14 @@ window.handleSuccessfulLogin = handleSuccessfulLogin; // Make global
 function handleLogout() {
     const loggedInEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
     console.log(`Logging out user: ${loggedInEmail || 'Unknown'}`);
-
-    // Clear the login status from sessionStorage
     sessionStorage.removeItem(LOGIN_STATUS_KEY);
-
-    // Update the UI to reflect the logged-out state
     updateLoginUI(false);
-
     console.log("User logged out.");
 }
 window.handleLogout = handleLogout; // Make global
 
-
-// --- Global UI Update Function --- (Defined later in DOMContentLoaded)
-// Placeholder for the function that updates login UI elements
-let updateLoginUI = () => {
-    console.warn("updateLoginUI called before it was defined in DOMContentLoaded.");
-};
+// --- Global UI Update Function ---
+let updateLoginUI = () => { console.warn("updateLoginUI called early."); };
 
 // --- Advisor Modal Functions ---
 function openAdvisorModal() {
@@ -324,36 +381,64 @@ function openAdvisorModal() {
     const overlay = document.getElementById('modal-overlay');
     const content = document.getElementById('modal-content');
     if (!modal || !overlay || !content) return;
-
     modal.classList.remove('hidden');
-    // Trigger fade-in and scale-up animations
-    requestAnimationFrame(() => { // Use requestAnimationFrame for smoother animation start
-        overlay.classList.remove('opacity-0');
-        overlay.classList.add('opacity-100');
-        content.classList.remove('opacity-0', 'scale-95');
-        content.classList.add('opacity-100', 'scale-100');
+    requestAnimationFrame(() => {
+        overlay.classList.remove('opacity-0'); overlay.classList.add('opacity-100');
+        content.classList.remove('opacity-0', 'scale-95'); content.classList.add('opacity-100', 'scale-100');
     });
-    // Apply current language to modal content
     const currentLang = document.documentElement.lang || 'de';
-    setLanguage(currentLang); // Ensure modal text is translated
+    setLanguage(currentLang);
 }
 
 function closeAdvisorModal() {
     const modal = document.getElementById('advisor-modal');
     const overlay = document.getElementById('modal-overlay');
     const content = document.getElementById('modal-content');
-    if (!modal || !overlay || !content) return;
+     if (!modal || !overlay || !content || modal.classList.contains('hidden')) return;
+    overlay.classList.remove('opacity-100'); overlay.classList.add('opacity-0');
+    content.classList.remove('opacity-100', 'scale-100'); content.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => { modal.classList.add('hidden'); }, 300);
+}
 
-    // Trigger fade-out and scale-down animations
-    overlay.classList.remove('opacity-100');
-    overlay.classList.add('opacity-0');
-    content.classList.remove('opacity-100', 'scale-100');
-    content.classList.add('opacity-0', 'scale-95');
+// --- Scroll Animation Logic ---
+function setupScrollAnimation() {
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+    const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            // else entry.target.classList.remove('is-visible'); // Optional: Repeat animation
+        });
+    };
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    document.querySelectorAll('.fade-in-element').forEach(target => observer.observe(target));
+}
 
-    // Hide modal after transition
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 300); // Match transition duration in CSS/style
+// --- Scrolling Banker Animation ---
+function handleBankerScroll() {
+    const bankerIcon = document.getElementById('scroll-banker');
+    if (!bankerIcon) return;
+
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight;
+    const winHeight = window.innerHeight;
+    // Prevent division by zero if docHeight equals winHeight
+    const scrollPercent = (docHeight - winHeight > 0) ? scrollTop / (docHeight - winHeight) : 0;
+
+    // Calculate max vertical movement (e.g., 80% of viewport height minus icon height and initial bottom offset)
+    const iconHeight = bankerIcon.offsetHeight; // Get actual height
+    const initialBottomOffset = 32; // Corresponds to 'bottom: 2rem' (1rem = 16px)
+    const maxMove = winHeight - iconHeight - initialBottomOffset - (winHeight * 0.1); // Leave some margin at top
+    const moveDistance = Math.min(maxMove, maxMove * scrollPercent); // Move up based on scroll %
+
+    // Apply the transform to move the icon up from its initial bottom position
+    bankerIcon.style.transform = `translateY(-${moveDistance}px)`;
+
+    // Optional: Fade out near the top/bottom or based on scroll speed
+    if (scrollPercent > 0.95 || scrollPercent < 0.05) {
+        bankerIcon.style.opacity = '0.3';
+    } else {
+        bankerIcon.style.opacity = '0.8';
+    }
 }
 
 
@@ -375,248 +460,100 @@ document.addEventListener('DOMContentLoaded', () => {
     const loggedInStatusDiv = document.getElementById('logged-in-status');
     const loggedInEmailSpan = document.getElementById('logged-in-email');
     const logoutButton = document.getElementById('logout-button');
-    const contactCtaButton = document.getElementById('contact-cta-button'); // Button in Hero
+    const contactCtaButton = document.getElementById('contact-cta-button');
     const advisorModal = document.getElementById('advisor-modal');
     const modalCloseButton = document.getElementById('modal-close-button');
     const modalOverlay = document.getElementById('modal-overlay');
+    const scrollBankerIcon = document.getElementById('scroll-banker'); // Get banker icon
 
-    // Reference to the consent storage key defined in the inline script
     const CONSENT_STORAGE_KEY = window.CONSENT_STORAGE_KEY || 'bwam_consent_status';
-
 
     // --- Consent Banner Logic ---
     if (consentBanner && acceptBtn && rejectBtn) {
         let consentStatus = null;
-        try {
-            consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY);
-        } catch (e) { console.error("localStorage consent check failed.", e); }
-
+        try { consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY); }
+        catch (e) { console.error("localStorage consent check failed.", e); }
         if (!consentStatus) {
-            console.log("Consent not set, showing banner.");
             consentBanner.classList.remove('hidden');
-            setTimeout(() => { consentBanner.style.transform = 'translateY(0)'; }, 50);
-        } else { console.log(`Consent already set to: ${consentStatus}. Banner remains hidden.`); }
-
+            setTimeout(() => { consentBanner.style.transform = 'translateY(0)'; }, 100);
+        } else { console.log(`Consent already set: ${consentStatus}.`); }
         acceptBtn.addEventListener('click', () => {
-            console.log("Consent Accepted button clicked.");
-            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted'); }
-            catch (e) { console.error("localStorage consent save failed.", e); }
-            consentBanner.style.transform = 'translateY(100%)';
-            setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
-            console.log("Consent status set to 'accepted'.");
-            // Potentially initialize analytics/tracking here if needed after consent
+            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted'); } catch (e) { console.error("localStorage save failed.", e); }
+            consentBanner.style.transform = 'translateY(100%)'; setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
+            console.log("Consent accepted."); // TODO: Init tracking
         });
-
         rejectBtn.addEventListener('click', () => {
-            console.log("Consent Rejected button clicked.");
-            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'rejected'); }
-            catch (e) { console.error("localStorage consent save failed.", e); }
-            consentBanner.style.transform = 'translateY(100%)';
-            setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
-            console.log("Consent status set to 'rejected'.");
+            try { localStorage.setItem(CONSENT_STORAGE_KEY, 'rejected'); } catch (e) { console.error("localStorage save failed.", e); }
+            consentBanner.style.transform = 'translateY(100%)'; setTimeout(() => { consentBanner.classList.add('hidden'); }, 300);
+            console.log("Consent rejected.");
         });
-    } else { console.warn("Consent banner elements (banner, accept, reject) missing."); }
+    } else { console.warn("Consent banner elements missing."); }
 
     // --- Login Simulation Logic ---
-    // Define the UI update function within this scope
     updateLoginUI = (isLoggedIn, email = '') => {
-        // Get references to UI elements involved in login state display
-        const loginBtn = document.getElementById('login-button');
-        const form = document.getElementById('login-form');
-        const statusDiv = document.getElementById('logged-in-status');
-        const emailSpan = document.getElementById('logged-in-email');
+        const loginBtn = document.getElementById('login-button'); const form = document.getElementById('login-form');
+        const statusDiv = document.getElementById('logged-in-status'); const emailSpan = document.getElementById('logged-in-email');
         const emailInput = document.getElementById('login-email');
-
-        // Check if all required elements exist
-        if (!loginBtn || !form || !statusDiv || !emailSpan || !emailInput) {
-            console.warn("One or more login UI elements missing. Cannot update UI.");
-            return;
-        }
-
-        // Update UI based on login status
-        if (isLoggedIn) {
-            // User is logged in: Hide login button/form, show status
-            loginBtn.classList.add('hidden');
-            form.classList.add('hidden');
-            statusDiv.classList.remove('hidden');
-            statusDiv.classList.add('flex'); // Assuming flex display for status
-            emailSpan.textContent = email; // Display user email
-        } else {
-            // User is logged out: Show login button, hide form/status
-            loginBtn.classList.remove('hidden');
-            form.classList.add('hidden'); // Ensure form is hidden initially
-            statusDiv.classList.add('hidden');
-            statusDiv.classList.remove('flex');
-            emailSpan.textContent = ''; // Clear email display
-            emailInput.value = ''; // Clear email input field
-        }
+        if (!loginBtn || !form || !statusDiv || !emailSpan || !emailInput) { console.warn("Login UI elements missing."); return; }
+        if (isLoggedIn) { loginBtn.classList.add('hidden'); form.classList.add('hidden'); statusDiv.classList.remove('hidden'); statusDiv.classList.add('flex'); emailSpan.textContent = email; }
+        else { loginBtn.classList.remove('hidden'); form.classList.add('hidden'); statusDiv.classList.add('hidden'); statusDiv.classList.remove('flex'); emailSpan.textContent = ''; emailInput.value = ''; }
     }
-
-    // Setup Login Listeners only if all necessary elements are found
     if (loginButton && loginForm && loginEmailInput && simulateLoginButton && loggedInStatusDiv && loggedInEmailSpan && logoutButton) {
-        // Check initial login state from sessionStorage
-        const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY);
-        updateLoginUI(!!initialEmail, initialEmail || ''); // Update UI on load
-
-        // Listener for the main "Login" button (to show the form)
-        loginButton.addEventListener('click', () => {
-            loginButton.classList.add('hidden'); // Hide login button
-            loginForm.classList.remove('hidden'); // Show login form
-            loginEmailInput.focus(); // Focus the email input
-            console.log('Clicked to show login form');
-        });
-
-        // Listener for the "Simulate Login" button
+        const initialEmail = sessionStorage.getItem(LOGIN_STATUS_KEY); updateLoginUI(!!initialEmail, initialEmail || '');
+        loginButton.addEventListener('click', () => { loginButton.classList.add('hidden'); loginForm.classList.remove('hidden'); loginEmailInput.focus(); });
         simulateLoginButton.addEventListener('click', () => {
             const email = loginEmailInput.value.trim();
-            // Basic email validation
             if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                console.log(`Simulating login for: ${email}`);
-                // Store email in sessionStorage to persist login state
-                sessionStorage.setItem(LOGIN_STATUS_KEY, email);
-                // Update UI to logged-in state
-                updateLoginUI(true, email);
-
-                // Call the simplified login handler function
-                if (typeof handleSuccessfulLogin === 'function') {
-                    handleSuccessfulLogin(SIMULATED_USER_ID, email);
-                } else {
-                    console.warn("handleSuccessfulLogin function not available.");
-                }
-            } else {
-                // Use a more user-friendly way to show errors if possible, instead of alert()
-                console.warn('Invalid email address entered.');
-                alert('Please enter a valid email address.'); // Basic feedback
-            }
+                sessionStorage.setItem(LOGIN_STATUS_KEY, email); updateLoginUI(true, email);
+                if (typeof handleSuccessfulLogin === 'function') handleSuccessfulLogin(SIMULATED_USER_ID, email);
+            } else { alert('Please enter a valid email address.'); }
         });
-
-        // Listener for the "Logout" button
-        logoutButton.addEventListener('click', () => {
-            if (typeof handleLogout === 'function') {
-                handleLogout(); // Call the logout handler
-            } else {
-                console.error("handleLogout function not found!");
-            }
-        });
-
-    } else {
-        console.warn("One or more login simulation elements missing. Login UI may be inactive or incomplete.");
-    }
+        logoutButton.addEventListener('click', () => { if (typeof handleLogout === 'function') handleLogout(); });
+    } else { console.warn("Login elements missing."); }
 
     // --- Advisor Modal Listeners ---
     if (contactCtaButton && advisorModal && modalCloseButton && modalOverlay) {
-        // Listener for the button that opens the modal
-        contactCtaButton.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent potential navigation if it were an anchor
-            console.log("Contact CTA button clicked, opening modal.");
-            openAdvisorModal();
-        });
-
-        // Listener for the explicit close button (X)
-        modalCloseButton.addEventListener('click', () => {
-            console.log("Modal close button clicked.");
-            closeAdvisorModal();
-        });
-
-        // Close modal if clicking on the overlay (outside the content)
-        modalOverlay.addEventListener('click', () => {
-             console.log("Modal overlay clicked.");
-             closeAdvisorModal();
-        });
-
-        // Prevent clicks inside the modal content from closing it via the overlay listener
-        // Get the modal content div specifically
+        contactCtaButton.addEventListener('click', (e) => { e.preventDefault(); openAdvisorModal(); });
+        modalCloseButton.addEventListener('click', closeAdvisorModal);
+        modalOverlay.addEventListener('click', closeAdvisorModal);
         const modalContent = advisorModal.querySelector('#modal-content');
-        if (modalContent) {
-            modalContent.addEventListener('click', (e) => {
-                e.stopPropagation(); // Stop the click from bubbling up to the overlay
-            });
-        } else {
-            console.warn("Modal content element (#modal-content) not found for stopPropagation listener.");
-        }
-
-        // Add listeners to the "Connect" buttons inside the modal (optional - for future actions)
+        if (modalContent) modalContent.addEventListener('click', (e) => e.stopPropagation());
         const connectButtons = advisorModal.querySelectorAll('[data-lang-key="modal.button_connect"]');
-        connectButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                const advisorCard = e.target.closest('.text-center'); // Find the parent card
-                const advisorNameElement = advisorCard?.querySelector('[data-lang-key$="_name"]');
-                const advisorName = advisorNameElement?.textContent || 'Unknown Advisor';
-                console.log(`Connect button clicked for: ${advisorName}`);
-                // Add logic here for what happens when "Connect" is clicked
-                // e.g., redirect to a scheduling page, show another form, etc.
-                alert(`Connecting with ${advisorName}... (Implement actual connection logic)`);
-                closeAdvisorModal(); // Close modal after clicking connect (optional)
-            });
-        });
-
-
-    } else {
-        console.warn("Advisor modal elements (button, modal, close, overlay) missing. Modal functionality disabled.");
-    }
-
+        connectButtons.forEach(button => button.addEventListener('click', (e) => {
+            const name = e.target.closest('.text-center')?.querySelector('[data-lang-key$="_name"]')?.textContent || 'Advisor';
+            alert(`Connecting with ${name}...`); closeAdvisorModal();
+        }));
+    } else { console.warn("Advisor modal elements missing."); }
 
     // --- Other Initializations ---
-
-    // Mobile Menu Toggle
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', () => {
-            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-            mobileMenuButton.setAttribute('aria-expanded', !isExpanded); // Toggle ARIA attribute
-            mobileMenu.classList.toggle('hidden'); // Toggle menu visibility
+            mobileMenuButton.setAttribute('aria-expanded', mobileMenu.classList.toggle('hidden'));
         });
-    } else {
-        console.warn("Mobile menu button or menu element not found.");
+    } else { console.warn("Mobile menu elements missing."); }
+    mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+        if (!mobileMenu.classList.contains('hidden')) { mobileMenu.classList.add('hidden'); mobileMenuButton?.setAttribute('aria-expanded', 'false'); }
+        const targetId = link.getAttribute('href');
+        if (targetId?.startsWith('#')) setTimeout(() => { document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' }); }, 100);
+    }));
+    langButtons.forEach(button => button.addEventListener('click', () => { const lang = button.getAttribute('data-lang'); if (lang) setLanguage(lang); }));
+    if (currentYearSpan) currentYearSpan.textContent = new Date().getFullYear();
+
+    // --- Language & Initial View ---
+    let preferredLang = 'de';
+    try { const savedLang = localStorage.getItem('bwam_preferred_lang'); if (savedLang && translations[savedLang]) preferredLang = savedLang; }
+    catch (e) { console.warn("Could not read lang preference.", e); }
+    setLanguage(preferredLang); // Includes initial Lucide icon rendering
+    handleHashChange(); // Show initial section
+
+    // --- Animations & Scroll Listeners ---
+    setupScrollAnimation(); // Setup fade-in animations
+    // Add scroll listener for banker icon if it exists
+    if (scrollBankerIcon) {
+        window.addEventListener('scroll', handleBankerScroll, { passive: true });
+        handleBankerScroll(); // Set initial position
     }
 
-    // Close mobile menu when a link inside it is clicked
-    mobileMenu?.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (!mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden'); // Hide menu
-                mobileMenuButton?.setAttribute('aria-expanded', 'false'); // Reset button state
-            }
-        });
-    });
-
-    // Language Switcher Buttons
-    langButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const lang = button.getAttribute('data-lang');
-            if (lang) {
-                console.log(`Language button clicked: ${lang}`);
-                setLanguage(lang); // Call the language setting function
-            } else {
-                console.warn("Language button clicked, but 'data-lang' attribute is missing.");
-            }
-        });
-    });
-
-    // Set current year in the footer
-    if (currentYearSpan) {
-        currentYearSpan.textContent = new Date().getFullYear();
-    } else {
-        console.warn("Current year span element not found.");
-    }
-
-    // Determine and set initial language (check localStorage, default to 'de')
-    let preferredLang = 'de'; // Default language
-    try {
-        const savedLang = localStorage.getItem('bwam_preferred_lang');
-        if (savedLang && translations[savedLang]) {
-            preferredLang = savedLang; // Use saved language if valid
-        }
-    } catch (e) {
-        console.warn("Could not read language preference from localStorage.", e);
-    }
-    setLanguage(preferredLang); // Apply the initial language
-
-    // Handle initial hash for section display
-    handleHashChange();
-
-    // Listen for hash changes (SPA navigation)
-    window.addEventListener('hashchange', handleHashChange);
-
-    console.log("BWAM Script Loaded (Content Added & Modal Logic). Initial language:", preferredLang);
+    console.log("BWAM Script Loaded (Scrolling Icon Added). Initial language:", preferredLang);
 
 }); // End of DOMContentLoaded
