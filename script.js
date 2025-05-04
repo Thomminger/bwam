@@ -1,5 +1,5 @@
 /**
- * BWAM Frontend Script (v2 - For Enhanced React Integration)
+ * BWAM Frontend Script (v3 - For Enhanced React Integration)
  *
  * Handles:
  * - Language switching for non-React elements (triggered by React)
@@ -11,11 +11,12 @@
  * - Navigation link handling (smooth scroll, section visibility, hiding React profile)
  * - Lucide icon initialization (called from HTML)
  *
- * Excludes (Handled by React component in HTML):
+ * Relies on React component in HTML for:
  * - Login/Logout state and UI in header
  * - Profile dropdown display and interaction
  * - Language state management and header language buttons
- * - Rendering of the profile page content
+ * - Rendering of the profile page content (#react-profile-section)
+ * - Showing/hiding static content vs profile section (#static-content-wrapper vs #react-profile-section)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -49,11 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function updateStaticContentLanguage(lang) {
         console.log(`Updating static content language to: ${lang}`);
+        // Use translations embedded in HTML by React
         const langData = window.bwamTranslations ? window.bwamTranslations[lang] : null;
 
         if (!langData) {
-            console.error(`Translations not found for language: ${lang}`);
-            return; // Don't proceed if translations aren't available
+            console.error(`Translations not found for language: ${lang}. Make sure 'window.bwamTranslations' is populated.`);
+            return;
         }
         currentLang = lang; // Update script's current language knowledge
 
@@ -67,13 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const keys = key.split('.');
             let text = langData;
             try {
-                // Traverse the translation object using the key parts
                 keys.forEach(k => {
                     if (text && typeof text === 'object' && k in text) {
                         text = text[k];
                     } else {
-                        // If any part of the key path is missing, throw error to skip update
-                        throw new Error(`Key part "${k}" not found`);
+                        throw new Error(`Key part "${k}" not found in ${key}`);
                     }
                 });
 
@@ -81,35 +81,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Update appropriate attribute or text content
                     if (element.hasAttribute('aria-label') && key.startsWith('aria.')) {
                          element.setAttribute('aria-label', text);
-                    } else if (element.hasAttribute('title') && key.startsWith('aria.')) { // Assuming title is used like aria labels
+                    } else if (element.hasAttribute('title') && key.startsWith('aria.')) {
                          element.title = text;
                     } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
                         if (element.placeholder !== undefined) element.placeholder = text;
-                    } else if (element.dataset.consentText) { // Handle consent banner text specifically
+                    } else if (element.dataset.consentText) {
                         element.textContent = text;
                     }
                      else {
                         // Update text content, trying to preserve icons
                         const iconElement = element.querySelector('i[data-lucide]');
                         if (iconElement) {
-                            // Find the text node next to the icon or create one
                             let textNode = null;
                             for (let node of element.childNodes) {
                                 if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
-                                    textNode = node;
-                                    break;
+                                    textNode = node; break;
                                 }
                             }
-                            if (textNode) {
-                                textNode.textContent = ` ${text} `; // Add spacing
-                            } else {
-                                // Append text after icon if no text node exists
-                                element.appendChild(document.createTextNode(` ${text}`));
-                            }
-                        } else {
-                            // If no icon, just set textContent
-                            element.textContent = text;
-                        }
+                            if (textNode) { textNode.textContent = ` ${text} `; }
+                            else { element.appendChild(document.createTextNode(` ${text}`)); }
+                        } else { element.textContent = text; }
                     }
                 } else {
                    // console.warn(`Translation key '${key}' not found or not a string in language '${lang}'.`);
@@ -129,7 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.bwamScripts.updateStaticContentLanguage = updateStaticContentLanguage;
 
     // Initial language update for static content on load
-    updateStaticContentLanguage(currentLang);
+    // Use setTimeout to ensure React has populated window.bwamTranslations
+    setTimeout(() => {
+        updateStaticContentLanguage(currentLang);
+        console.log(`Initial static language set to: ${currentLang}`);
+    }, 100); // Small delay
 
 
     // --- Mobile Menu ---
@@ -141,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const icon = mobileMenuButton.querySelector('i');
              if (icon) {
                  icon.setAttribute('data-lucide', isExpanded ? 'menu' : 'x');
-                 if (typeof lucide !== 'undefined') lucide.createIcons(); // Re-render icon
+                 if (typeof lucide !== 'undefined') lucide.createIcons();
              }
         });
     }
@@ -154,60 +149,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggle.addEventListener('click', (event) => {
                     event.stopPropagation();
                     const isCurrentlyShown = dropdown.classList.contains('show');
-                    closeAllDropdowns(); // Close others first
-                    if (!isCurrentlyShown) {
-                       dropdown.classList.add('show'); // Toggle show
-                    }
+                    closeAllDropdowns();
+                    if (!isCurrentlyShown) { dropdown.classList.add('show'); }
                 });
-                dropdown.addEventListener('click', (event) => {
-                     event.stopPropagation(); // Clicks inside don't close
-                });
+                dropdown.addEventListener('click', (event) => { event.stopPropagation(); });
             }
         });
-        // Close dropdowns when clicking outside
         document.body.addEventListener('click', () => closeAllDropdowns());
      }
-
      function closeAllDropdowns() {
-        document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-            menu.classList.remove('show');
-        });
+        document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
      }
 
     // --- Consent Banner ---
     const consentKey = window.CONSENT_STORAGE_KEY || 'consent_status';
     const consentStatus = localStorage.getItem(consentKey);
-
     if (consentBanner && !consentStatus) {
         consentBanner.classList.remove('hidden');
-        // Animate in (ensure initial state is set via CSS if needed)
         requestAnimationFrame(() => {
              consentBanner.style.transform = 'translateY(0)';
              consentBanner.style.transition = 'transform 0.5s ease-out';
         });
     }
-
     if (consentAcceptButton) {
-        consentAcceptButton.addEventListener('click', () => {
-            localStorage.setItem(consentKey, 'accepted');
-            hideConsentBanner();
-            console.log('Consent accepted');
-        });
+        consentAcceptButton.addEventListener('click', () => { localStorage.setItem(consentKey, 'accepted'); hideConsentBanner(); console.log('Consent accepted'); });
     }
-
     if (consentRejectButton) {
-        consentRejectButton.addEventListener('click', () => {
-            localStorage.setItem(consentKey, 'rejected');
-            hideConsentBanner();
-            console.log('Consent rejected');
-        });
+        consentRejectButton.addEventListener('click', () => { localStorage.setItem(consentKey, 'rejected'); hideConsentBanner(); console.log('Consent rejected'); });
     }
-
     function hideConsentBanner() {
-        if (consentBanner) {
-            consentBanner.style.transform = 'translateY(100%)';
-            setTimeout(() => consentBanner.classList.add('hidden'), 500);
-        }
+        if (consentBanner) { consentBanner.style.transform = 'translateY(100%)'; setTimeout(() => consentBanner.classList.add('hidden'), 500); }
     }
 
     // --- Advisor Modal ---
@@ -223,86 +194,57 @@ document.addEventListener('DOMContentLoaded', () => {
         modalOverlay.style.transition = 'opacity 0.3s ease';
         modalContent.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
     }
-
     function closeModal() {
         if (!advisorModal || !modalOverlay || !modalContent) return;
         document.body.style.overflow = '';
         modalOverlay.style.opacity = 0;
         modalContent.style.opacity = 0;
         modalContent.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            advisorModal.classList.add('hidden');
-        }, 300);
+        setTimeout(() => advisorModal.classList.add('hidden'), 300);
     }
-
-    if (contactCtaButton) {
-        contactCtaButton.addEventListener('click', openModal);
-    }
-    if (modalCloseButton) {
-        modalCloseButton.addEventListener('click', closeModal);
-    }
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', closeModal);
-    }
+    if (contactCtaButton) { contactCtaButton.addEventListener('click', openModal); }
+    if (modalCloseButton) { modalCloseButton.addEventListener('click', closeModal); }
+    if (modalOverlay) { modalOverlay.addEventListener('click', closeModal); }
 
     // --- Scroll Effects ---
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); } });
     }, { threshold: 0.1 });
-
-    if (fadeElements) {
-        fadeElements.forEach(el => observer.observe(el));
-    }
+    if (fadeElements) { fadeElements.forEach(el => observer.observe(el)); }
 
     function handleScrollBanker() {
-        // ... (scroll banker logic remains the same as previous version)
          if (!scrollBanker) return;
         const scrollY = window.scrollY;
         const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = pageHeight > 0 ? (scrollY / pageHeight) * 100 : 0;
-
-        const startOffset = 100;
-        const endOffset = window.innerHeight - 100;
+        const startOffset = 100; const endOffset = window.innerHeight - 100;
         const availableScrollHeight = endOffset - startOffset - scrollBanker.offsetHeight;
         const newTop = startOffset + (scrollPercent / 100) * availableScrollHeight;
-
         scrollBanker.style.position = 'fixed';
         scrollBanker.style.top = `${Math.max(startOffset, Math.min(newTop, endOffset - scrollBanker.offsetHeight))}px`;
         scrollBanker.style.right = '20px';
-
-         if (scrollY > 200 && scrollY < pageHeight - 200) {
-             scrollBanker.style.opacity = '1';
-             scrollBanker.style.visibility = 'visible';
-         } else {
-             scrollBanker.style.opacity = '0';
-             scrollBanker.style.visibility = 'hidden';
-         }
+         if (scrollY > 200 && scrollY < pageHeight - 200) { scrollBanker.style.opacity = '1'; scrollBanker.style.visibility = 'visible'; }
+         else { scrollBanker.style.opacity = '0'; scrollBanker.style.visibility = 'hidden'; }
          scrollBanker.style.transition = 'opacity 0.3s ease, visibility 0.3s ease, top 0.1s linear';
     }
+    if (scrollBanker) { window.addEventListener('scroll', handleScrollBanker, { passive: true }); handleScrollBanker(); }
 
-    if (scrollBanker) {
-         window.addEventListener('scroll', handleScrollBanker, { passive: true }); // Use passive listener
-         handleScrollBanker(); // Initial check
-    }
-
-    // --- Navigation Link Handling (Smooth Scroll & Section Visibility) ---
+    // --- Navigation Link Handling ---
     /**
      * Shows a specific static content section and hides others,
-     * including the React profile section.
+     * including the React profile section. Ensures smooth scrolling.
      * @param {string} targetId - The ID of the section to show (without '#').
      */
     function showStaticSection(targetId) {
-        // Hide React profile section if visible
+        // Ensure static content is visible and profile is hidden
         if (reactProfileSection && reactProfileSection.classList.contains('visible')) {
             reactProfileSection.classList.remove('visible');
+            // Add display: none immediately to prevent layout shifts during scroll
+            reactProfileSection.style.display = 'none';
         }
-        // Ensure static content wrapper is visible
         if (staticContentWrapper) {
             staticContentWrapper.classList.remove('hidden-by-react');
+            staticContentWrapper.style.display = ''; // Restore default display
         }
 
         // Hide all main static sections first
@@ -314,74 +256,78 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetSection = document.getElementById(targetId);
         if (targetSection && targetSection.classList.contains('main-section')) {
             targetSection.classList.remove('hidden');
-            // Scroll to the section smoothly after a short delay
-             setTimeout(() => {
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-             }, 50); // Delay allows layout adjustments
+             // Scroll to the section smoothly after a short delay
+             // Use requestAnimationFrame for smoother rendering before scroll
+             requestAnimationFrame(() => {
+                 setTimeout(() => {
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Re-enable display for profile section after scroll potentially finishes
+                    if (reactProfileSection) reactProfileSection.style.display = '';
+                 }, 50);
+             });
 
              // Re-run fade-in check for newly visible elements
              if (fadeElements) {
                 targetSection.querySelectorAll('.fade-in-element').forEach(el => {
-                   observer.unobserve(el); // Re-observe to trigger animation if needed
-                   observer.observe(el);
+                   observer.unobserve(el); observer.observe(el);
                 });
             }
         } else {
             console.warn(`Target static section #${targetId} not found or invalid.`);
-            // Default to showing #home if target is invalid
              const homeSection = document.getElementById('home');
              if (homeSection) {
                  homeSection.classList.remove('hidden');
-                 setTimeout(() => homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+                 requestAnimationFrame(() => {
+                     setTimeout(() => homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+                 });
              }
+             // Re-enable display for profile section even if target fails
+             if (reactProfileSection) reactProfileSection.style.display = '';
         }
     }
 
+    // Add listeners to all navigation links with href starting with #
     if (navLinks) {
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
-                // Check if it's an internal section link
                 if (href && href.startsWith('#') && href.length > 1) {
-                    e.preventDefault(); // Prevent default anchor jump
+                    e.preventDefault();
                     const targetId = href.substring(1);
 
                     // Close mobile menu if open
-                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenuButton.click();
-                    }
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) { mobileMenuButton.click(); }
                     // Close desktop dropdowns if click originated from one
                      const parentDropdown = this.closest('.dropdown-menu');
-                     if (parentDropdown) {
-                         parentDropdown.classList.remove('show');
-                     }
+                     if (parentDropdown) { parentDropdown.classList.remove('show'); }
 
                     // Show the target static section (this also hides React profile)
                     showStaticSection(targetId);
 
-                    // Optional: Update URL hash without causing page jump/reload
-                    // but only if it's not the profile hash handled by React
-                    if (targetId !== 'profile') {
-                        history.pushState(null, null, href);
-                    }
+                    // Update URL hash
+                    history.pushState(null, null, href);
                 }
             });
         });
     }
 
-     // Handle initial section display based on URL hash, if any
-     // Exclude #profile as it's handled by React state
-     if (window.location.hash && window.location.hash.length > 1 && window.location.hash !== '#profile') {
-         const initialTargetId = window.location.hash.substring(1);
-         // Use setTimeout to ensure layout is stable before scrolling
-         setTimeout(() => showStaticSection(initialTargetId), 100);
-     } else if (!window.location.hash || window.location.hash === '#') {
-         // Default view: ensure #home is shown and others are hidden initially
-         showStaticSection('home');
+     // Handle initial section display based on URL hash
+     // Exclude #profile as it's handled by React state/popstate
+     function handleInitialLoadView() {
+         const hash = window.location.hash;
+         if (hash && hash.length > 1 && hash !== '#profile') {
+             const initialTargetId = hash.substring(1);
+             // Use setTimeout to ensure layout is stable before scrolling
+             setTimeout(() => showStaticSection(initialTargetId), 150); // Slightly longer delay on load
+         } else if (!hash || hash === '#' || hash === '#home') {
+             // Default view: ensure #home is shown and others are hidden initially
+             showStaticSection('home');
+         }
+         // If hash is #profile, React's useEffect will handle showing the profile section
      }
-     // Note: If the hash is #profile on load, the React component's useEffect
-     // should handle showing the profile view via changeView('profile').
 
-    console.log("BWAM script v2 initialized.");
+     handleInitialLoadView(); // Call on initial load
+
+    console.log("BWAM script v3 initialized.");
 
 }); // End DOMContentLoaded
