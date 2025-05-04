@@ -16,7 +16,9 @@
         window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
     </script>
 </head>
-<body class="pb-32 has-mountain-bg"> <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
+<body class="pb-32 has-mountain-bg">
+
+    <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-3 h-20">
                 <div class="flex-shrink-0">
@@ -69,8 +71,12 @@
                              <input type="email" id="login-email" placeholder="Enter email" class="text-sm border border-gray-300 rounded-md px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition">
                              <button id="simulate-login-button" class="text-sm bg-brand-red text-white py-1.5 px-3 rounded-md hover:bg-brand-red-dark transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red">Login</button>
                         </div>
-                         <div id="logged-in-status" class="hidden items-center ml-2">
-                             <span class="text-sm text-gray-700 mr-2">Logged in: <span id="logged-in-email" class="font-medium"></span></span>
+                         <div id="logged-in-status" class="hidden items-center ml-2 space-x-3"> {/* Added space-x */}
+                             <span class="text-sm text-gray-700">Logged in: <span id="logged-in-email" class="font-medium"></span></span>
+                             <a href="#my-profile" id="my-profile-icon" title="My Profile" class="text-gray-500 hover:text-brand-red focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red rounded-full p-1 hover:bg-gray-100 transition-colors duration-200">
+                                 <i data-lucide="user-circle-2" class="h-5 w-5"></i>
+                                 <span class="sr-only">My Profile</span>
+                             </a>
                              <button id="logout-button" class="text-sm font-medium text-gray-500 hover:text-brand-red underline hover:no-underline transition-colors duration-200 inline-flex items-center focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red"><i data-lucide="log-out"></i>Logout</button>
                          </div>
                     </div>
@@ -375,7 +381,97 @@
             </div>
         </section>
 
-    </main>
+        <section id="my-profile" class="py-16 lg:py-24 bg-gradient-to-br from-gray-50 to-gray-100 hidden">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+                <div class="text-center mb-14 lg:mb-16 fade-in-element">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center">
+                        <i data-lucide="user-circle-2" class="text-brand-red"></i>
+                        <span id="profile-welcome-message" data-lang-key="profile.welcome" class="ml-3">Welcome,</span>
+                        <span id="profile-welcome-name" class="ml-1">User</span>! </h2>
+                    <p class="text-lg text-gray-600" data-lang-key="profile.subtitle">Here's a quick overview of your accounts.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 fade-in-element">
+                        <h3 class="text-lg font-semibold mb-4 inline-flex items-center text-brand-red"><i data-lucide="landmark"></i><span class="ml-2" data-lang-key="profile.summary_title">Account Summary</span></h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang-key="profile.checking_label">Checking Account:</span>
+                                <span class="font-medium text-gray-800">CHF 12,345.67</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600" data-lang-key="profile.savings_label">Savings Account:</span>
+                                <span class="font-medium text-gray-800">CHF 87,654.32</span>
+                            </div>
+                            <div class="flex justify-between border-t pt-3 mt-3">
+                                <span class="text-gray-600 font-semibold" data-lang-key="profile.total_label">Total Balance:</span>
+                                <span class="font-semibold text-lg text-brand-red">CHF 100,000.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 fade-in-element" style="transition-delay: 100ms;">
+                        <h3 class="text-lg font-semibold mb-4 inline-flex items-center text-brand-red"><i data-lucide="target"></i><span class="ml-2" data-lang-key="profile.goal_title">Savings Goal: Vacation</span></h3>
+                        <p class="text-sm text-gray-600 mb-3" data-lang-key="profile.goal_desc">Progress towards your next vacation fund.</p>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-2">
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 75%"></div> {/* Fictional Progress */}
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500">
+                            <span>CHF 7,500</span>
+                            <span>CHF 10,000</span>
+                        </div>
+                        <p class="text-center text-sm font-medium mt-3 text-green-600">75% <span data-lang-key="profile.goal_complete">Complete</span></p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 fade-in-element" style="transition-delay: 200ms;">
+                         <h3 class="text-lg font-semibold mb-4 inline-flex items-center text-brand-red"><i data-lucide="zap"></i><span class="ml-2" data-lang-key="profile.actions_title">Quick Actions</span></h3>
+                         <div class="space-y-3">
+                             <button class="w-full inline-flex items-center justify-center text-sm bg-brand-red text-white py-2 px-4 rounded-lg hover:bg-brand-red-dark transition duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red">
+                                 <i data-lucide="send"></i><span data-lang-key="profile.action_transfer">Make a Transfer</span>
+                             </button>
+                             <button class="w-full inline-flex items-center justify-center text-sm bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red">
+                                 <i data-lucide="file-text"></i><span data-lang-key="profile.action_statement">View Statements</span>
+                             </button>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg fade-in-element">
+                    <h3 class="text-xl font-semibold mb-6 inline-flex items-center"><i data-lucide="list" class="text-brand-red"></i><span class="ml-2" data-lang-key="profile.transactions_title">Recent Transactions</span></h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                                <tr>
+                                    <th scope="col" class="px-4 py-3" data-lang-key="profile.th_date">Date</th>
+                                    <th scope="col" class="px-4 py-3" data-lang-key="profile.th_description">Description</th>
+                                    <th scope="col" class="px-4 py-3 text-right" data-lang-key="profile.th_amount">Amount (CHF)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <td class="px-4 py-3">May 4, 2025</td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Grocery Store Migros</td>
+                                    <td class="px-4 py-3 text-right text-red-600">- 85.50</td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <td class="px-4 py-3">May 3, 2025</td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Salary Deposit - Employer AG</td>
+                                    <td class="px-4 py-3 text-right text-green-600">+ 5,200.00</td>
+                                </tr>
+                                <tr class="bg-white hover:bg-gray-50">
+                                    <td class="px-4 py-3">May 2, 2025</td>
+                                    <td class="px-4 py-3 font-medium text-gray-900">Online Purchase - Digitec</td>
+                                    <td class="px-4 py-3 text-right text-red-600">- 249.90</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        </main>
 
     <footer class="bg-gray-900 text-gray-400 py-16">
          <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -501,3 +597,4 @@
     </script>
 </body>
 </html>
+
