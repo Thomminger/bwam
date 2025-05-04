@@ -3,236 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWAM</title> <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css"> <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
+    <title>BWAM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Define brand color variable */
         :root { --brand-red: #A6001A; }
+        /* Set default body font */
         body { font-family: 'Inter', sans-serif; }
+        /* Utility classes for brand color */
         .bg-brand-red { background-color: var(--brand-red); }
         .text-brand-red { color: var(--brand-red); }
         .border-brand-red { border-color: var(--brand-red); }
-        .dropdown-menu { display: none; opacity: 0; transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out; transform: translateY(-10px); }
-        .group:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
-        /* Ensure active language button is clickable */
-        .lang-button.active { font-weight: 700; color: var(--brand-red); }
-        section[id] { scroll-margin-top: 70px; /* Adjust based on your actual header height */ }
+        /* Dropdown menu styling and animation */
+        .dropdown-menu {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+            transform: translateY(-10px);
+        }
+        /* Show dropdown on hover */
+        .group:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Style for the active language button */
+        .lang-button.active {
+            font-weight: 700;
+            color: var(--brand-red);
+        }
+        /* Offset for fixed header when scrolling to sections */
+        section[id] { scroll-margin-top: 70px; /* Adjust based on header height */ }
+        /* Enable smooth scrolling */
         html { scroll-behavior: smooth; }
+        /* Consent banner animation */
         #consent-banner { transition: transform 0.3s ease-in-out; }
+        /* Login form layout */
         .login-form-container { display: flex; align-items: center; gap: 0.5rem; }
     </style>
 
     <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/beacon/c360a/d2799336-52d2-4f39-832b-d481cbc97fed/scripts/c360a.min.js" async></script>
 
     <script type="text/javascript">
-      // Global flags/variables needed before DOM ready or SDK init
-      var salesforceSDKInitialized = false;
-      var userLocationData = null; // Stores {latitude, longitude} or {error}
-      const CONSENT_STORAGE_KEY = 'bwam_consent_status'; // Key for localStorage
-
-      // --- Function to Initialize Salesforce SDK & Sitemap ---
-      // Called only after consent is explicitly accepted.
-      function initializeSalesforceSDK() {
-          // Prevent multiple initializations
-          if (salesforceSDKInitialized) {
-              console.log("SF SDK initializeSalesforceSDK called but already initialized.");
-              return;
-          }
-          // Ensure the SDK library is loaded before proceeding
-          if (typeof SalesforceInteractions === 'undefined' || typeof SalesforceInteractions.init !== 'function') {
-              console.error("Salesforce Interactions SDK not ready or loaded yet. Retrying...");
-              // Retry initialization after a short delay if the SDK wasn't ready
-              setTimeout(initializeSalesforceSDK, 500);
-              return;
-          }
-
-          console.log("Attempting SF SDK Initialization...");
-          SalesforceInteractions.init({
-            // cookieDomain: "YOUR_COOKIE_DOMAIN" // REMOVED - Let SDK default for github.io
-            // personalization: { dataspace: "YOUR_DATASPACE_NAME" } // Uncomment and replace if using Personalization features
-          }).then(() => {
-            console.log("Salesforce SDK Initialized.");
-            salesforceSDKInitialized = true; // Set flag indicating SDK is ready
-
-            // --- SFDC Account and Dataset Configuration ---
-            // CRITICAL: Replace placeholders with your actual values from Data Cloud Setup
-            const config = {
-              global: {
-                  et: "YOUR_SFDC_ACCOUNT", // REPLACE with your Marketing Cloud MID
-                  dataTrack: "1" // Enable automatic data capture features
-              },
-              dataset: "YOUR_DATASET_ID" // REPLACE with your Website/Data Stream ID
-            };
-            SalesforceInteractions.configure(config);
-
-            // --- Geolocation Request ---
-            // Attempt to get location after SDK init. Browser prompts user separately.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    // Success callback
-                    (pos) => {
-                        userLocationData = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
-                        // Send an event confirming location obtained and update user attributes
-                        SalesforceInteractions.sendEvent({
-                            interaction: { name: 'Geolocation Obtained' },
-                            user: { attributes: userLocationData }
-                        });
-                        console.log("Geolocation obtained:", userLocationData);
-                    },
-                    // Error callback
-                    (err) => {
-                        userLocationData = { error: err.code }; // Store error code
-                        SalesforceInteractions.sendEvent({
-                            interaction: { name: 'Geolocation Denied or Error', attributes: { errorCode: err.code, errorMessage: err.message } }
-                        });
-                        console.warn(`Geolocation error (${err.code}): ${err.message}`);
-                    },
-                    // Geolocation options
-                    { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 }
-                );
-            } else {
-                userLocationData = { error: 'unsupported' }; // Mark as unsupported
-                console.log("Geolocation is not supported by this browser.");
-            }
-
-            // --- Define Sitemap Configuration ---
-            // This structure helps the SDK understand the different page types/sections.
-            const sitemapConfig = {
-                global: {
-                    // This function runs for *every* event automatically sent by the SDK (like page views from initSitemap)
-                    // or manually sent via sendEvent.
-                    onActionEvent: (event) => {
-                        // Add referrer URL if not already present on the event's page object
-                        if (!event.page?.referrerUrl) {
-                            event.page = { ...event.page, referrerUrl: document.referrer };
-                        }
-                        // Add location data to the event's user attributes if available
-                        if (userLocationData && !userLocationData.error) {
-                             event.user = { ...event.user, attributes: { ...event.user?.attributes, latitude: userLocationData.latitude, longitude: userLocationData.longitude } };
-                        }
-                        console.log("Sitemap Global onActionEvent:", event.interaction.name); // Log the event name processed globally
-                        // Example: Fetch a global personalization zone on every page view
-                        // if (event.interaction.name === SalesforceInteractions.SalesforceInteractionsConstants.InteractionType.ViewPage) {
-                        //    SalesforceInteractions.Personalization?.fetch(["global_header_promo"])
-                        //        .then(p => console.log("Fetched global promo", p))
-                        //        .catch(e => console.error("Error fetching global promo", e));
-                        // }
-                        return event; // IMPORTANT: Always return the event object
-                    }
-                },
-                // Define different types of pages/sections on your site
-                pageTypes: [
-                    // --- Main Sections ---
-                    {
-                        name: "Homepage", // This name can be used for segmentation/reporting
-                        isMatch: () => { const h = window.location.hash.substring(1); return h === "" || h === "home"; }, // Matches empty hash or #home
-                        interaction: { name: "View Homepage" }, // Specific interaction name for this view event
-                        attributes: { pageCategory: "General Banking" } // Custom attributes for this page type
-                        // Optional: Add onActionEvent specific to the Homepage
-                        // onActionEvent: (e) => { console.log("Homepage Action:", e.interaction.name); /* Fetch homepage personalization */ return e; }
-                    },
-                    {
-                        name: "Services Overview",
-                        isMatch: () => window.location.hash === "#services",
-                        interaction: { name: "View Services Overview" },
-                        attributes: { pageCategory: "Financial Services" }
-                    },
-                    {
-                        name: "News Overview",
-                        isMatch: () => window.location.hash === "#news",
-                        interaction: { name: "View News Overview" },
-                        attributes: { pageCategory: "Insights & News" }
-                    },
-                    {
-                        name: "Events Information",
-                        isMatch: () => window.location.hash === "#events",
-                        interaction: { name: "View Events Information" },
-                        attributes: { pageCategory: "Community & Events" }
-                    },
-                     {
-                        name: "Contact Information",
-                        isMatch: () => window.location.hash === "#contact",
-                        interaction: { name: "View Contact Information" },
-                        attributes: { pageCategory: "Support & Contact" }
-                    },
-                    // --- Service Detail "Subpages" ---
-                    {
-                        name: "Service Detail - Accounts & Cards",
-                        isMatch: () => window.location.hash === "#accounts-cards",
-                        interaction: { name: "View Service Detail" }, // Use a common name for this type of page
-                        attributes: { pageCategory: "Accounts & Cards", serviceKey: "accounts-cards" } // Add specific attributes
-                    },
-                    {
-                        name: "Service Detail - Investing",
-                        isMatch: () => window.location.hash === "#investing",
-                        interaction: { name: "View Service Detail" },
-                        attributes: { pageCategory: "Investing", serviceKey: "investing" }
-                    },
-                    {
-                        name: "Service Detail - Pensions",
-                        isMatch: () => window.location.hash === "#pensions",
-                        interaction: { name: "View Service Detail" },
-                        attributes: { pageCategory: "Pensions", serviceKey: "pensions" }
-                    },
-                    {
-                        name: "Service Detail - Financing",
-                        isMatch: () => window.location.hash === "#financing",
-                        interaction: { name: "View Service Detail" },
-                        attributes: { pageCategory: "Financing", serviceKey: "financing" }
-                    },
-                     // --- Fallback Page Type ---
-                     // This should be the last entry, matches if nothing else above matched
-                    {
-                        name: "Other",
-                        isMatch: () => true,
-                        interaction: { name: "View Other Page" },
-                        attributes: { pageCategory: "General Banking" }
-                    }
-                ]
-            }; // End of sitemapConfig
-
-            // Initialize the Sitemap - This automatically sends the first page view event
-            // based on the matched pageType and listens for hash changes to send subsequent views.
-            SalesforceInteractions.initSitemap(sitemapConfig);
-            console.log("Salesforce Sitemap Initialized.");
-
-            // --- Initial Login Check & Identification ---
-            // Check if user was already logged in during this browser session
-            const loggedInEmail = sessionStorage.getItem('bwam_logged_in_email');
-             if (loggedInEmail && typeof handleSuccessfulLogin === 'function') {
-                 console.log('User already logged in from session. Identifying.');
-                 // Identify the user in Salesforce
-                 handleSuccessfulLogin('SIMULATED_USER_123', loggedInEmail); // Use placeholder ID for simulation
-             }
-
-            // --- Call function in script.js to attach interaction listeners ---
-            // These listeners handle clicks, etc., which are not automatically tracked by initSitemap
-            if (typeof attachTrackingListeners === 'function') {
-                attachTrackingListeners(); // Context is now handled internally by the SDK
-            } else { console.warn("attachTrackingListeners function not found in script.js."); }
-
-          }).catch((error) => { console.error("SF SDK Init/Sitemap Error: ", error); });
-      }
-      window.initializeSalesforceSDK = initializeSalesforceSDK; // Make global
-
-      // --- Pre-DOM Consent Check ---
-      // Only initialize SDK immediately if consent was *already* accepted.
-      // Banner display is handled in script.js after DOM loads.
-      try {
-          const consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY);
-          if (consentStatus === 'accepted') {
-              console.log('Consent previously accepted. Will init SDK.');
-              // Use setTimeout to allow the async SDK script to potentially load first
-              setTimeout(initializeSalesforceSDK, 150);
-          } else {
-              console.log(`Consent status: ${consentStatus || 'Not Set'}. SDK init deferred until consent given.`);
-          }
-      } catch (e) { console.error("localStorage consent check failed.", e); }
-
+        // Key used by script.js to check/store consent status in localStorage
+        window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
     </script>
-    </head>
+
+</head>
 <body class="antialiased text-gray-800 bg-white relative pb-32">
     <header class="bg-white shadow-md sticky top-0 z-50 w-full">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -240,6 +62,14 @@
                 <div class="flex-shrink-0">
                     <a href="#home" class="flex items-center">
                         <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 w-auto mr-2" onerror="this.style.display='none'">
+                        <span class="font-bold text-xl text-brand-red" style="display: none;" aria-hidden="true">BWAM</span>
+                         <script>
+                           // Show text logo if image fails to load
+                           document.querySelector('img[alt="BWAM Logo"]').addEventListener('error', function() {
+                             this.style.display='none';
+                             this.nextElementSibling.style.display='inline';
+                           });
+                         </script>
                     </a>
                 </div>
 
@@ -283,7 +113,7 @@
                         <button class="lang-button text-sm font-medium text-gray-500 hover:text-brand-red" data-lang="en">EN</button>
                     </div>
                     <div class="md:hidden">
-                         <button id="mobile-menu-button" aria-label="Open menu" class="p-1 text-gray-500 hover:text-brand-red" data-lang-key="aria.open_menu">
+                         <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="p-1 text-gray-500 hover:text-brand-red" data-lang-key="aria.open_menu">
                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
                          </button>
                     </div>
@@ -305,9 +135,9 @@
         <section id="home" class="relative h-[60vh] md:h-[75vh] flex items-center text-white overflow-hidden">
             <div class="absolute inset-0 z-0">
                  <img src="https://placehold.co/1920x1080/111827/9ca3af?text=Dynamic+City+Background" alt="Zurich Financial District" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1920x1080/cccccc/ffffff?text=Image+Not+Found'">
-                <div class="absolute inset-0 bg-black opacity-40"></div>
+                 <div class="absolute inset-0 bg-black opacity-40"></div>
              </div>
-            <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
+             <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
                 <div class="max-w-2xl">
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight" data-lang-key="hero.title">Welcome to BWAM</h1>
                     <p class="text-lg sm:text-xl mb-8 text-gray-200" data-lang-key="hero.subtitle">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
@@ -323,98 +153,98 @@
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="nav.business_clients">Business Client Services</h2>
                  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 text-center">
-                    <a href="#accounts-cards" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                     <a href="#accounts-cards" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
                          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
-                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.accounts_cards">Accounts & Cards</h3>
-                    </a>
-                    <a href="#investing" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.investing">Savings & Investments</h3>
-                    </a>
+                         <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.accounts_cards">Accounts & Cards</h3>
+                     </a>
+                     <a href="#investing" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                         <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.investing">Savings & Investments</h3>
+                     </a>
                      <a href="#pensions" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.pensions">Pensions</h3>
-                    </a>
-                    <a href="#financing" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.financing">Financing</h3>
-                    </a>
-                    <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"> <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                        <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.real_estate">Real Estate</h3>
-                    </a>
-                </div>
-            </div>
-        </section>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                          <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.pensions">Pensions</h3>
+                      </a>
+                      <a href="#financing" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                          <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.financing">Financing</h3>
+                      </a>
+                      <a href="#" class="group block bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow duration-300"> <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-3 text-brand-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                          <h3 class="text-sm font-semibold text-gray-800 group-hover:text-brand-red" data-lang-key="service_card.real_estate">Real Estate</h3>
+                      </a>
+                 </div>
+             </div>
+         </section>
 
         <section id="accounts-cards" class="py-16 lg:py-24 bg-white hidden">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.accounts_cards">Accounts & Cards Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Accounts & Cards would go here...</p>
-             </div>
-        </section>
-        <section id="investing" class="py-16 lg:py-24 bg-gray-50 hidden">
+                 </div>
+         </section>
+         <section id="investing" class="py-16 lg:py-24 bg-gray-50 hidden">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.investing">Investing Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Investing would go here...</p>
-             </div>
-        </section>
-         <section id="pensions" class="py-16 lg:py-24 bg-white hidden">
+                 </div>
+         </section>
+          <section id="pensions" class="py-16 lg:py-24 bg-white hidden">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.pensions">Pensions Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Pensions would go here...</p>
-             </div>
-        </section>
-         <section id="financing" class="py-16 lg:py-24 bg-gray-50 hidden">
+                 </div>
+         </section>
+          <section id="financing" class="py-16 lg:py-24 bg-gray-50 hidden">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                  <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.financing">Financing Details</h2>
                  <p class="text-center text-gray-600">Detailed content about Financing would go here...</p>
-             </div>
-        </section>
+                 </div>
+         </section>
 
         <section id="news" class="py-16 lg:py-24 bg-white">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="news.title">News & Insights</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                        <img src="https://placehold.co/600x400/e5e7eb/4b5563?text=Market+Update" alt="News Image 1" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card1_title">Market Outlook Q3 2025</h3>
-                            <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card1_desc">Our analysis of current market trends and potential opportunities for investors.</p>
-                            <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
-                        </div>
-                    </div>
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="news.title">News & Insights</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                      <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                         <img src="https://placehold.co/600x400/d1d5db/374151?text=Retirement+Planning" alt="News Image 2" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card2_title">Planning for a Secure Retirement</h3>
-                            <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card2_desc">Key considerations for building a robust pension plan in Switzerland.</p>
-                            <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
-                        </div>
-                    </div>
-                    <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                         <img src="https://placehold.co/600x400/9ca3af/1f2937?text=Digital+Banking+Tips" alt="News Image 3" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card3_title">Tips for Secure Digital Banking</h3>
-                            <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card3_desc">How to protect yourself while managing your finances online with BWAM.</p>
-                            <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
-                        </div>
-                    </div>
-                </div>
-                 <div class="text-center mt-12">
-                     <a href="#" class="inline-block bg-brand-red text-white font-semibold py-3 px-6 rounded-md hover:bg-opacity-85 transition duration-200 shadow" data-lang-key="news.more_news">More News</a>
+                         <img src="https://placehold.co/600x400/e5e7eb/4b5563?text=Market+Update" alt="News Image 1" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
+                         <div class="p-6 flex flex-col flex-grow">
+                             <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card1_title">Market Outlook Q3 2025</h3>
+                             <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card1_desc">Our analysis of current market trends and potential opportunities for investors.</p>
+                             <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
+                         </div>
+                     </div>
+                      <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                          <img src="https://placehold.co/600x400/d1d5db/374151?text=Retirement+Planning" alt="News Image 2" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
+                          <div class="p-6 flex flex-col flex-grow">
+                              <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card2_title">Planning for a Secure Retirement</h3>
+                              <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card2_desc">Key considerations for building a robust pension plan in Switzerland.</p>
+                              <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
+                          </div>
+                      </div>
+                      <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                          <img src="https://placehold.co/600x400/9ca3af/1f2937?text=Digital+Banking+Tips" alt="News Image 3" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
+                          <div class="p-6 flex flex-col flex-grow">
+                              <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card3_title">Tips for Secure Digital Banking</h3>
+                              <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card3_desc">How to protect yourself while managing your finances online with BWAM.</p>
+                              <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
+                          </div>
+                      </div>
                  </div>
-            </div>
-        </section>
+                 <div class="text-center mt-12">
+                      <a href="#" class="inline-block bg-brand-red text-white font-semibold py-3 px-6 rounded-md hover:bg-opacity-85 transition duration-200 shadow" data-lang-key="news.more_news">More News</a>
+                  </div>
+             </div>
+         </section>
 
         <section id="events" class="py-16 lg:py-24 bg-gray-100">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl lg:text-4xl font-bold mb-6" data-lang-key="events.title">Upcoming Events</h2>
-                <p class="text-gray-600 mb-8 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
-                <div class="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
-                    <p class="text-gray-500 italic" data-lang-key="events.form_placeholder">(Event registration form will be here)</p>
-                    </div>
-            </div>
-        </section>
+                 <h2 class="text-3xl lg:text-4xl font-bold mb-6" data-lang-key="events.title">Upcoming Events</h2>
+                 <p class="text-gray-600 mb-8 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
+                 <div class="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
+                     <p class="text-gray-500 italic" data-lang-key="events.form_placeholder">(Event registration form will be here)</p>
+                      </div>
+             </div>
+         </section>
 
         <section id="contact" class="py-16 lg:py-24 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -428,57 +258,58 @@
 
     <footer class="bg-gray-800 text-gray-400 py-12">
          <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="text-lg font-semibold text-white mb-4">BWAM</h4>
-                    <p class="text-sm mb-4" data-lang-key="footer.tagline">Your reliable financial partner.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
-                        <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-4.499 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.59-11.018-3.714v-2.155z"></path></svg></a>
-                        <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.584-.666 2.477 0 1.486.758 2.796 1.909 3.562-.703-.022-1.365-.215-1.946-.536v.052c0 2.076 1.479 3.808 3.45 4.201-.36.099-.738.151-1.126.151-.278 0-.547-.027-.811-.076.546 1.697 2.133 2.934 4.012 2.969-1.469 1.147-3.319 1.83-5.334 1.83-.346 0-.686-.02-1.022-.061 1.89 1.213 4.129 1.921 6.566 1.921 7.883 0 12.207-6.534 12.207-12.207 0-.186-.004-.372-.012-.556.838-.604 1.564-1.36 2.145-2.23z"></path></svg></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.quicklinks">Quick Links</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#home" class="hover:text-white transition-colors" data-lang-key="nav.private_clients">Private Clients</a></li>
-                        <li><a href="#services" class="hover:text-white transition-colors" data-lang-key="nav.business_clients">Business Clients</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.careers">Careers</a></li>
-                        <li><a href="#contact" class="hover:text-white transition-colors" data-lang-key="footer.contact">Contact Us</a></li>
-                        <li><a href="#news" class="hover:text-white transition-colors" data-lang-key="footer.newsroom">Newsroom</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.services">Services</h4>
-                     <ul class="space-y-2 text-sm">
-                         <li><a href="#accounts-cards" class="hover:text-white transition-colors" data-lang-key="nav.accounts_cards">Accounts</a></li>
-                         <li><a href="#investing" class="hover:text-white transition-colors" data-lang-key="nav.investing">Investing</a></li>
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.mortgages">Mortgages</a></li>
-                         <li><a href="#pensions" class="hover:text-white transition-colors" data-lang-key="nav.pensions">Pensions</a></li>
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.digital_banking">Digital Banking</a></li>
-                     </ul>
-                </div>
+             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
                  <div>
-                    <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.legal">Legal</h4>
+                     <h4 class="text-lg font-semibold text-white mb-4">BWAM</h4>
+                     <p class="text-sm mb-4" data-lang-key="footer.tagline">Your reliable financial partner.</p>
+                     <div class="flex space-x-4">
+                         <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
+                         <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-4.499 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.59-11.018-3.714v-2.155z"></path></svg></a>
+                         <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.584-.666 2.477 0 1.486.758 2.796 1.909 3.562-.703-.022-1.365-.215-1.946-.536v.052c0 2.076 1.479 3.808 3.45 4.201-.36.099-.738.151-1.126.151-.278 0-.547-.027-.811-.076.546 1.697 2.133 2.934 4.012 2.969-1.469 1.147-3.319 1.83-5.334 1.83-.346 0-.686-.02-1.022-.061 1.89 1.213 4.129 1.921 6.566 1.921 7.883 0 12.207-6.534 12.207-12.207 0-.186-.004-.372-.012-.556.838-.604 1.564-1.36 2.145-2.23z"></path></svg></a>
+                     </div>
+                 </div>
+                 <div>
+                     <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.quicklinks">Quick Links</h4>
                      <ul class="space-y-2 text-sm">
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.privacy">Privacy Policy</a></li>
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.terms">Terms of Use</a></li>
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.imprint">Imprint</a></li>
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.cookies">Cookie Settings</a></li>
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.accessibility">Accessibility</a></li>
+                         <li><a href="#home" class="hover:text-white transition-colors" data-lang-key="nav.private_clients">Private Clients</a></li>
+                         <li><a href="#services" class="hover:text-white transition-colors" data-lang-key="nav.business_clients">Business Clients</a></li>
+                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.careers">Careers</a></li>
+                         <li><a href="#contact" class="hover:text-white transition-colors" data-lang-key="footer.contact">Contact Us</a></li>
+                         <li><a href="#news" class="hover:text-white transition-colors" data-lang-key="footer.newsroom">Newsroom</a></li>
                      </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
-                &copy; <span id="current-year"></span> BWAM. <span data-lang-key="footer.rights">All rights reserved.</span> <span data-lang-key="footer.location">Location: Zürich, Switzerland.</span>
-            </div>
-        </div>
-    </footer>
+                 </div>
+                 <div>
+                     <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.services">Services</h4>
+                      <ul class="space-y-2 text-sm">
+                          <li><a href="#accounts-cards" class="hover:text-white transition-colors" data-lang-key="nav.accounts_cards">Accounts</a></li>
+                          <li><a href="#investing" class="hover:text-white transition-colors" data-lang-key="nav.investing">Investing</a></li>
+                          <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.mortgages">Mortgages</a></li>
+                          <li><a href="#pensions" class="hover:text-white transition-colors" data-lang-key="nav.pensions">Pensions</a></li>
+                          <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.digital_banking">Digital Banking</a></li>
+                      </ul>
+                 </div>
+                  <div>
+                      <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.legal">Legal</h4>
+                       <ul class="space-y-2 text-sm">
+                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.privacy">Privacy Policy</a></li>
+                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.terms">Terms of Use</a></li>
+                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.imprint">Imprint</a></li>
+                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.cookies">Cookie Settings</a></li>
+                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.accessibility">Accessibility</a></li>
+                       </ul>
+                 </div>
+             </div>
+             <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
+                 &copy; <span id="current-year"></span> BWAM. <span data-lang-key="footer.rights">All rights reserved.</span> <span data-lang-key="footer.location">Location: Zürich, Switzerland.</span>
+             </div>
+         </div>
+     </footer>
 
     <div id="consent-banner" class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 shadow-lg z-[100] transform translate-y-full hidden" >
         <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <p class="text-sm text-gray-300 flex-grow" data-consent-text="consent.message">
-                Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und relevante Inhalte anzuzeigen. Indem Sie auf „Alle akzeptieren“ klicken, stimmen Sie der Verwendung dieser Technologien zu. Sie können Ihre Auswahl jederzeit ändern. </p>
+                Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und relevante Inhalte anzuzeigen. Indem Sie auf „Alle akzeptieren“ klicken, stimmen Sie der Verwendung dieser Technologien zu. Sie können Ihre Auswahl jederzeit ändern.
+            </p>
             <div class="flex-shrink-0 flex gap-3">
                 <button id="consent-reject" class="bg-gray-600 hover:bg-gray-500 text-white text-sm font-medium py-2 px-4 rounded-md transition duration-150" data-consent-text="consent.reject">Alle ablehnen</button>
                 <button id="consent-accept" class="bg-brand-red hover:bg-opacity-85 text-white text-sm font-medium py-2 px-4 rounded-md transition duration-150" data-consent-text="consent.accept">Alle akzeptieren</button>
