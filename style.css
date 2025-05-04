@@ -10,19 +10,29 @@
   box-sizing: border-box;
 }
 
+/* --- CSS Variables --- */
+:root {
+    --brand-red: #A6001A; /* BWAM Red */
+    --brand-red-dark: #850015;
+    --gray-light: #f8f9fa;
+    --gray-medium: #e9ecef;
+}
+
 /* --- Layout Adjustments --- */
 html, body {
-    height: 100%;
+    height: 100%; /* Ensure html and body can take full height */
 }
 
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensure body is at least viewport height */
     /* Improve font rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Base font is already set via inline style in index.html */
+    /* Set default body font */
+    font-family: 'Inter', sans-serif;
+    /* Base Tailwind styles applied via class in body tag */
 }
 
 main {
@@ -30,46 +40,119 @@ main {
 }
 
 /* --- Header/Nav Specific Styles --- */
-/* Add specific styles for dropdowns or complex nav elements if needed */
-.dropdown-menu a:hover {
-    /* Example hover effect for dropdown items */
-    background-color: #f3f4f6; /* Tailwind gray-100 */
+/* Dropdown menu styling and animation */
+.dropdown-menu {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    transform: translateY(-10px);
+    /* Base Tailwind dropdown styles applied via class */
+}
+/* Show dropdown on hover */
+.group:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Style for the active language button */
+.lang-button.active {
+    font-weight: 700;
     color: var(--brand-red);
+    /* Underline applied via Tailwind class */
 }
 
-/* Basic link styling (complementing Tailwind) */
+/* --- Base Link Styling --- */
 a {
   color: inherit; /* Inherit color from parent by default */
   text-decoration: none; /* Remove default underline */
   transition: color 0.2s ease-in-out; /* Smooth color transition */
 }
 
-a:hover {
-  /* Define a default hover state if needed, though Tailwind hover classes are preferred */
-  /* color: var(--brand-red); */
+/* --- Section & Scrolling --- */
+/* Offset for fixed header when scrolling to sections */
+section[id] {
+    scroll-margin-top: 80px; /* Adjust based on potentially taller header */
+}
+/* Enable smooth scrolling */
+html {
+    scroll-behavior: smooth;
 }
 
-
-/* --- Custom Component Styles --- */
-/* Add styles for custom components or complex overrides here */
-
-/* Example: Style for hero section if using CSS background */
-/*
-.hero-section {
-    background-image: url('images/your-hero-image.jpg');
-    background-size: cover;
-    background-position: center;
+/* --- Component Styles --- */
+/* Consent banner animation */
+#consent-banner {
+    transition: transform 0.3s ease-in-out;
 }
-*/
+/* Login form layout */
+.login-form-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+/* Modal styles */
+.modal-overlay {
+    transition: opacity 0.3s ease-in-out;
+}
+.modal-content {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
 
-/* --- Utility Overrides (Use Sparingly) --- */
-/* Override Tailwind utilities only if absolutely necessary */
+/* --- Animations --- */
+/* Scroll Animation Base */
+.fade-in-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in-element.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Utility Overrides & Helpers --- */
+/* Utility classes for brand color */
+.bg-brand-red { background-color: var(--brand-red); }
+.text-brand-red { color: var(--brand-red); }
+.border-brand-red { border-color: var(--brand-red); }
+.hover\:bg-brand-red-dark:hover { background-color: var(--brand-red-dark); }
+
+/* Custom focus ring (applied via Tailwind focus:ring classes where possible) */
+*:focus-visible {
+   /* Outline/ring applied via Tailwind classes */
+}
+
+/* Ensure icons are sized correctly */
+i[data-lucide] {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.25em; /* Add some space after icon */
+}
+h2 i[data-lucide], h3 i[data-lucide] {
+   margin-right: 0.4em;
+}
+button i[data-lucide] {
+   margin-right: 0.5em;
+}
+a i[data-lucide] {
+   margin-right: 0.3em;
+}
+/* Adjust icon size for specific elements if needed */
+.service-icon i[data-lucide] {
+    width: 2.5rem; /* 40px */
+    height: 2.5rem; /* 40px */
+    margin-bottom: 0.75rem; /* 12px */
+    margin-right: 0; /* Reset margin for centered icons */
+}
 
 /* --- IMPORTANT --- */
 /* Most styling (layout, colors, spacing, typography) for this page
    is handled by Tailwind CSS classes directly within the index.html file.
    Add custom CSS here primarily for:
+   - CSS Variables (--brand-red, etc.)
+   - Base element styling (body, html, *, a)
    - Complex selectors not easily targeted by Tailwind.
-   - CSS features not covered by Tailwind utilities (e.g., some specific animations).
+   - CSS features not covered by Tailwind utilities (e.g., scroll-margin-top, complex animations).
    - Overriding Tailwind styles when absolutely necessary.
 */
