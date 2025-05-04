@@ -3,187 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWAM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
+    <title>BWAM</title> <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css"> <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Define brand color variable */
-        :root { --brand-red: #A6001A; }
-        /* Set default body font */
-        body { font-family: 'Inter', sans-serif; }
-        /* Utility classes for brand color */
-        .bg-brand-red { background-color: var(--brand-red); }
-        .text-brand-red { color: var(--brand-red); }
-        .border-brand-red { border-color: var(--brand-red); }
-        /* Dropdown menu styling and animation */
-        .dropdown-menu {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
-            transform: translateY(-10px);
-        }
-        /* Show dropdown on hover */
-        .group:hover .dropdown-menu {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Style for the active language button */
-        .lang-button.active {
-            font-weight: 700;
-            color: var(--brand-red);
-        }
-        /* Offset for fixed header when scrolling to sections */
-        section[id] { scroll-margin-top: 70px; /* Adjust based on header height */ }
-        /* Enable smooth scrolling */
-        html { scroll-behavior: smooth; }
-        /* Consent banner animation */
-        #consent-banner { transition: transform 0.3s ease-in-out; }
-        /* Login form layout */
-        .login-form-container { display: flex; align-items: center; gap: 0.5rem; }
-        /* Modal styles */
-        .modal-overlay { transition: opacity 0.3s ease-in-out; }
-        .modal-content { transition: transform 0.3s ease-in-out; }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
 
     <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/beacon/c360a/d2799336-52d2-4f39-832b-d481cbc97fed/scripts/c360a.min.js" async></script>
 
     <script type="text/javascript">
-        // Key used by script.js to check/store consent status in localStorage
         window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
     </script>
-
 </head>
-<body class="antialiased text-gray-800 bg-white relative pb-32">
-    <header class="bg-white shadow-md sticky top-0 z-50 w-full">
+<body class="pb-32 has-mountain-bg"> {/* Added class for background */}
+
+    <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-2">
+            <div class="flex justify-between items-center py-3 h-20"> {/* Fixed height */}
                 <div class="flex-shrink-0">
-                    <a href="#home" class="flex items-center">
-                        <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 w-auto mr-2" onerror="this.style.display='none'">
+                    <a href="#home" class="flex items-center group" title="BWAM Home">
+                        <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 md:h-12 w-auto mr-2 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
                         <span class="font-bold text-xl text-brand-red" style="display: none;" aria-hidden="true">BWAM</span>
                          <script>
-                           // Show text logo if image fails to load
-                           document.querySelector('img[alt="BWAM Logo"]').addEventListener('error', function() {
-                             this.style.display='none';
-                             this.nextElementSibling.style.display='inline';
+                           document.addEventListener('DOMContentLoaded', () => {
+                               const logoImg = document.querySelector('img[alt="BWAM Logo"]');
+                               if (logoImg) {
+                                   logoImg.addEventListener('error', function() {
+                                     this.style.display='none';
+                                     const textLogo = this.nextElementSibling;
+                                     if (textLogo) textLogo.style.display='inline';
+                                   });
+                               }
                            });
                          </script>
                     </a>
                 </div>
 
-                <nav class="hidden md:flex items-center space-x-5 lg:space-x-7">
+                <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
                     <div class="group relative">
-                        <button class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red inline-flex items-center py-3" data-lang-key="nav.private_clients">
-                            Private Clients <svg class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                        <button class="nav-link text-base font-medium text-gray-600 hover:text-brand-red inline-flex items-center py-3 transition-colors duration-200" data-lang-key="nav.private_clients">
+                            <i data-lucide="users"></i>Private Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
                         </button>
-                        <div class="dropdown-menu absolute left-0 mt-0 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
+                        <div class="dropdown-menu rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
                             <div class="py-1" role="none">
-                                <a href="#accounts-cards" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem" data-lang-key="nav.accounts_cards">Accounts & Cards</a>
-                                <a href="#investing" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem" data-lang-key="nav.investing">Investing</a>
-                                <a href="#pensions" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem" data-lang-key="nav.pensions">Pensions</a>
-                                <a href="#financing" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red" role="menuitem" data-lang-key="nav.financing">Financing</a>
+                                <a href="#accounts-cards" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.accounts_cards"><i data-lucide="credit-card"></i>Accounts & Cards</a>
+                                <a href="#investing" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.investing"><i data-lucide="trending-up"></i>Investing</a>
+                                <a href="#pensions" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.pensions"><i data-lucide="umbrella"></i>Pensions</a>
+                                <a href="#financing" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.financing"><i data-lucide="home"></i>Financing</a>
                             </div>
                         </div>
                     </div>
-                    <a href="#services" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red py-3" data-lang-key="nav.business_clients">Business Clients</a>
-                    <a href="#institutional" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red py-3" data-lang-key="nav.institutional">Institutional</a>
-                    <a href="#" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red py-3" data-lang-key="nav.about_us">About Us</a>
-                    <a href="#events" class="nav-link text-sm font-medium text-gray-500 hover:text-brand-red py-3" data-lang-key="nav.events">Events</a>
+                    <a href="#business-clients" class="nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.business_clients"><i data-lucide="briefcase"></i>Business Clients</a>
+                    <a href="#institutional" class="nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.institutional"><i data-lucide="building-2"></i>Institutional</a>
+                    <a href="#about-us" class="nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.about_us"><i data-lucide="info"></i>About Us</a>
+                    <a href="#events" class="nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.events"><i data-lucide="calendar"></i>Events</a>
                 </nav>
 
                 <div class="flex items-center space-x-3 sm:space-x-4">
-                    <button aria-label="Search" class="p-1 text-gray-500 hover:text-brand-red" data-lang-key="aria.search" title="Search">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    <button aria-label="Search" class="p-2 text-gray-500 hover:text-brand-red rounded-full hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="aria.search" title="Search">
+                        <i data-lucide="search" class="h-5 w-5"></i>
                     </button>
                     <div id="login-container" class="flex items-center">
-                        <button id="login-button" class="text-sm font-medium text-gray-500 hover:text-brand-red" data-lang-key="nav.login">Login</button>
+                        <button id="login-button" class="text-sm font-medium text-gray-600 hover:text-brand-red px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors duration-200 inline-flex items-center focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="nav.login"><i data-lucide="log-in"></i>Login</button>
                         <div id="login-form" class="login-form-container hidden ml-2">
-                             <input type="email" id="login-email" placeholder="Enter email" class="text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-1 focus:ring-brand-red focus:border-brand-red">
-                             <button id="simulate-login-button" class="text-sm bg-brand-red text-white py-1 px-3 rounded-md hover:bg-opacity-85">Login</button>
+                             <input type="email" id="login-email" placeholder="Enter email" class="text-sm border border-gray-300 rounded-md px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition">
+                             <button id="simulate-login-button" class="text-sm bg-brand-red text-white py-1.5 px-3 rounded-md hover:bg-brand-red-dark transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red">Login</button>
                         </div>
                          <div id="logged-in-status" class="hidden items-center ml-2">
                              <span class="text-sm text-gray-700 mr-2">Logged in: <span id="logged-in-email" class="font-medium"></span></span>
-                             <button id="logout-button" class="text-sm font-medium text-gray-500 hover:text-brand-red underline">Logout</button>
+                             <button id="logout-button" class="text-sm font-medium text-gray-500 hover:text-brand-red underline hover:no-underline transition-colors duration-200 inline-flex items-center focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red"><i data-lucide="log-out"></i>Logout</button>
                          </div>
                     </div>
-                    <div class="border-l pl-3 sm:pl-4 flex space-x-2">
-                        <button class="lang-button text-sm font-medium text-gray-500 hover:text-brand-red" data-lang="de">DE</button>
-                        <button class="lang-button text-sm font-medium text-gray-500 hover:text-brand-red" data-lang="en">EN</button>
+                    <div class="border-l border-gray-200 pl-3 sm:pl-4 flex space-x-2">
+                        <button class="lang-button text-sm font-medium text-gray-500 hover:text-brand-red px-1 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand-red" data-lang="de">DE</button>
+                        <button class="lang-button text-sm font-medium text-gray-500 hover:text-brand-red px-1 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand-red" data-lang="en">EN</button>
                     </div>
                     <div class="md:hidden">
-                         <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="p-1 text-gray-500 hover:text-brand-red" data-lang-key="aria.open_menu">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                         <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="p-2 text-gray-500 hover:text-brand-red rounded-md hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="aria.open_menu">
+                             <i data-lucide="menu" class="h-6 w-6"></i>
                          </button>
                     </div>
                 </div>
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40">
-             <div class="px-2 pt-2 pb-3 space-y-1">
-                 <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" data-lang-key="nav.private_clients">Private Clients</a>
-                 <a href="#services" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.business_clients">Business Clients</a>
-                 <a href="#institutional" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.institutional">Institutional</a>
-                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.about_us">About Us</a>
-                 <a href="#events" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-50" data-lang-key="nav.events">Events</a>
+             <div class="px-4 pt-4 pb-5 space-y-2">
+                 <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.private_clients"><i data-lucide="users"></i>Private Clients</a>
+                 <a href="#business-clients" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.business_clients"><i data-lucide="briefcase"></i>Business Clients</a>
+                 <a href="#institutional" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.institutional"><i data-lucide="building-2"></i>Institutional</a>
+                 <a href="#about-us" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.about_us"><i data-lucide="info"></i>About Us</a>
+                 <a href="#events" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.events"><i data-lucide="calendar"></i>Events</a>
              </div>
          </div>
     </header>
 
     <main>
-        <section id="home" class="relative h-[60vh] md:h-[75vh] flex items-center text-white overflow-hidden">
+        <section id="home" class="relative min-h-[70vh] md:min-h-[80vh] flex items-center text-white overflow-hidden">
             <div class="absolute inset-0 z-0">
-                 <img src="https://placehold.co/1920x1080/111827/9ca3af?text=Dynamic+City+Background" alt="Zurich Financial District" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/1920x1080/cccccc/ffffff?text=Image+Not+Found'">
-                 <div class="absolute inset-0 bg-black opacity-40"></div>
+                 <img src="https://images.unsplash.com/photo-1554224155-8d044b404141?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                      alt="Modern office background"
+                      class="w-full h-full object-cover"
+                      onerror="this.src='https://placehold.co/1920x1080/374151/e5e7eb?text=BWAM+Financial+Solutions'">
+                 <div class="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/70 to-transparent opacity-80"></div>
              </div>
              <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
-                <div class="max-w-2xl">
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight" data-lang-key="hero.title">Welcome to BWAM</h1>
-                    <p class="text-lg sm:text-xl mb-8 text-gray-200" data-lang-key="hero.subtitle">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
+                <div class="max-w-3xl text-left fade-in-element is-visible">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-5 leading-tight text-shadow" data-lang-key="hero.title">Welcome to BWAM</h1>
+                    <p class="text-lg sm:text-xl mb-10 text-gray-200 max-w-2xl" data-lang-key="hero.subtitle">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="#services" class="inline-block bg-brand-red text-white font-semibold py-3 px-6 rounded-md hover:bg-opacity-85 transition duration-200 shadow" data-lang-key="hero.button_services">Explore Services</a>
-                        <button id="contact-cta-button" class="inline-block bg-white text-brand-red font-semibold py-3 px-6 rounded-md hover:bg-gray-100 transition duration-200 shadow" data-lang-key="hero.button_contact">Contact Us</button>
+                        <a href="#business-clients" class="inline-flex items-center bg-brand-red text-white font-semibold py-3 px-7 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:ring-white" data-lang-key="hero.button_services">
+                            <i data-lucide="briefcase"></i>Explore Services
+                        </a>
+                        <button id="contact-cta-button" class="inline-flex items-center bg-white text-brand-red font-semibold py-3 px-7 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="hero.button_contact">
+                            <i data-lucide="phone"></i>Contact Us
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="services" class="py-12 md:py-20 bg-gray-50">
+        <section id="about-us" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in-element">
+                        <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center"><i data-lucide="info" class="text-brand-red"></i><span data-lang-key="nav.about_us" class="ml-3">About Us</span></h2>
+                        <p class="text-lg text-gray-700 mb-4" data-lang-key="about.p1">Founded in Zurich with deep roots in Swiss banking tradition, BWAM (Banking & Wealth Asset Management) combines decades of financial expertise with a forward-thinking approach.</p>
+                        <p class="text-gray-600 mb-4" data-lang-key="about.p2">Our mission is to provide personalized, transparent, and reliable financial services to private individuals, businesses, and institutions. We believe in building long-term relationships based on trust and mutual success.</p>
+                        <p class="text-gray-600" data-lang-key="about.p3">Located in the heart of Zurich's financial district, we are committed to upholding the highest standards of integrity and contributing positively to our community.</p>
+                    </div>
+                    <div class="fade-in-element" style="transition-delay: 150ms;">
+                        <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+                             alt="BWAM Office Building or Zurich Cityscape"
+                             class="rounded-xl shadow-xl w-full h-auto object-cover"
+                             onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=About+BWAM'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="business-clients" class="py-16 md:py-24 bg-gray-light">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-4" data-lang-key="nav.business_clients">Business Clients</h2>
-                 <p class="text-center text-gray-600 mb-12 lg:mb-16 max-w-3xl mx-auto" data-lang-key="services.subtitle">Tailored financial solutions designed to help your business thrive, from startups to established corporations in the Zurich region.</p>
+                 <div class="text-center mb-14 lg:mb-20 fade-in-element">
+                     <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center"><i data-lucide="briefcase" class="text-brand-red"></i><span data-lang-key="nav.business_clients" class="ml-3">Business Clients</span></h2>
+                     <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang-key="services.subtitle">Tailored financial solutions designed to help your business thrive, from startups to established corporations in the Zurich region.</p>
+                 </div>
                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                     <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <h3 class="text-xl font-semibold mb-3 text-brand-red" data-lang-key="services.business.card1_title">Corporate Accounts</h3>
-                         <p class="text-gray-600 text-sm" data-lang-key="services.business.card1_desc">Flexible business accounts with online banking, multi-currency options, and dedicated support.</p>
-                     </div>
-                     <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <h3 class="text-xl font-semibold mb-3 text-brand-red" data-lang-key="services.business.card2_title">Business Financing</h3>
-                         <p class="text-gray-600 text-sm" data-lang-key="services.business.card2_desc">Access capital for growth, equipment purchase, or operational needs with our competitive loan and credit line options.</p>
-                     </div>
-                     <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <h3 class="text-xl font-semibold mb-3 text-brand-red" data-lang-key="services.business.card3_title">Cash Management</h3>
-                         <p class="text-gray-600 text-sm" data-lang-key="services.business.card3_desc">Optimize your cash flow with our payment processing, collection, and liquidity management services.</p>
-                     </div>
+                     <a href="#corporate-accounts" class="service-card group block bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element">
+                         <i data-lucide="landmark" class="text-brand-red w-10 h-10 mb-4 block mx-auto service-icon"></i>
+                         <h3 class="text-xl font-semibold mb-3 text-center group-hover:text-brand-red transition-colors" data-lang-key="services.business.card1_title">Corporate Accounts</h3>
+                         <p class="text-gray-600 text-sm text-center" data-lang-key="services.business.card1_desc">Flexible business accounts with online banking, multi-currency options, and dedicated support.</p>
+                     </a>
+                     <a href="#business-financing" class="service-card group block bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element" style="transition-delay: 100ms;">
+                         <i data-lucide="dollar-sign" class="text-brand-red w-10 h-10 mb-4 block mx-auto service-icon"></i>
+                         <h3 class="text-xl font-semibold mb-3 text-center group-hover:text-brand-red transition-colors" data-lang-key="services.business.card2_title">Business Financing</h3>
+                         <p class="text-gray-600 text-sm text-center" data-lang-key="services.business.card2_desc">Access capital for growth, equipment purchase, or operational needs with our competitive loan and credit line options.</p>
+                     </a>
+                     <a href="#cash-management" class="service-card group block bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element" style="transition-delay: 200ms;">
+                         <i data-lucide="activity" class="text-brand-red w-10 h-10 mb-4 block mx-auto service-icon"></i>
+                         <h3 class="text-xl font-semibold mb-3 text-center group-hover:text-brand-red transition-colors" data-lang-key="services.business.card3_title">Cash Management</h3>
+                         <p class="text-gray-600 text-sm text-center" data-lang-key="services.business.card3_desc">Optimize your cash flow with our payment processing, collection, and liquidity management services.</p>
+                     </a>
                  </div>
              </div>
          </section>
 
-        <section id="institutional" class="py-16 lg:py-24 bg-white hidden">
+        <section id="institutional" class="py-16 md:py-24 bg-white hidden">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-4" data-lang-key="nav.institutional">Institutional Clients</h2>
-                 <p class="text-center text-gray-600 mb-12 lg:mb-16 max-w-3xl mx-auto" data-lang-key="institutional.subtitle">Sophisticated investment management and advisory services for pension funds, foundations, family offices, and asset managers.</p>
+                 <div class="text-center mb-14 lg:mb-20 fade-in-element">
+                     <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center"><i data-lucide="building-2" class="text-brand-red"></i><span data-lang-key="nav.institutional" class="ml-3">Institutional Clients</span></h2>
+                     <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-lang-key="institutional.subtitle">Sophisticated investment management and advisory services for pension funds, foundations, family offices, and asset managers.</p>
+                 </div>
                  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div class="bg-gray-50 p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <h3 class="text-xl font-semibold mb-3 text-brand-red" data-lang-key="institutional.card1_title">Asset Management</h3>
+                     <div class="bg-gray-light p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element">
+                         <i data-lucide="line-chart" class="text-brand-red w-10 h-10 mb-4"></i>
+                         <h3 class="text-xl font-semibold mb-3" data-lang-key="institutional.card1_title">Asset Management</h3>
                          <p class="text-gray-600 text-sm" data-lang-key="institutional.card1_desc">Discretionary and advisory mandates across various asset classes, tailored to your institution's risk profile and objectives.</p>
                      </div>
-                     <div class="bg-gray-50 p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
-                         <h3 class="text-xl font-semibold mb-3 text-brand-red" data-lang-key="institutional.card2_title">Custody & Execution</h3>
+                     <div class="bg-gray-light p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element" style="transition-delay: 100ms;">
+                          <i data-lucide="shield-check" class="text-brand-red w-10 h-10 mb-4"></i>
+                         <h3 class="text-xl font-semibold mb-3" data-lang-key="institutional.card2_title">Custody & Execution</h3>
                          <p class="text-gray-600 text-sm" data-lang-key="institutional.card2_desc">Secure safekeeping of assets, efficient trade execution, and comprehensive reporting services.</p>
                      </div>
                  </div>
@@ -191,111 +190,182 @@
          </section>
 
         <section id="accounts-cards" class="py-16 lg:py-24 bg-white hidden">
-             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.accounts_cards">Accounts & Cards</h2>
-                 <p class="text-gray-700 mb-6" data-lang-key="accounts.intro">Manage your daily finances effortlessly with our range of current accounts and payment cards. Enjoy secure online banking, mobile access, and personalized service.</p>
-                 <ul class="list-disc list-inside space-y-2 text-gray-600 mb-8">
-                     <li data-lang-key="accounts.feature1">Competitive interest rates on savings accounts.</li>
-                     <li data-lang-key="accounts.feature2">Various credit card options with rewards and benefits.</li>
-                     <li data-lang-key="accounts.feature3">Easy international payments and currency exchange.</li>
-                     <li data-lang-key="accounts.feature4">Dedicated support for all your banking needs.</li>
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 inline-flex items-center w-full justify-center"><i data-lucide="credit-card" class="text-brand-red"></i><span data-lang-key="nav.accounts_cards" class="ml-3">Accounts & Cards</span></h2>
+                 <p class="text-gray-700 mb-8 text-lg text-center" data-lang-key="accounts.intro">Manage your daily finances effortlessly with our range of current accounts and payment cards. Enjoy secure online banking, mobile access, and personalized service.</p>
+                 <ul class="list-none space-y-4 text-gray-600 mb-10">
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="accounts.feature1">Competitive interest rates on savings accounts.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="accounts.feature2">Various credit card options with rewards and benefits.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="accounts.feature3">Easy international payments and currency exchange.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="accounts.feature4">Dedicated support for all your banking needs.</span></li>
                  </ul>
                  <div class="text-center">
-                    <button class="inline-block bg-brand-red text-white font-semibold py-2 px-5 rounded-md hover:bg-opacity-85 transition duration-200 shadow" data-lang-key="accounts.button_open">Open Account</button>
+                    <button class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="accounts.button_open">
+                        <i data-lucide="edit-3"></i>Open Account
+                    </button>
                  </div>
              </div>
          </section>
-         <section id="investing" class="py-16 lg:py-24 bg-gray-50 hidden">
-             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.investing">Investing</h2>
-                 <p class="text-gray-700 mb-6" data-lang-key="investing.intro">Grow your wealth with our comprehensive investment solutions. Whether you're starting out or an experienced investor, we offer strategies tailored to your goals and risk tolerance.</p>
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                     <div class="bg-white p-4 rounded shadow">
-                         <h4 class="font-semibold text-lg mb-2 text-brand-red" data-lang-key="investing.option1_title">Managed Portfolios</h4>
+         <section id="investing" class="py-16 lg:py-24 bg-gray-light hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 inline-flex items-center w-full justify-center"><i data-lucide="trending-up" class="text-brand-red"></i><span data-lang-key="nav.investing" class="ml-3">Investing</span></h2>
+                 <p class="text-gray-700 mb-8 text-lg text-center" data-lang-key="investing.intro">Grow your wealth with our comprehensive investment solutions. Whether you're starting out or an experienced investor, we offer strategies tailored to your goals and risk tolerance.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <i data-lucide="briefcase" class="text-brand-red w-8 h-8 mb-3"></i>
+                         <h4 class="font-semibold text-lg mb-2" data-lang-key="investing.option1_title">Managed Portfolios</h4>
                          <p class="text-sm text-gray-600" data-lang-key="investing.option1_desc">Let our experts manage your investments based on predefined strategies.</p>
                      </div>
-                     <div class="bg-white p-4 rounded shadow">
-                         <h4 class="font-semibold text-lg mb-2 text-brand-red" data-lang-key="investing.option2_title">Advisory Services</h4>
+                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <i data-lucide="message-circle" class="text-brand-red w-8 h-8 mb-3"></i>
+                         <h4 class="font-semibold text-lg mb-2" data-lang-key="investing.option2_title">Advisory Services</h4>
                          <p class="text-sm text-gray-600" data-lang-key="investing.option2_desc">Receive personalized investment advice and make informed decisions.</p>
                      </div>
                  </div>
-                 <p class="text-sm text-gray-600" data-lang-key="investing.disclaimer">Investments involve risks, including the possible loss of principal. Past performance is not indicative of future results.</p>
+                 <p class="text-xs text-gray-500 text-center italic" data-lang-key="investing.disclaimer">Investments involve risks, including the possible loss of principal. Past performance is not indicative of future results.</p>
              </div>
          </section>
           <section id="pensions" class="py-16 lg:py-24 bg-white hidden">
-             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.pensions">Pensions</h2>
-                 <p class="text-gray-700 mb-6" data-lang-key="pensions.intro">Secure your future with our flexible pension solutions. We help you navigate the Swiss pension system (Pillars 1, 2, and 3) to build a comfortable retirement.</p>
-                 <ul class="list-disc list-inside space-y-2 text-gray-600 mb-8">
-                     <li data-lang-key="pensions.pillar3a">Tax-advantaged Pillar 3a retirement savings accounts.</li>
-                     <li data-lang-key="pensions.vested_benefits">Vested benefits accounts for managing Pillar 2 funds during career changes.</li>
-                     <li data-lang-key="pensions.planning">Comprehensive retirement planning and analysis.</li>
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 inline-flex items-center w-full justify-center"><i data-lucide="umbrella" class="text-brand-red"></i><span data-lang-key="nav.pensions" class="ml-3">Pensions</span></h2>
+                 <p class="text-gray-700 mb-8 text-lg text-center" data-lang-key="pensions.intro">Secure your future with our flexible pension solutions. We help you navigate the Swiss pension system (Pillars 1, 2, and 3) to build a comfortable retirement.</p>
+                 <ul class="list-none space-y-4 text-gray-600 mb-10">
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="pensions.pillar3a">Tax-advantaged Pillar 3a retirement savings accounts.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="pensions.vested_benefits">Vested benefits accounts for managing Pillar 2 funds during career changes.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="pensions.planning">Comprehensive retirement planning and analysis.</span></li>
                  </ul>
                  <div class="text-center">
-                    <button class="inline-block bg-brand-red text-white font-semibold py-2 px-5 rounded-md hover:bg-opacity-85 transition duration-200 shadow" data-lang-key="pensions.button_learn">Learn More</button>
+                    <button class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="pensions.button_learn">
+                        <i data-lucide="info"></i>Learn More
+                    </button>
                  </div>
              </div>
          </section>
-          <section id="financing" class="py-16 lg:py-24 bg-gray-50 hidden">
-             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="nav.financing">Financing</h2>
-                 <p class="text-gray-700 mb-6" data-lang-key="financing.intro">Achieve your goals with our flexible financing options. From mortgages to personal loans, we offer competitive rates and expert advice.</p>
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                     <div class="bg-white p-4 rounded shadow">
-                         <h4 class="font-semibold text-lg mb-2 text-brand-red" data-lang-key="financing.option1_title">Mortgages</h4>
+          <section id="financing" class="py-16 lg:py-24 bg-gray-light hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 inline-flex items-center w-full justify-center"><i data-lucide="home" class="text-brand-red"></i><span data-lang-key="nav.financing" class="ml-3">Financing</span></h2>
+                 <p class="text-gray-700 mb-8 text-lg text-center" data-lang-key="financing.intro">Achieve your goals with our flexible financing options. From mortgages to personal loans, we offer competitive rates and expert advice.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                      <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <i data-lucide="home" class="text-brand-red w-8 h-8 mb-3"></i>
+                         <h4 class="font-semibold text-lg mb-2" data-lang-key="financing.option1_title">Mortgages</h4>
                          <p class="text-sm text-gray-600" data-lang-key="financing.option1_desc">Tailored mortgage solutions for purchasing or refinancing property in Switzerland.</p>
                      </div>
-                     <div class="bg-white p-4 rounded shadow">
-                         <h4 class="font-semibold text-lg mb-2 text-brand-red" data-lang-key="financing.option2_title">Personal Loans</h4>
+                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <i data-lucide="user" class="text-brand-red w-8 h-8 mb-3"></i>
+                         <h4 class="font-semibold text-lg mb-2" data-lang-key="financing.option2_title">Personal Loans</h4>
                          <p class="text-sm text-gray-600" data-lang-key="financing.option2_desc">Flexible personal credit options for planned or unexpected expenses.</p>
                      </div>
                  </div>
-                 <p class="text-sm text-gray-600" data-lang-key="financing.credit_check">Loan approval is subject to credit check and bank's lending criteria.</p>
+                 <p class="text-xs text-gray-500 text-center italic" data-lang-key="financing.credit_check">Loan approval is subject to credit check and bank's lending criteria.</p>
+             </div>
+         </section>
+
+        <section id="corporate-accounts" class="py-16 lg:py-24 bg-white hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 inline-flex items-center w-full justify-center"><i data-lucide="landmark" class="text-brand-red"></i><span data-lang-key="services.business.card1_title" class="ml-3">Corporate Accounts</span></h2>
+                 <p class="text-gray-700 mb-8 text-lg text-center" data-lang-key="corporate_accounts.intro">Streamline your business operations with our robust corporate accounts, designed for efficiency and growth in the Swiss market.</p>
+                 <ul class="list-none space-y-4 text-gray-600 mb-10">
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="corporate_accounts.feature1">Multi-currency capabilities for international business.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="corporate_accounts.feature2">Advanced online and mobile banking platform with user management.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="corporate_accounts.feature3">Integration options with accounting software.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="corporate_accounts.feature4">Dedicated relationship manager for personalized support.</span></li>
+                 </ul>
+                 <div class="text-center">
+                    <button class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="corporate_accounts.button_contact">
+                        <i data-lucide="phone"></i>Contact Sales
+                    </button>
+                 </div>
+             </div>
+         </section>
+         <section id="business-financing" class="py-16 lg:py-24 bg-gray-light hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 inline-flex items-center w-full justify-center"><i data-lucide="dollar-sign" class="text-brand-red"></i><span data-lang-key="services.business.card2_title" class="ml-3">Business Financing</span></h2>
+                 <p class="text-gray-700 mb-8 text-lg text-center" data-lang-key="business_financing.intro">Fuel your company's growth with flexible financing solutions tailored to your specific needs and industry.</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <i data-lucide="building" class="text-brand-red w-8 h-8 mb-3"></i>
+                         <h4 class="font-semibold text-lg mb-2" data-lang-key="business_financing.option1_title">Term Loans</h4>
+                         <p class="text-sm text-gray-600" data-lang-key="business_financing.option1_desc">Structured loans for significant investments like equipment purchase or expansion projects.</p>
+                     </div>
+                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                         <i data-lucide="refresh-cw" class="text-brand-red w-8 h-8 mb-3"></i>
+                         <h4 class="font-semibold text-lg mb-2" data-lang-key="business_financing.option2_title">Lines of Credit</h4>
+                         <p class="text-sm text-gray-600" data-lang-key="business_financing.option2_desc">Flexible access to funds for managing working capital and short-term needs.</p>
+                     </div>
+                 </div>
+                 <p class="text-xs text-gray-500 text-center italic" data-lang-key="financing.credit_check">Loan approval is subject to credit check and bank's lending criteria.</p>
+             </div>
+         </section>
+         <section id="cash-management" class="py-16 lg:py-24 bg-white hidden">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 inline-flex items-center w-full justify-center"><i data-lucide="activity" class="text-brand-red"></i><span data-lang-key="services.business.card3_title" class="ml-3">Cash Management</span></h2>
+                 <p class="text-gray-700 mb-8 text-lg text-center" data-lang-key="cash_management.intro">Optimize your company's liquidity and streamline payment processes with our efficient cash management tools.</p>
+                  <ul class="list-none space-y-4 text-gray-600 mb-10">
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="cash_management.feature1">Automated payment processing (domestic and international).</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="cash_management.feature2">Receivables management and collection services.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="cash_management.feature3">Liquidity solutions and forecasting tools.</span></li>
+                     <li class="flex items-start"><i data-lucide="check-circle" class="text-green-600 w-5 h-5 mr-3 mt-1 flex-shrink-0"></i><span data-lang-key="cash_management.feature4">Real-time reporting and account overview.</span></li>
+                 </ul>
+                 <div class="text-center">
+                    <button class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="cash_management.button_explore">
+                        <i data-lucide="settings-2"></i>Explore Tools
+                    </button>
+                 </div>
              </div>
          </section>
 
         <section id="news" class="py-16 lg:py-24 bg-white">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                 <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12 lg:mb-16" data-lang-key="news.title">News & Insights</h2>
+                  <div class="text-center mb-14 lg:mb-20 fade-in-element">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center"><i data-lucide="newspaper" class="text-brand-red"></i><span data-lang-key="news.title" class="ml-3">News & Insights</span></h2>
+                 </div>
                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                     <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                         <img src="https://placehold.co/600x400/e5e7eb/4b5563?text=Market+Update" alt="News Image 1" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
+                     <div class="flex flex-col bg-gray-light rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element">
+                         <img src="https://placehold.co/600x400/e5e7eb/4b5563?text=Market+Update" alt="News Image 1" class="w-full h-52 object-cover transition-transform duration-300 hover:scale-105" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
                          <div class="p-6 flex flex-col flex-grow">
                              <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card1_title">Market Outlook Q3 2025</h3>
                              <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card1_desc">Our analysis of current market trends and potential opportunities for investors.</p>
-                             <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
+                             <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start inline-flex items-center group focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-brand-red rounded" data-lang-key="news.read_more">Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"></i></a>
                          </div>
                      </div>
-                      <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                          <img src="https://placehold.co/600x400/d1d5db/374151?text=Retirement+Planning" alt="News Image 2" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
+                      <div class="flex flex-col bg-gray-light rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element" style="transition-delay: 100ms;">
+                          <img src="https://placehold.co/600x400/d1d5db/374151?text=Retirement+Planning" alt="News Image 2" class="w-full h-52 object-cover transition-transform duration-300 hover:scale-105" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
                           <div class="p-6 flex flex-col flex-grow">
                               <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card2_title">Planning for a Secure Retirement</h3>
                               <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card2_desc">Key considerations for building a robust pension plan in Switzerland.</p>
-                              <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
+                              <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start inline-flex items-center group focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-brand-red rounded" data-lang-key="news.read_more">Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"></i></a>
                           </div>
                       </div>
-                      <div class="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                          <img src="https://placehold.co/600x400/9ca3af/1f2937?text=Digital+Banking+Tips" alt="News Image 3" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
+                     <div class="flex flex-col bg-gray-light rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 fade-in-element" style="transition-delay: 200ms;">
+                          <img src="https://placehold.co/600x400/9ca3af/1f2937?text=Digital+Banking+Tips" alt="News Image 3" class="w-full h-52 object-cover transition-transform duration-300 hover:scale-105" onerror="this.src='https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found'">
                           <div class="p-6 flex flex-col flex-grow">
                               <h3 class="text-lg font-semibold mb-2 text-gray-900" data-lang-key="news.card3_title">Tips for Secure Digital Banking</h3>
                               <p class="text-gray-600 text-sm mb-4 flex-grow" data-lang-key="news.card3_desc">How to protect yourself while managing your finances online with BWAM.</p>
-                              <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start" data-lang-key="news.read_more">Read More &rarr;</a>
+                              <a href="#" class="mt-auto text-brand-red font-medium hover:underline text-sm self-start inline-flex items-center group focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-brand-red rounded" data-lang-key="news.read_more">Read More <i data-lucide="arrow-right" class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200"></i></a>
                           </div>
                       </div>
                  </div>
-                 <div class="text-center mt-12">
-                      <a href="#" class="inline-block bg-brand-red text-white font-semibold py-3 px-6 rounded-md hover:bg-opacity-85 transition duration-200 shadow" data-lang-key="news.more_news">More News</a>
+                 <div class="text-center mt-16 fade-in-element">
+                      <a href="#" class="inline-flex items-center bg-brand-red text-white font-semibold py-3 px-7 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="news.more_news">
+                          <i data-lucide="plus-circle"></i>More News
+                      </a>
                   </div>
              </div>
          </section>
 
-        <section id="events" class="py-16 lg:py-24 bg-gray-100">
-             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                 <h2 class="text-3xl lg:text-4xl font-bold mb-6" data-lang-key="events.title">Upcoming Events</h2>
-                 <p class="text-gray-600 mb-8 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
-                 <div class="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
-                     <p class="text-gray-500 italic" data-lang-key="events.form_placeholder">(Event registration form will be here)</p>
-                      </div>
+        <section id="events" class="py-16 lg:py-24 bg-gray-light">
+             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-element">
+                 <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center"><i data-lucide="calendar" class="text-brand-red"></i><span data-lang-key="events.title" class="ml-3">Upcoming Events</span></h2>
+                 <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
+                 <div class="bg-white p-10 rounded-xl shadow-lg max-w-lg mx-auto border border-gray-200">
+                     <h4 class="text-xl font-semibold mb-4" data-lang-key="events.featured_title">Featured Event: Investment Strategies 2025</h4>
+                     <p class="text-gray-600 mb-2"><i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2"></i><span data-lang-key="events.featured_date">Date: October 15, 2025</span></p>
+                     <p class="text-gray-600 mb-6"><i data-lucide="map-pin" class="inline-block w-4 h-4 mr-2"></i><span data-lang-key="events.featured_location">Location: BWAM Headquarters, Zurich</span></p>
+                     <button class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="events.button_register">
+                         <i data-lucide="edit"></i>Register Now
+                     </button>
+                 </div>
              </div>
          </section>
 
@@ -303,104 +373,124 @@
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-3xl lg:text-4xl font-bold mb-6" data-lang-key="contact_cta.title">Contact BWAM</h2>
                 <p class="text-gray-600 mb-8 max-w-2xl mx-auto" data-lang-key="contact_cta.subtitle">Our advisors are ready to help you achieve your financial goals. Reach out today.</p>
-                </div>
+            </div>
         </section>
 
     </main>
 
-    <footer class="bg-gray-800 text-gray-400 py-12">
+    <footer class="bg-gray-900 text-gray-400 py-16">
          <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
                  <div>
-                     <h4 class="text-lg font-semibold text-white mb-4">BWAM</h4>
-                     <p class="text-sm mb-4" data-lang-key="footer.tagline">Your reliable financial partner.</p>
+                     <h4 class="text-lg font-semibold text-white mb-5">BWAM</h4>
+                     <p class="text-sm mb-5" data-lang-key="footer.tagline">Your reliable financial partner.</p>
                      <div class="flex space-x-4">
-                         <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg></a>
-                         <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-4.499 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.59-11.018-3.714v-2.155z"></path></svg></a>
-                         <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white"><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.584-.666 2.477 0 1.486.758 2.796 1.909 3.562-.703-.022-1.365-.215-1.946-.536v.052c0 2.076 1.479 3.808 3.45 4.201-.36.099-.738.151-1.126.151-.278 0-.547-.027-.811-.076.546 1.697 2.133 2.934 4.012 2.969-1.469 1.147-3.319 1.83-5.334 1.83-.346 0-.686-.02-1.022-.061 1.89 1.213 4.129 1.921 6.566 1.921 7.883 0 12.207-6.534 12.207-12.207 0-.186-.004-.372-.012-.556.838-.604 1.564-1.36 2.145-2.23z"></path></svg></a>
+                         <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm"><i data-lucide="facebook" class="h-5 w-5"></i></a>
+                         <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-white transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm"><i data-lucide="linkedin" class="h-5 w-5"></i></a>
+                         <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm"><i data-lucide="twitter" class="h-5 w-5"></i></a>
                      </div>
                  </div>
                  <div>
-                     <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.quicklinks">Quick Links</h4>
-                     <ul class="space-y-2 text-sm">
-                         <li><a href="#home" class="hover:text-white transition-colors" data-lang-key="nav.private_clients">Private Clients</a></li>
-                         <li><a href="#services" class="hover:text-white transition-colors" data-lang-key="nav.business_clients">Business Clients</a></li>
-                         <li><a href="#institutional" class="hover:text-white transition-colors" data-lang-key="nav.institutional">Institutional</a></li>
-                         <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.careers">Careers</a></li>
-                         <li><a href="#contact" class="hover:text-white transition-colors" data-lang-key="footer.contact">Contact Us</a></li>
-                         <li><a href="#news" class="hover:text-white transition-colors" data-lang-key="footer.newsroom">Newsroom</a></li>
+                     <h4 class="text-lg font-semibold text-white mb-5" data-lang-key="footer.quicklinks">Quick Links</h4>
+                     <ul class="space-y-3 text-sm">
+                         <li><a href="#home" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="nav.private_clients">Private Clients</a></li>
+                         <li><a href="#business-clients" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="nav.business_clients">Business Clients</a></li>
+                         <li><a href="#institutional" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="nav.institutional">Institutional</a></li>
+                         <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.careers">Careers</a></li>
+                         <li><a href="#contact" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.contact">Contact Us</a></li>
+                         <li><a href="#news" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.newsroom">Newsroom</a></li>
                      </ul>
                  </div>
                  <div>
-                     <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.services">Services</h4>
-                      <ul class="space-y-2 text-sm">
-                          <li><a href="#accounts-cards" class="hover:text-white transition-colors" data-lang-key="nav.accounts_cards">Accounts</a></li>
-                          <li><a href="#investing" class="hover:text-white transition-colors" data-lang-key="nav.investing">Investing</a></li>
-                          <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.mortgages">Mortgages</a></li>
-                          <li><a href="#pensions" class="hover:text-white transition-colors" data-lang-key="nav.pensions">Pensions</a></li>
-                          <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.digital_banking">Digital Banking</a></li>
+                     <h4 class="text-lg font-semibold text-white mb-5" data-lang-key="footer.services">Services</h4>
+                      <ul class="space-y-3 text-sm">
+                          <li><a href="#accounts-cards" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="nav.accounts_cards">Accounts</a></li>
+                          <li><a href="#investing" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="nav.investing">Investing</a></li>
+                          <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.mortgages">Mortgages</a></li>
+                          <li><a href="#pensions" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="nav.pensions">Pensions</a></li>
+                          <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.digital_banking">Digital Banking</a></li>
                       </ul>
                  </div>
                   <div>
-                      <h4 class="text-lg font-semibold text-white mb-4" data-lang-key="footer.legal">Legal</h4>
-                       <ul class="space-y-2 text-sm">
-                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.privacy">Privacy Policy</a></li>
-                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.terms">Terms of Use</a></li>
-                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.imprint">Imprint</a></li>
-                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.cookies">Cookie Settings</a></li>
-                           <li><a href="#" class="hover:text-white transition-colors" data-lang-key="footer.accessibility">Accessibility</a></li>
+                      <h4 class="text-lg font-semibold text-white mb-5" data-lang-key="footer.legal">Legal</h4>
+                       <ul class="space-y-3 text-sm">
+                           <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.privacy">Privacy Policy</a></li>
+                           <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.terms">Terms of Use</a></li>
+                           <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.imprint">Imprint</a></li>
+                           <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.cookies">Cookie Settings</a></li>
+                           <li><a href="#" class="hover:text-white hover:underline transition-colors duration-200 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-offset-gray-900 focus-visible:ring-white rounded-sm" data-lang-key="footer.accessibility">Accessibility</a></li>
                        </ul>
                  </div>
              </div>
-             <div class="border-t border-gray-700 pt-8 text-center text-sm text-gray-500">
+             <div class="border-t border-gray-700 pt-8 mt-8 text-center text-sm text-gray-500">
                  &copy; <span id="current-year"></span> BWAM. <span data-lang-key="footer.rights">All rights reserved.</span> <span data-lang-key="footer.location">Location: Zürich, Switzerland.</span>
              </div>
          </div>
      </footer>
 
-    <div id="consent-banner" class="fixed bottom-0 left-0 right-0 bg-gray-800 text-white p-4 shadow-lg z-[100] transform translate-y-full hidden" >
+    <div id="consent-banner" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-5 shadow-2xl z-[100] transform translate-y-full hidden border-t border-gray-700" >
         <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p class="text-sm text-gray-300 flex-grow" data-consent-text="consent.message">
+            <p class="text-sm text-gray-300 flex-grow sm:mr-4" data-consent-text="consent.message">
                 Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und relevante Inhalte anzuzeigen. Indem Sie auf „Alle akzeptieren“ klicken, stimmen Sie der Verwendung dieser Technologien zu. Sie können Ihre Auswahl jederzeit ändern.
             </p>
-            <div class="flex-shrink-0 flex gap-3">
-                <button id="consent-reject" class="bg-gray-600 hover:bg-gray-500 text-white text-sm font-medium py-2 px-4 rounded-md transition duration-150" data-consent-text="consent.reject">Alle ablehnen</button>
-                <button id="consent-accept" class="bg-brand-red hover:bg-opacity-85 text-white text-sm font-medium py-2 px-4 rounded-md transition duration-150" data-consent-text="consent.accept">Alle akzeptieren</button>
+            <div class="flex-shrink-0 flex gap-3 w-full sm:w-auto">
+                <button id="consent-reject" class="flex-1 sm:flex-none bg-gray-600 hover:bg-gray-500 text-white text-sm font-medium py-2 px-4 rounded-lg transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:ring-white" data-consent-text="consent.reject">Alle ablehnen</button>
+                <button id="consent-accept" class="flex-1 sm:flex-none bg-brand-red hover:bg-brand-red-dark text-white text-sm font-medium py-2 px-4 rounded-lg transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:ring-white" data-consent-text="consent.accept">Alle akzeptieren</button>
             </div>
         </div>
     </div>
 
     <div id="advisor-modal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 hidden">
-        <div id="modal-overlay" class="absolute inset-0 bg-black bg-opacity-60 modal-overlay opacity-0"></div>
-        <div id="modal-content" class="relative bg-white rounded-lg shadow-xl w-full max-w-3xl p-6 md:p-8 transform scale-95 modal-content opacity-0">
-            <button id="modal-close-button" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        <div id="modal-overlay" class="absolute inset-0 bg-black bg-opacity-70 modal-overlay opacity-0 backdrop-blur-sm"></div>
+        <div id="modal-content" class="relative bg-white rounded-xl shadow-xl w-full max-w-3xl p-6 md:p-8 transform scale-95 modal-content opacity-0 overflow-hidden">
+            <button id="modal-close-button" aria-label="Close modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 transition-colors duration-200 p-1 rounded-full hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red">
+                <i data-lucide="x" class="h-5 w-5"></i>
+                <span class="sr-only">Close modal</span>
             </button>
-            <h3 class="text-2xl font-semibold mb-6 text-center" data-lang-key="modal.title">Find Your Advisor</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-                <div class="text-center border border-gray-200 p-4 rounded-lg hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/100x100/e0e0e0/757575?text=AA" alt="Advisor Anna Müller" class="w-24 h-24 rounded-full mx-auto mb-3 object-cover">
-                    <h4 class="font-semibold" data-lang-key="modal.advisor1_name">Anna Müller</h4>
-                    <p class="text-sm text-gray-500 mb-3" data-lang-key="modal.advisor1_title">Senior Wealth Manager</p>
-                    <button class="text-sm bg-brand-red text-white py-1 px-3 rounded-md hover:bg-opacity-85 w-full" data-lang-key="modal.button_connect">Connect</button>
+            <h3 class="text-2xl font-semibold mb-8 text-center" data-lang-key="modal.title">Find Your Advisor</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                <div class="text-center border border-gray-200 p-5 rounded-lg hover:shadow-lg transition-shadow duration-300 transform hover:scale-105">
+                    <img src="https://placehold.co/120x120/e0e0e0/757575?text=AA" alt="Advisor Anna Müller" class="w-28 h-28 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-md">
+                    <h4 class="font-semibold text-lg" data-lang-key="modal.advisor1_name">Anna Müller</h4>
+                    <p class="text-sm text-gray-500 mb-4" data-lang-key="modal.advisor1_title">Senior Wealth Manager</p>
+                    <button class="w-full inline-flex items-center justify-center text-sm bg-brand-red text-white py-2 px-4 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="modal.button_connect"><i data-lucide="user-check"></i>Connect</button>
                 </div>
-                <div class="text-center border border-gray-200 p-4 rounded-lg hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/100x100/d1d5db/4b5563?text=LB" alt="Advisor Lukas Baumann" class="w-24 h-24 rounded-full mx-auto mb-3 object-cover">
-                    <h4 class="font-semibold" data-lang-key="modal.advisor2_name">Lukas Baumann</h4>
-                    <p class="text-sm text-gray-500 mb-3" data-lang-key="modal.advisor2_title">Investment Specialist</p>
-                    <button class="text-sm bg-brand-red text-white py-1 px-3 rounded-md hover:bg-opacity-85 w-full" data-lang-key="modal.button_connect">Connect</button>
+                <div class="text-center border border-gray-200 p-5 rounded-lg hover:shadow-lg transition-shadow duration-300 transform hover:scale-105">
+                    <img src="https://placehold.co/120x120/d1d5db/4b5563?text=LB" alt="Advisor Lukas Baumann" class="w-28 h-28 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-md">
+                    <h4 class="font-semibold text-lg" data-lang-key="modal.advisor2_name">Lukas Baumann</h4>
+                    <p class="text-sm text-gray-500 mb-4" data-lang-key="modal.advisor2_title">Investment Specialist</p>
+                    <button class="w-full inline-flex items-center justify-center text-sm bg-brand-red text-white py-2 px-4 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="modal.button_connect"><i data-lucide="user-check"></i>Connect</button>
                 </div>
-                <div class="text-center border border-gray-200 p-4 rounded-lg hover:shadow-md transition-shadow">
-                    <img src="https://placehold.co/100x100/f3f4f6/1f2937?text=SC" alt="Advisor Sophie Dubois" class="w-24 h-24 rounded-full mx-auto mb-3 object-cover">
-                    <h4 class="font-semibold" data-lang-key="modal.advisor3_name">Sophie Dubois</h4>
-                    <p class="text-sm text-gray-500 mb-3" data-lang-key="modal.advisor3_title">Retirement Planning Expert</p>
-                    <button class="text-sm bg-brand-red text-white py-1 px-3 rounded-md hover:bg-opacity-85 w-full" data-lang-key="modal.button_connect">Connect</button>
+                <div class="text-center border border-gray-200 p-5 rounded-lg hover:shadow-lg transition-shadow duration-300 transform hover:scale-105">
+                    <img src="https://placehold.co/120x120/f3f4f6/1f2937?text=SC" alt="Advisor Sophie Dubois" class="w-28 h-28 rounded-full mx-auto mb-4 object-cover border-4 border-white shadow-md">
+                    <h4 class="font-semibold text-lg" data-lang-key="modal.advisor3_name">Sophie Dubois</h4>
+                    <p class="text-sm text-gray-500 mb-4" data-lang-key="modal.advisor3_title">Retirement Planning Expert</p>
+                    <button class="w-full inline-flex items-center justify-center text-sm bg-brand-red text-white py-2 px-4 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="modal.button_connect"><i data-lucide="user-check"></i>Connect</button>
                 </div>
             </div>
-            <p class="text-center text-gray-600" data-lang-key="modal.schedule_message">Schedule an appointment with your advisor.</p>
+            <p class="text-center text-gray-600 text-sm" data-lang-key="modal.schedule_message">Schedule an appointment with your advisor.</p>
         </div>
     </div>
 
+    <div id="scroll-banker" class="hidden md:block">
+        <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-briefcase banker-svg">
+            <title>Scrolling Banker Icon</title>
+            <rect width="20" height="14" x="2" y="7" rx="2" ry="2" fill="#A6001A" stroke="#850015"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" stroke="#6c757d" fill="#e9ecef"/>
+        </svg>
+    </div>
+
+
     <script src="script.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          if (typeof lucide !== 'undefined') {
+              lucide.createIcons();
+          } else {
+              console.warn("Lucide icons library not loaded.");
+          }
+      });
+    </script>
 </body>
 </html>
+
