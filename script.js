@@ -1,26 +1,26 @@
 /**
- * BWAM Frontend Script (Optimized for React Profile Integration)
+ * BWAM Frontend Script (v2 - For Enhanced React Integration)
  *
  * Handles:
- * - Language switching for non-React elements (data-lang-key)
+ * - Language switching for non-React elements (triggered by React)
  * - Mobile menu toggle
  * - Desktop dropdowns (e.g., Private Clients)
  * - Consent banner logic
  * - Advisor modal logic
  * - Scroll-based animations (fade-in, scroll banker)
- * - Navigation link handling (smooth scroll, section visibility)
+ * - Navigation link handling (smooth scroll, section visibility, hiding React profile)
  * - Lucide icon initialization (called from HTML)
  *
  * Excludes (Handled by React component in HTML):
- * - Login/Logout button clicks and state management
+ * - Login/Logout state and UI in header
  * - Profile dropdown display and interaction
- * - Language switching *within* the profile dropdown
+ * - Language state management and header language buttons
+ * - Rendering of the profile page content
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- State & Configuration ---
-    let currentLang = document.documentElement.lang || 'de'; // Default language
-    const translations = {}; // Will be populated by fetchTranslations
+    let currentLang = document.documentElement.lang || 'de'; // Get initial language from HTML
 
     // --- Selectors ---
     const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -33,125 +33,103 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContent = document.getElementById('modal-content');
     const modalCloseButton = document.getElementById('modal-close-button');
     const contactCtaButton = document.getElementById('contact-cta-button'); // Button to open modal
-    const langButtons = document.querySelectorAll('header .lang-button'); // Language buttons in header (if any remain)
-    const navLinks = document.querySelectorAll('header nav a[href^="#"], footer a[href^="#"], .service-card[href^="#"]'); // Links for sections
-    const dropdownToggles = document.querySelectorAll('.group > button.nav-link'); // Desktop dropdown toggles
+    const navLinks = document.querySelectorAll('.nav-section-link'); // Links for sections (nav, footer, cards)
+    const dropdownToggles = document.querySelectorAll('header .group > button.nav-link'); // Desktop dropdown toggles
     const scrollBanker = document.getElementById('scroll-banker');
     const fadeElements = document.querySelectorAll('.fade-in-element');
+    const staticContentWrapper = document.getElementById('static-content-wrapper');
+    const reactProfileSection = document.getElementById('react-profile-section');
 
     // --- Language Handling ---
 
-    // Function to fetch translations (modify path if needed)
-    async function fetchTranslations(lang) {
-        try {
-            const response = await fetch(`languages/${lang}.json`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            translations[lang] = await response.json();
-            console.log(`Translations loaded for ${lang}`);
-            return translations[lang];
-        } catch (error) {
-            console.error(`Could not load translations for ${lang}:`, error);
-            return null; // Indicate failure
-        }
-    }
+    /**
+     * Updates text content of static elements based on the selected language.
+     * Called by the React component when the language changes.
+     * @param {string} lang - The new language code ('en' or 'de').
+     */
+    function updateStaticContentLanguage(lang) {
+        console.log(`Updating static content language to: ${lang}`);
+        const langData = window.bwamTranslations ? window.bwamTranslations[lang] : null;
 
-    // Function to update text content based on current language
-    function updateTextContent(langData) {
-        if (!langData) return; // Don't proceed if translations failed to load
+        if (!langData) {
+            console.error(`Translations not found for language: ${lang}`);
+            return; // Don't proceed if translations aren't available
+        }
+        currentLang = lang; // Update script's current language knowledge
 
         document.querySelectorAll('[data-lang-key]').forEach(element => {
+            // Exclude elements within the React-controlled areas
+            if (element.closest('#react-profile-header') || element.closest('#react-profile-section')) {
+                return;
+            }
+
             const key = element.getAttribute('data-lang-key');
-            // Basic key traversal (e.g., "hero.title")
             const keys = key.split('.');
             let text = langData;
             try {
-                keys.forEach(k => { text = text[k]; });
-                if (typeof text === 'string') {
-                    // Handle different element types
-                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                        if (element.placeholder !== undefined) element.placeholder = text;
-                    } else if (element.getAttribute('aria-label')) {
-                         element.setAttribute('aria-label', text);
-                    } else if (element.title) {
-                         element.title = text;
+                // Traverse the translation object using the key parts
+                keys.forEach(k => {
+                    if (text && typeof text === 'object' && k in text) {
+                        text = text[k];
                     } else {
-                        // Use textContent for most elements, preserving child elements like icons
-                        // Find the first text node and update it, or append if none exists
-                        let textNodeFound = false;
-                        element.childNodes.forEach(node => {
-                            if (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '') {
-                                node.textContent = ` ${text} `; // Add spacing around text
-                                textNodeFound = true;
+                        // If any part of the key path is missing, throw error to skip update
+                        throw new Error(`Key part "${k}" not found`);
+                    }
+                });
+
+                if (typeof text === 'string') {
+                    // Update appropriate attribute or text content
+                    if (element.hasAttribute('aria-label') && key.startsWith('aria.')) {
+                         element.setAttribute('aria-label', text);
+                    } else if (element.hasAttribute('title') && key.startsWith('aria.')) { // Assuming title is used like aria labels
+                         element.title = text;
+                    } else if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        if (element.placeholder !== undefined) element.placeholder = text;
+                    } else if (element.dataset.consentText) { // Handle consent banner text specifically
+                        element.textContent = text;
+                    }
+                     else {
+                        // Update text content, trying to preserve icons
+                        const iconElement = element.querySelector('i[data-lucide]');
+                        if (iconElement) {
+                            // Find the text node next to the icon or create one
+                            let textNode = null;
+                            for (let node of element.childNodes) {
+                                if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                                    textNode = node;
+                                    break;
+                                }
                             }
-                        });
-                        // If no suitable text node, just set textContent (might replace icons)
-                        if (!textNodeFound) {
-                             // Check if element only contains an icon before overwriting
-                             const containsOnlyIcon = element.children.length === 1 && element.children[0].tagName === 'I';
-                             if (!containsOnlyIcon) {
-                                element.textContent = text;
-                             } else {
-                                // Append text after the icon if possible
+                            if (textNode) {
+                                textNode.textContent = ` ${text} `; // Add spacing
+                            } else {
+                                // Append text after icon if no text node exists
                                 element.appendChild(document.createTextNode(` ${text}`));
-                             }
+                            }
+                        } else {
+                            // If no icon, just set textContent
+                            element.textContent = text;
                         }
                     }
                 } else {
-                   // console.warn(`Translation key '${key}' not found or not a string in language '${currentLang}'.`);
+                   // console.warn(`Translation key '${key}' not found or not a string in language '${lang}'.`);
                 }
             } catch (e) {
-               // console.warn(`Error accessing translation key '${key}':`, e);
+               // console.warn(`Error accessing translation key '${key}':`, e.message);
             }
         });
 
-         // Update consent banner text if it exists
-         if (consentBanner && langData.consent) {
-             const consentMsg = consentBanner.querySelector('[data-consent-text="consent.message"]');
-             const consentAccept = consentBanner.querySelector('[data-consent-text="consent.accept"]');
-             const consentReject = consentBanner.querySelector('[data-consent-text="consent.reject"]');
-             if (consentMsg) consentMsg.textContent = langData.consent.message || consentMsg.textContent;
-             if (consentAccept) consentAccept.textContent = langData.consent.accept || consentAccept.textContent;
-             if (consentReject) consentReject.textContent = langData.consent.reject || consentReject.textContent;
-         }
-
-        // Update language button active state (if header buttons exist)
-        langButtons.forEach(button => {
-            button.classList.toggle('text-brand-red', button.getAttribute('data-lang') === currentLang);
-            button.classList.toggle('font-bold', button.getAttribute('data-lang') === currentLang);
-            button.classList.toggle('text-gray-500', button.getAttribute('data-lang') !== currentLang);
-        });
-    }
-
-    // Function to set the language
-    async function setLanguage(lang) {
-        if (lang !== currentLang || !translations[lang]) {
-            const langData = await fetchTranslations(lang);
-            if (langData) { // Only update if fetch was successful
-                currentLang = lang;
-                document.documentElement.lang = lang;
-                updateTextContent(langData);
-                // Dispatch custom event for React component
-                document.dispatchEvent(new CustomEvent('bwamLanguageChange', { detail: lang }));
-                console.log(`Language set to ${lang}`);
-            }
-        } else {
-             // If language is already current and loaded, just ensure text is updated
-             updateTextContent(translations[lang]);
+        // Re-initialize Lucide icons if needed after text changes
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
         }
     }
 
-    // Event listeners for language buttons (if any remain in header)
-    langButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const lang = button.getAttribute('data-lang');
-            setLanguage(lang);
-        });
-    });
+    // Expose the function globally for React to call
+    window.bwamScripts.updateStaticContentLanguage = updateStaticContentLanguage;
 
-    // Initial language load
-    setLanguage(currentLang);
+    // Initial language update for static content on load
+    updateStaticContentLanguage(currentLang);
 
 
     // --- Mobile Menu ---
@@ -160,8 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
             mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
             mobileMenu.classList.toggle('hidden');
-            // Optional: Change icon based on state (e.g., menu to x)
-             const icon = mobileMenuButton.querySelector('i');
+            const icon = mobileMenuButton.querySelector('i');
              if (icon) {
                  icon.setAttribute('data-lucide', isExpanded ? 'menu' : 'x');
                  if (typeof lucide !== 'undefined') lucide.createIcons(); // Re-render icon
@@ -169,57 +146,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Desktop Dropdowns (e.g., Private Clients) ---
+    // --- Desktop Dropdowns ---
      if (dropdownToggles) {
         dropdownToggles.forEach(toggle => {
-            const dropdown = toggle.nextElementSibling; // Assumes menu is the next sibling
+            const dropdown = toggle.nextElementSibling;
             if (dropdown && dropdown.classList.contains('dropdown-menu')) {
-                // Toggle on click
                 toggle.addEventListener('click', (event) => {
-                    event.stopPropagation(); // Prevent body click from closing immediately
-                    // Close other open dropdowns
-                    closeAllDropdowns(dropdown);
-                    dropdown.classList.toggle('show'); // Use a class like 'show' for visibility
+                    event.stopPropagation();
+                    const isCurrentlyShown = dropdown.classList.contains('show');
+                    closeAllDropdowns(); // Close others first
+                    if (!isCurrentlyShown) {
+                       dropdown.classList.add('show'); // Toggle show
+                    }
                 });
-
-                // Prevent clicks inside dropdown from closing it
                 dropdown.addEventListener('click', (event) => {
-                     event.stopPropagation();
+                     event.stopPropagation(); // Clicks inside don't close
                 });
             }
         });
-
         // Close dropdowns when clicking outside
-        document.body.addEventListener('click', () => {
-            closeAllDropdowns();
-        });
+        document.body.addEventListener('click', () => closeAllDropdowns());
      }
 
-     function closeAllDropdowns(excludeDropdown = null) {
+     function closeAllDropdowns() {
         document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-            if (menu !== excludeDropdown) {
-                menu.classList.remove('show');
-            }
+            menu.classList.remove('show');
         });
      }
-
 
     // --- Consent Banner ---
-    const consentKey = window.CONSENT_STORAGE_KEY || 'consent_status'; // Use key from HTML if defined
+    const consentKey = window.CONSENT_STORAGE_KEY || 'consent_status';
     const consentStatus = localStorage.getItem(consentKey);
 
     if (consentBanner && !consentStatus) {
-        // Show banner if no status is set
         consentBanner.classList.remove('hidden');
-        consentBanner.style.transform = 'translateY(0)'; // Animate in
-        consentBanner.style.transition = 'transform 0.5s ease-out';
+        // Animate in (ensure initial state is set via CSS if needed)
+        requestAnimationFrame(() => {
+             consentBanner.style.transform = 'translateY(0)';
+             consentBanner.style.transition = 'transform 0.5s ease-out';
+        });
     }
 
     if (consentAcceptButton) {
         consentAcceptButton.addEventListener('click', () => {
             localStorage.setItem(consentKey, 'accepted');
             hideConsentBanner();
-            // Add analytics initialization or other actions here if needed
             console.log('Consent accepted');
         });
     }
@@ -228,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
         consentRejectButton.addEventListener('click', () => {
             localStorage.setItem(consentKey, 'rejected');
             hideConsentBanner();
-             // Disable non-essential cookies/scripts here if needed
             console.log('Consent rejected');
         });
     }
@@ -236,18 +206,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideConsentBanner() {
         if (consentBanner) {
             consentBanner.style.transform = 'translateY(100%)';
-             // Remove after transition
             setTimeout(() => consentBanner.classList.add('hidden'), 500);
         }
     }
-
 
     // --- Advisor Modal ---
     function openModal() {
         if (!advisorModal || !modalOverlay || !modalContent) return;
         advisorModal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Prevent background scroll
-        // Animate modal appearance
+        document.body.style.overflow = 'hidden';
         requestAnimationFrame(() => {
             modalOverlay.style.opacity = 1;
             modalContent.style.opacity = 1;
@@ -259,69 +226,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeModal() {
         if (!advisorModal || !modalOverlay || !modalContent) return;
-        document.body.style.overflow = ''; // Restore background scroll
-        // Animate modal disappearance
+        document.body.style.overflow = '';
         modalOverlay.style.opacity = 0;
         modalContent.style.opacity = 0;
         modalContent.style.transform = 'scale(0.95)';
-        // Hide after transition
         setTimeout(() => {
             advisorModal.classList.add('hidden');
-        }, 300); // Match transition duration
+        }, 300);
     }
 
-    if (contactCtaButton) { // Button in Hero section
+    if (contactCtaButton) {
         contactCtaButton.addEventListener('click', openModal);
     }
-     // Add listeners for other buttons that might open the modal if needed
-
     if (modalCloseButton) {
         modalCloseButton.addEventListener('click', closeModal);
     }
     if (modalOverlay) {
-        modalOverlay.addEventListener('click', closeModal); // Close on overlay click
+        modalOverlay.addEventListener('click', closeModal);
     }
 
-
     // --- Scroll Effects ---
-
-    // Fade-in elements
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
             }
-            // Optional: remove class if element scrolls out of view
-            // else {
-            //     entry.target.classList.remove('is-visible');
-            // }
         });
-    }, {
-        threshold: 0.1 // Trigger when 10% of the element is visible
-    });
+    }, { threshold: 0.1 });
 
     if (fadeElements) {
         fadeElements.forEach(el => observer.observe(el));
     }
 
-    // Scrolling banker icon
     function handleScrollBanker() {
-        if (!scrollBanker) return;
+        // ... (scroll banker logic remains the same as previous version)
+         if (!scrollBanker) return;
         const scrollY = window.scrollY;
         const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = (scrollY / pageHeight) * 100;
+        const scrollPercent = pageHeight > 0 ? (scrollY / pageHeight) * 100 : 0;
 
-        // Example: Move vertically based on scroll percentage
-        const startOffset = 100; // Initial offset from top
-        const endOffset = window.innerHeight - 100; // Final offset from bottom
-        const newTop = startOffset + (scrollPercent / 100) * (endOffset - startOffset - scrollBanker.offsetHeight);
+        const startOffset = 100;
+        const endOffset = window.innerHeight - 100;
+        const availableScrollHeight = endOffset - startOffset - scrollBanker.offsetHeight;
+        const newTop = startOffset + (scrollPercent / 100) * availableScrollHeight;
 
         scrollBanker.style.position = 'fixed';
         scrollBanker.style.top = `${Math.max(startOffset, Math.min(newTop, endOffset - scrollBanker.offsetHeight))}px`;
-        scrollBanker.style.right = '20px'; // Adjust horizontal position
-        scrollBanker.style.transition = 'top 0.1s linear'; // Smooth transition
+        scrollBanker.style.right = '20px';
 
-         // Show/hide based on scroll position (optional)
          if (scrollY > 200 && scrollY < pageHeight - 200) {
              scrollBanker.style.opacity = '1';
              scrollBanker.style.visibility = 'visible';
@@ -333,41 +285,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (scrollBanker) {
-         window.addEventListener('scroll', handleScrollBanker);
-         handleScrollBanker(); // Initial position check
+         window.addEventListener('scroll', handleScrollBanker, { passive: true }); // Use passive listener
+         handleScrollBanker(); // Initial check
     }
 
     // --- Navigation Link Handling (Smooth Scroll & Section Visibility) ---
-    function showSection(targetId) {
-        // Hide all main content sections first
-        document.querySelectorAll('main > section').forEach(section => {
-             // Don't hide the hero section (#home)
-             if (section.id !== 'home') {
-                section.classList.add('hidden');
-             }
+    /**
+     * Shows a specific static content section and hides others,
+     * including the React profile section.
+     * @param {string} targetId - The ID of the section to show (without '#').
+     */
+    function showStaticSection(targetId) {
+        // Hide React profile section if visible
+        if (reactProfileSection && reactProfileSection.classList.contains('visible')) {
+            reactProfileSection.classList.remove('visible');
+        }
+        // Ensure static content wrapper is visible
+        if (staticContentWrapper) {
+            staticContentWrapper.classList.remove('hidden-by-react');
+        }
+
+        // Hide all main static sections first
+        document.querySelectorAll('#static-content-wrapper > .main-section').forEach(section => {
+             section.classList.add('hidden');
         });
 
-        // Show the target section
+        // Show the target static section
         const targetSection = document.getElementById(targetId);
-        if (targetSection) {
+        if (targetSection && targetSection.classList.contains('main-section')) {
             targetSection.classList.remove('hidden');
-            // Scroll to the section smoothly
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Scroll to the section smoothly after a short delay
+             setTimeout(() => {
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+             }, 50); // Delay allows layout adjustments
 
              // Re-run fade-in check for newly visible elements
              if (fadeElements) {
-                fadeElements.forEach(el => {
-                    if (targetSection.contains(el)) {
-                        observer.unobserve(el); // Re-observe to trigger animation if needed
-                        observer.observe(el);
-                    }
+                targetSection.querySelectorAll('.fade-in-element').forEach(el => {
+                   observer.unobserve(el); // Re-observe to trigger animation if needed
+                   observer.observe(el);
                 });
             }
         } else {
-            console.warn(`Target section #${targetId} not found.`);
-            // If target not found, maybe default to showing the 'home' section or another default
-            const homeSection = document.getElementById('home');
-            if (homeSection) homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            console.warn(`Target static section #${targetId} not found or invalid.`);
+            // Default to showing #home if target is invalid
+             const homeSection = document.getElementById('home');
+             if (homeSection) {
+                 homeSection.classList.remove('hidden');
+                 setTimeout(() => homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+             }
         }
     }
 
@@ -375,43 +341,47 @@ document.addEventListener('DOMContentLoaded', () => {
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
+                // Check if it's an internal section link
                 if (href && href.startsWith('#') && href.length > 1) {
                     e.preventDefault(); // Prevent default anchor jump
                     const targetId = href.substring(1);
 
-                    // Special case: If clicking a link within a dropdown, close the dropdown
-                    const parentDropdown = this.closest('.dropdown-menu');
-                    if (parentDropdown) {
-                        parentDropdown.classList.remove('show');
-                    }
-                    // Special case: If clicking a mobile menu link, close the mobile menu
+                    // Close mobile menu if open
                     if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenuButton.click(); // Simulate click to close
+                        mobileMenuButton.click();
                     }
+                    // Close desktop dropdowns if click originated from one
+                     const parentDropdown = this.closest('.dropdown-menu');
+                     if (parentDropdown) {
+                         parentDropdown.classList.remove('show');
+                     }
 
-                    showSection(targetId);
+                    // Show the target static section (this also hides React profile)
+                    showStaticSection(targetId);
 
-                    // Optional: Update URL hash without causing a page jump
-                    // history.pushState(null, null, href);
+                    // Optional: Update URL hash without causing page jump/reload
+                    // but only if it's not the profile hash handled by React
+                    if (targetId !== 'profile') {
+                        history.pushState(null, null, href);
+                    }
                 }
             });
         });
     }
 
      // Handle initial section display based on URL hash, if any
-     if (window.location.hash && window.location.hash.length > 1) {
+     // Exclude #profile as it's handled by React state
+     if (window.location.hash && window.location.hash.length > 1 && window.location.hash !== '#profile') {
          const initialTargetId = window.location.hash.substring(1);
          // Use setTimeout to ensure layout is stable before scrolling
-         setTimeout(() => showSection(initialTargetId), 100);
-     } else {
-        // Default view (show #home, hide others - handled by showSection logic)
-        // Ensure #home is visible and others are hidden initially if no hash
-        showSection('home'); // Explicitly show home, hide others
+         setTimeout(() => showStaticSection(initialTargetId), 100);
+     } else if (!window.location.hash || window.location.hash === '#') {
+         // Default view: ensure #home is shown and others are hidden initially
+         showStaticSection('home');
      }
+     // Note: If the hash is #profile on load, the React component's useEffect
+     // should handle showing the profile view via changeView('profile').
 
-    // --- Footer Year ---
-    // Moved to the script tag in HTML after the React script for simplicity
-
-    console.log("BWAM script initialized.");
+    console.log("BWAM script v2 initialized.");
 
 }); // End DOMContentLoaded
