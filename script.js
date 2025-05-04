@@ -340,33 +340,47 @@ function setLanguage(lang) {
 function handleHashChange() {
     const currentHash = window.location.hash.substring(1);
     console.log(`Hash changed to: #${currentHash}`);
-    let sectionToShowId = 'home'; // Default section
-    if (currentHash && document.getElementById(currentHash)) {
-        sectionToShowId = currentHash; // Use hash if valid section exists
-    } else if (currentHash) {
-        console.warn(`Section for hash #${currentHash} not found, showing home.`);
-    }
+
+    // Default sections to show on the 'homepage' view (empty hash or #home)
+    const homeSections = ['home', 'about-us', 'business-clients', 'news', 'events']; // Added about-us and events here
+
     // Hide all main sections first
     document.querySelectorAll('main > section').forEach(section => {
         section.classList.add('hidden');
     });
-    // Show the target section
-    const sectionToShow = document.getElementById(sectionToShowId);
-    if (sectionToShow) {
-        sectionToShow.classList.remove('hidden');
-        console.log(`Showing section: #${sectionToShowId}`);
-        // Animation is handled by Intersection Observer
+
+    if (!currentHash || currentHash === 'home') {
+        // Show all default homepage sections
+        homeSections.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) {
+                section.classList.remove('hidden');
+                console.log(`Showing homepage section: #${id}`);
+            } else {
+                console.warn(`Homepage section #${id} not found.`);
+            }
+        });
+        // Ensure sections not part of home are hidden (redundant but safe)
+        document.querySelectorAll('main > section:not(#home):not(#about-us):not(#business-clients):not(#news):not(#events)')
+            .forEach(s => s.classList.add('hidden'));
+
     } else {
-        // Fallback to 'home' if the target or default is missing
-        const homeSection = document.getElementById('home');
-        if (homeSection) {
-            homeSection.classList.remove('hidden');
-            console.log(`Fallback: Showing section: #home`);
+        // Show only the section matching the hash
+        const sectionToShow = document.getElementById(currentHash);
+        if (sectionToShow) {
+            sectionToShow.classList.remove('hidden');
+            console.log(`Showing specific section: #${currentHash}`);
         } else {
-            console.error("Default section 'home' not found!");
+            // Fallback if hash is invalid - show default home sections
+            console.warn(`Section for hash #${currentHash} not found, showing default home view.`);
+            homeSections.forEach(id => {
+                 const section = document.getElementById(id);
+                 if (section) section.classList.remove('hidden');
+            });
         }
     }
 }
+
 
 // --- User Identification Function (Simplified) ---
 function handleSuccessfulLogin(userId, userEmail) {
@@ -557,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { const savedLang = localStorage.getItem('bwam_preferred_lang'); if (savedLang && translations[savedLang]) preferredLang = savedLang; }
     catch (e) { console.warn("Could not read lang preference.", e); }
     setLanguage(preferredLang); // Includes initial Lucide icon rendering
-    handleHashChange(); // Show initial section
+    handleHashChange(); // Show initial section(s)
 
     // --- Animations & Scroll Listeners ---
     setupScrollAnimation(); // Setup fade-in animations
@@ -567,6 +581,9 @@ document.addEventListener('DOMContentLoaded', () => {
         handleBankerScroll(); // Set initial position
     }
 
-    console.log("BWAM Script Loaded (Scrolling Icon Added). Initial language:", preferredLang);
+    // Add hashchange listener AFTER initial setup
+    window.addEventListener('hashchange', handleHashChange);
+
+    console.log("BWAM Script Loaded (Visibility Fixed). Initial language:", preferredLang);
 
 }); // End of DOMContentLoaded
