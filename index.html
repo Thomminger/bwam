@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"> <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BWAM</title>
@@ -10,7 +11,7 @@
         theme: {
           extend: {
             colors: {
-              'brand-red': '#A6001A', // Define custom color for Tailwind classes
+              'brand-red': '#A6001A',
               'brand-red-dark': '#850015',
               'gray-light': '#f9fafb',
             }
@@ -40,225 +41,143 @@
     <script type="text/javascript">
         window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
         window.bwamScripts = {};
-        // Translations object will be populated by React script at the end
-        window.bwamTranslations = { en: {}, de: {} };
+        window.bwamTranslations = { en: {}, de: {} }; // Populated by React script
     </script>
 
 </head>
 <body class="pb-32 has-mountain-bg">
 
     <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-3 h-20">
-                <div class="flex-shrink-0">
-                    <a href="#home" id="logo-link" class="nav-section-link flex items-center group" title="BWAM Home">
-                        <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 md:h-12 w-auto mr-2 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                        <span class="font-bold text-xl text-brand-red" style="display: none;" aria-hidden="true">BWAM</span> {/* Used Tailwind color name */}
-                        <script> /* Logo fallback script */ document.addEventListener('DOMContentLoaded', () => { /* ... */ }); </script>
-                    </a>
-                </div>
-
-                <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
-                    <div class="group relative">
-                        <button class="nav-link text-base font-medium text-gray-600 hover:text-brand-red inline-flex items-center py-3 transition-colors duration-200" data-lang-key="nav.private_clients">
-                            <i data-lucide="users" class="mr-1 h-4 w-4"></i>Private Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
-                        </button>
-                        <div class="dropdown-menu"> {/* Content as provided */}...</div>
-                    </div>
-                    <a href="#business-clients" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.business_clients"><i data-lucide="briefcase" class="mr-1 h-4 w-4"></i>Business Clients</a>
-                    <a href="#institutional" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.institutional"><i data-lucide="building-2" class="mr-1 h-4 w-4"></i>Institutional</a>
-                    <a href="#about-us" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.about_us"><i data-lucide="info" class="mr-1 h-4 w-4"></i>About Us</a>
-                    <a href="#events" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.events"><i data-lucide="calendar" class="mr-1 h-4 w-4"></i>Events</a>
-                </nav>
-
-                <div class="flex items-center space-x-3 sm:space-x-4">
-                     <button aria-label="Search" class="p-2 text-gray-500 hover:text-brand-red rounded-full hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key-aria="aria.search" title="Search" data-lang-key-title="aria.search">
-                         <i data-lucide="search" class="h-5 w-5"></i>
-                     </button>
-                     {/* React Target Div */}
-                     <div id="react-profile-header" class="flex items-center"></div>
-                     <div class="md:hidden">
-                         <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="p-2 text-gray-500 hover:text-brand-red rounded-md hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key-aria="aria.open_menu">
-                             <i data-lucide="menu" class="h-6 w-6"></i>
-                         </button>
-                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40"> {/* Content as provided */}...</div>
+         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="flex justify-between items-center py-3 h-20">
+                 <div class="flex-shrink-0">...</div>
+                 <nav class="hidden md:flex ...">...</nav>
+                 <div class="flex items-center space-x-3 sm:space-x-4">
+                    <button aria-label="Search"...>...</button>
+                    <div id="react-profile-header" class="flex items-center"></div>
+                    <div class="md:hidden">...</div>
+                 </div>
+             </div>
+         </div>
+         <div id="mobile-menu" class="hidden md:hidden ...">...</div>
     </header>
 
     <main id="main-content">
         <div id="static-content-wrapper">
 
-            <section id="home" class="main-section relative min-h-[70vh] md:min-h-[80vh] flex items-center text-white overflow-hidden"> {/* Content as provided */}...</section>
+            <section id="home" class="main-section ...">...</section>
+            <section id="about-us" class="main-section ...">...</section>
 
-            <section id="about-us" class="main-section py-16 md:py-24 bg-white"> {/* Content as provided */}...</section>
-
-            <section id="events" class="main-section py-16 lg:py-24 bg-gray-light"> {/* Changed background to light gray */}
+            <section id="events" class="main-section py-16 lg:py-24 bg-gray-light"> {/* Reverted background */}
                 <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-element">
-                    <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center justify-center w-full">
-                        <i data-lucide="calendar" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="events.title">Upcoming Events</span>
-                    </h2>
-                    <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">
-                        Join us for our upcoming forum. Register below! {/* Updated subtitle slightly */}
-                    </p>
+                     <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center justify-center w-full">
+                         <i data-lucide="calendar" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="events.title">Upcoming Events</span>
+                     </h2>
+                     <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">
+                         Join us for our upcoming forum and other insightful events.
+                     </p>
 
-                    {/* Highlight Wrapper for the iframe */}
-                    <div class="highlight-event-wrapper border-2 border-brand-red rounded-lg p-4 shadow-lg bg-white max-w-5xl mx-auto my-8 md:my-12">
-                        <h3 class="text-xl font-semibold mb-4 text-left text-brand-red">Featured Event: Future Wealth Forum 2025</h3>
-                        <div class="event-iframe-container text-left">
-                           <iframe
-                               id="blackthorn-event-iframe"
-                               src="https://events.blackthorn.io/en/KB1u1Ug7/future-wealth-forum-2025-navigating-the-next-wave-of-investment-4a9qKBXZql/overview"
-                               width="100%"
-                               height="900px"
-                               style="border:none; min-height: 700px;"
-                               title="Future Wealth Forum 2025 Event Details & Registration"
-                               loading="lazy"
-                               allowfullscreen
-                           >
-                               <p>Your browser does not support iframes.
-                                  Please <a href="https://events.blackthorn.io/en/KB1u1Ug7/future-wealth-forum-2025-navigating-the-next-wave-of-investment-4a9qKBXZql/overview" target="_blank" rel="noopener noreferrer" class="text-brand-red hover:underline">click here to view the event details</a>.
-                               </p>
-                           </iframe>
+                     {/* Event Card Grid */}
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+                         {/* Main Event Card with Click-Out Link */}
+                         <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-brand-red text-left transition-shadow duration-300 hover:shadow-xl"> {/* Added border highlight */}
+                             <h4 class="text-xl font-semibold mb-4 text-brand-red"> {/* Make title stand out */}
+                                 Future Wealth Forum 2025: Navigating the Next Wave of Investment
+                             </h4>
+                             <p class="text-gray-600 mb-2"><i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
+                                 <span>Date: October 15, 2025</span> {/* Static date example */}
+                             </p>
+                             <p class="text-gray-600 mb-4"><i data-lucide="map-pin" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
+                                 <span>Location: Baur au Lac, Zürich</span> {/* Static location example */}
+                             </p>
+                             <p class="text-sm text-gray-500 mb-6">
+                                 Explore key economic trends, investment opportunities, and strategies for resilient portfolios. Includes networking apéro.
+                             </p>
+                             {/* Click-Out Link as a Button */}
+                             <a href="https://events.blackthorn.io/en/KB1u1Ug7/future-wealth-forum-2025-navigating-the-next-wave-of-investment-4a9qKBXZql/overview"
+                                target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red">
+                                 <i data-lucide="arrow-up-right-from-square" class="mr-2 h-5 w-5"></i> {/* Changed Icon */}
+                                 View Details & Register
+                             </a>
                          </div>
-                    </div>
-                    {/* End Highlight Wrapper */}
 
-                    {/* You could optionally keep other event cards here if needed */}
-                    {/* <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mt-12"> ... other event cards ... </div> */}
+                         {/* Optional: Second Event Card (Example - Can be removed or adapted) */}
+                         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left hover:shadow-xl transition-shadow duration-300">
+                             <h4 class="text-xl font-semibold mb-4" data-lang-key="events.event2_title">Digital Banking Security Workshop</h4>
+                             <p class="text-gray-600 mb-2"><i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i><span data-lang-key="events.event2_date">Date: November 5, 2025</span></p>
+                             <p class="text-gray-600 mb-4"><i data-lucide="laptop" class="inline-block w-4 h-4 mr-2 text-gray-500"></i><span data-lang-key="events.event2_location">Location: Online Webinar</span></p>
+                             <p class="text-sm text-gray-500 mb-6" data-lang-key="events.event2_desc">Learn best practices for protecting your accounts and data in the digital age. Q&A with cybersecurity experts.</p>
+                             <button class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" data-lang-key="events.button_register">
+                                 <i data-lucide="edit" class="mr-2 h-5 w-5"></i>Register Now
+                             </button>
+                         </div>
 
-                </div>
-            </section>
-            <section id="news" class="main-section py-16 lg:py-24 bg-white"> {/* Content as provided */}...</section>
-            <section id="business-clients" class="main-section py-16 md:py-24 bg-gray-light hidden"> {/* Content as provided */}...</section>
-            <section id="institutional" class="main-section py-16 md:py-24 bg-white hidden"> {/* Content as provided */}...</section>
-            <section id="accounts-cards" class="main-section py-16 lg:py-24 bg-white hidden"> {/* Content as provided */}...</section>
-            <section id="investing" class="main-section py-16 lg:py-24 bg-gray-light hidden"> {/* Content as provided */}...</section>
-            <section id="pensions" class="main-section py-16 lg:py-24 bg-white hidden"> {/* Content as provided */}...</section>
-            <section id="financing" class="main-section py-16 lg:py-24 bg-gray-light hidden"> {/* Content as provided */}...</section>
-            <section id="corporate-accounts" class="main-section py-16 lg:py-24 bg-white hidden"> {/* Content as provided */}...</section>
-            <section id="business-financing" class="main-section py-16 lg:py-24 bg-gray-light hidden"> {/* Content as provided */}...</section>
-            <section id="cash-management" class="main-section py-16 lg:py-24 bg-white hidden"> {/* Content as provided */}...</section>
+                     </div>
+                     {/* End Event Card Grid */}
 
-        </div> {/* End static-content-wrapper */}
-
-        {/* React Target Div */}
-        <div id="react-profile-section"></div>
+                 </div>
+              </section>
+            <section id="news" class="main-section ...">...</section>
+            <section id="business-clients" class="main-section ... hidden">...</section>
+            <section id="institutional" class="main-section ... hidden">...</section>
+            </div> <div id="react-profile-section"></div>
 
     </main>
 
-    <footer class="bg-gray-900 text-gray-400 py-16"> {/* Content as provided */}...</footer>
+    <footer class="bg-gray-900 text-gray-400 py-16">...</footer>
 
-    <div id="consent-banner" class="fixed bottom-0 left-0 right-0 bg-gray-900 ..."> {/* Content as provided */}...</div>
-    <div id="advisor-modal" class="fixed inset-0 z-[110] flex items-center justify-center p-4 hidden modal"> {/* Content as provided */}...</div>
-    <div id="scroll-banker" class="hidden md:block"> {/* Content as provided */}...</div>
+    <div id="consent-banner" class="fixed ...">...</div>
+    <div id="advisor-modal" class="fixed ... hidden modal">...</div>
+    <div id="scroll-banker" class="hidden md:block">...</div>
 
     <script src="script.js" defer></script>
 
     <script type="text/babel">
+        // React code as provided in the previous step
+        // Includes: Icon components, useAuth, AppProvider, HeaderApp, ProfileSection, ReactDOM.render calls
         const { useState, useEffect, useRef, useCallback, useContext } = React;
+        const translations = window.bwamTranslations || { en: {}, de: {} }; // Use global object
+        window.bwamTranslations = translations; // Ensure it's set
 
-        // --- Embedded Translations ---
-        // Use the object defined in the <head> script tag
-        const translations = window.bwamTranslations || {
-            en: { /* Fallback if needed */ }, de: { /* Fallback if needed */ }
-        };
-        // Re-assign to window object *after* React potentially populates it,
-        // ensuring script.js gets the React-defined version if it runs later.
-        // Note: The translation object provided in your HTML seems incomplete,
-        // ensure it has all keys used by React and script.js.
-        window.bwamTranslations = translations;
+        // Icon Components (UserCircleIcon, GlobeIcon, etc...)
+        // ...
+        const UserCircleIcon = ({ size = 28 }) => ( <svg>...</svg> ); // Example
+        const GlobeIcon = ({ size = 16 }) => ( <svg>...</svg> ); // Example
+        // ... include ALL icon components ...
 
-        // --- Inline SVG Icons (Functional Components) ---
-        // (Include definitions for: UserCircleIcon, GlobeIcon, etc. from previous responses)
-        const UserCircleIcon = ({ size = 28 }) => ( <svg>...</svg> );
-        const LogOutIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const SettingsIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const GlobeIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const UserIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const LandmarkIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const TargetIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const ZapIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const ListIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        const SendIcon = ({ size = 14 }) => ( <svg>...</svg> );
-        const FileTextIcon = ({ size = 14 }) => ( <svg>...</svg> );
-        const MessageSquareIcon = ({ size = 14 }) => ( <svg>...</svg> );
-        const EditIcon = ({ size = 12 }) => ( <svg>...</svg> );
-
-
-        // --- Authentication Hook ---
-        // (Keep useAuth hook from previous response)
+        // useAuth Hook
         const useAuth = () => { /* ... */ return { user, loading, login, logout }; };
 
-        // --- Main Application Context ---
-        // (Keep AppProvider component from previous response)
+        // AppProvider Context
         const AppContext = React.createContext();
         function AppProvider({ children }) { /* ... */ return <AppContext.Provider value={value}>{children}</AppContext.Provider>; }
 
-        // --- Header Component (Login/Profile & Language) ---
-        // (Keep HeaderApp component from previous response)
-        function HeaderApp() { /* ... */ return ( /* JSX for header controls */ ); }
+        // HeaderApp Component
+        function HeaderApp() { /* ... */ return ( /* JSX for header */ ); }
 
-        // --- Profile Section Component ---
-        // (Keep ProfileSection component from previous response)
+        // ProfileSection Component
         function ProfileSection() { /* ... */ return ( /* JSX for profile page */ ); }
 
-        // --- Render React Components into DOM ---
-        // Wrap in try-catch for robustness
+        // ReactDOM Render Calls
         try {
             ReactDOM.render(<AppProvider><HeaderApp /></AppProvider>, document.getElementById('react-profile-header'));
             ReactDOM.render(<AppProvider><ProfileSection /></AppProvider>, document.getElementById('react-profile-section'));
-            console.log("React components rendered successfully.");
-        } catch (error) {
-            console.error("React Rendering Error:", error);
-            // Optionally provide feedback in the UI
-            const headerTarget = document.getElementById('react-profile-header');
-            if (headerTarget) headerTarget.innerHTML = '<span class="text-xs text-red-600">Error!</span>';
-        }
+        } catch (error) { console.error("React Rendering Error:", error); }
 
     </script>
 
     <script>
-        // Function to initialize Lucide icons (now checks function existence)
-        function initializeLucide() {
-            if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-                try {
-                    // Target only non-React icons explicitly
-                    const iconsToInitialize = document.querySelectorAll('[data-lucide]:not(#react-profile-header [data-lucide]):not(#react-profile-section [data-lucide])');
-                    if(iconsToInitialize.length > 0) {
-                        console.log(`Initializing ${iconsToInitialize.length} non-React Lucide icons.`);
-                        lucide.createIcons({ elements: iconsToInitialize });
-                    }
-                } catch (error) { console.error("Error creating Lucide icons:", error); }
-            } else { console.warn("Lucide library not ready for initialization."); }
-        }
-
-        // Initialize Lucide and other minor things after DOM ready
+        // Lucide Init and other DOMContentLoaded logic as in previous step
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("DOM Ready: Initializing Lucide and other setup.");
-            initializeLucide(); // Init icons in static HTML
-
-            // Set current year in footer
-            const yearSpan = document.getElementById('current-year');
-            if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
-
-            // Add event listener for footer contact link
-            const footerContact = document.getElementById('footer-contact-link');
-            const contactModal = document.getElementById('advisor-modal');
-            // Check if openModal is globally available (from script.js)
-            if (footerContact && contactModal && typeof window.openModal === 'function') {
-                 footerContact.addEventListener('click', (e) => { e.preventDefault(); window.openModal(); });
-             }
-
-             // Add listener for Cookie Settings link
-             const cookieSettingsLink = document.getElementById('cookie-settings-link');
-             const consentBanner = document.getElementById('consent-banner');
-             if (cookieSettingsLink && consentBanner && typeof window.showConsentBanner === 'function') { // Assuming showConsentBanner exists
-                  cookieSettingsLink.addEventListener('click', (e) => { e.preventDefault(); window.showConsentBanner(); });
-              }
+             // Initialize Lucide Icons for static elements
+             if (typeof lucide !== 'undefined') { /* ... lucide.createIcons() ... */ } else { /* ... console.warn ... */ }
+             // Set footer year
+             const yearSpan = document.getElementById('current-year');
+             if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+             // Add footer link listeners (Contact, Cookies)
+             // ...
         });
     </script>
 
