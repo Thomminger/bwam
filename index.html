@@ -160,13 +160,13 @@
                      <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
                      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                          <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left hover:shadow-xl transition-shadow duration-300">
-                             <h4 class="text-xl font-semibold mb-4" data-lang-key="events.featured_title">Investment Strategies 2025</h4>
+                             <h4 class="text-xl font-semibold mb-4" data-lang-key="events.future_wealth_title">Future Wealth Forum 2025: Navigating the Next Wave of Investment</h4>
                              <p class="text-gray-600 mb-2"><i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i><span data-lang-key="events.featured_date">Date: October 15, 2025</span></p>
                              <p class="text-gray-600 mb-4"><i data-lucide="map-pin" class="inline-block w-4 h-4 mr-2 text-gray-500"></i><span data-lang-key="events.featured_location">Location: BWAM Headquarters, Zurich</span></p>
-                             <p class="text-sm text-gray-500 mb-6" data-lang-key="events.featured_desc">Explore key market trends and portfolio positioning for the upcoming year with our chief strategist.</p>
-                             <button class="inline-flex items-center bg-[var(--brand-red)] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[var(--brand-red-dark)] transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key="events.button_register">
-                                 <i data-lucide="edit" class="mr-2 h-5 w-5"></i>Register Now
-                             </button>
+                             <p class="text-sm text-gray-500 mb-6" data-lang-key="events.future_wealth_desc">Join BWAM's leading strategists and market analysts for an exclusive evening exploring the key economic trends shaping 2025 and beyond. Discover insights into innovative investment opportunities, sustainable finance growth areas, and strategies for building resilient portfolios in a dynamic global landscape. Includes networking apéro with peers and experts.</p>
+                             <a href="https://events.blackthorn.io/en/KB1u1Ug7/future-wealth-forum-2025-navigating-the-next-wave-of-investment-4a9qKBXZql/overview" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-[var(--brand-red)] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[var(--brand-red-dark)] transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key="events.future_wealth_button">
+                                 <i data-lucide="external-link" class="mr-2 h-5 w-5"></i>View Event Details
+                             </a>
                          </div>
                          <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left hover:shadow-xl transition-shadow duration-300">
                              <h4 class="text-xl font-semibold mb-4" data-lang-key="events.event2_title">Digital Banking Security Workshop</h4>
@@ -518,14 +518,37 @@
                  login: "Login", logout: "Logout", profile: "Profile", settings: "Settings", welcome: "Welcome", language: "Language", emailPlaceholder: "Enter email", loginError: "Please enter a valid email.",
                  dropdown: { myProfile: "My Profile", settings: "Settings", logout: "Logout" },
                  profilePage: { title: "My Profile", subtitle: "Manage your personal information and account details.", summaryTitle: "Account Summary", checkingLabel: "Checking Account", savingsLabel: "Savings Account", investmentLabel: "Investment Portfolio", totalLabel: "Total Assets", goalTitle: "Savings Goal: World Trip", goalDesc: "Progress towards your adventure fund.", goalComplete: "Complete", actionsTitle: "Quick Actions", actionTransfer: "Make a Transfer", actionStatement: "View Statements", actionAdvisor: "Contact Advisor", transactionsTitle: "Recent Transactions", thDate: "Date", thDescription: "Description", thAmount: "Amount (CHF)", txDesc1: "Grocery Store Coop", txDesc2: "Salary Deposit - Employer AG", txDesc3: "Online Purchase - Galaxus", txDesc4: "Restaurant Kronenhalle", txDesc5: "Rent Payment - Verwaltung GmbH", personalInfoTitle: "Personal Information", editButton: "Edit", nameLabel: "Name", emailLabel: "Email", phoneLabel: "Phone", addressLabel: "Address", memberSinceLabel: "Member Since" },
+                 events: { // Merged event translations
+                     future_wealth_title: "Future Wealth Forum 2025: Navigating the Next Wave of Investment",
+                     featured_date: "Date: October 15, 2025", // Keeping placeholder
+                     featured_location: "Location: BWAM Headquarters, Zurich", // Keeping placeholder
+                     future_wealth_desc: "Join BWAM's leading strategists and market analysts for an exclusive evening exploring the key economic trends shaping 2025 and beyond. Discover insights into innovative investment opportunities, sustainable finance growth areas, and strategies for building resilient portfolios in a dynamic global landscape. Includes networking apéro with peers and experts.",
+                     future_wealth_button: "View Event Details",
+                     event2_title: "Digital Banking Security Workshop", // Assuming this was the original second event
+                     event2_date: "Date: November 5, 2025",
+                     event2_location: "Location: Online Webinar",
+                     event2_desc: "Learn best practices for protecting your accounts and data in the digital age. Q&A with cybersecurity experts.",
+                     button_register: "Register Now" // Original button text, kept for the second event
+                 },
                  aria: { search: "Search", open_menu: "Open menu", set_lang_en: "Set language to English", set_lang_de: "Set language to German" },
                  modal: { close: "Close modal", title: "Find Your Advisor", advisor1_name: "Anna Müller", advisor1_title: "Senior Wealth Manager", advisor2_name: "Lukas Baumann", advisor2_title: "Investment Specialist", advisor3_name: "Sophie Dubois", advisor3_title: "Retirement Planning Expert", button_connect: "Connect", schedule_message: "Schedule an appointment with your advisor." }
-
              },
              de: {
                  login: "Anmelden", logout: "Ausloggen", profile: "Profil", settings: "Einstellungen", welcome: "Willkommen", language: "Sprache", emailPlaceholder: "E-Mail eingeben", loginError: "Bitte geben Sie eine gültige E-Mail ein.",
                  dropdown: { myProfile: "Mein Profil", settings: "Einstellungen", logout: "Ausloggen" },
                  profilePage: { title: "Mein Profil", subtitle: "Verwalten Sie Ihre persönlichen Daten und Kontodetails.", summaryTitle: "Kontoübersicht", checkingLabel: "Kontokorrent", savingsLabel: "Sparkonto", investmentLabel: "Anlageportfolio", totalLabel: "Gesamtvermögen", goalTitle: "Sparziel: Weltreise", goalDesc: "Fortschritt für Ihr Abenteuer.", goalComplete: "Vollständig", actionsTitle: "Schnellzugriff", actionTransfer: "Überweisung tätigen", actionStatement: "Kontoauszüge ansehen", actionAdvisor: "Berater kontaktieren", transactionsTitle: "Letzte Transaktionen", thDate: "Datum", thDescription: "Beschreibung", thAmount: "Betrag (CHF)", txDesc1: "Einkauf Coop", txDesc2: "Lohnzahlung - Arbeitgeber AG", txDesc3: "Online-Kauf - Galaxus", txDesc4: "Restaurant Kronenhalle", txDesc5: "Mietzahlung - Verwaltung GmbH", personalInfoTitle: "Persönliche Informationen", editButton: "Bearbeiten", nameLabel: "Name", emailLabel: "E-Mail", phoneLabel: "Telefon", addressLabel: "Adresse", memberSinceLabel: "Mitglied seit" },
+                 events: { // Merged event translations
+                     future_wealth_title: "Future Wealth Forum 2025: Die nächste Investitionswelle steuern",
+                     featured_date: "Datum: 15. Oktober 2025", // Platzhalter beibehalten
+                     featured_location: "Ort: BWAM Hauptsitz, Zürich", // Platzhalter beibehalten
+                     future_wealth_desc: "Nehmen Sie an einem exklusiven Abend mit den führenden Strategen und Marktanalysten von BWAM teil und entdecken Sie die wichtigsten Wirtschaftstrends, die 2025 und darüber hinaus prägen werden. Erhalten Sie Einblicke in innovative Anlagemöglichkeiten, Wachstumsbereiche der nachhaltigen Finanzierung und Strategien zum Aufbau widerstandsfähiger Portfolios in einer dynamischen globalen Landschaft. Inklusive Networking-Apéro mit Kollegen und Experten.",
+                     future_wealth_button: "Eventdetails anzeigen",
+                     event2_title: "Workshop zur Sicherheit im Digital Banking", // Assuming this was the original second event
+                     event2_date: "Datum: 5. November 2025",
+                     event2_location: "Ort: Online-Webinar",
+                     event2_desc: "Lernen Sie bewährte Methoden zum Schutz Ihrer Konten und Daten im digitalen Zeitalter. Fragen & Antworten mit Cybersicherheitsexperten.",
+                     button_register: "Jetzt registrieren" // Original button text, kept for the second event
+                 },
                  aria: { search: "Suche", open_menu: "Menü öffnen", set_lang_en: "Sprache auf Englisch setzen", set_lang_de: "Sprache auf Deutsch setzen" },
                  modal: { close: "Modal schließen", title: "Finden Sie Ihren Berater", advisor1_name: "Anna Müller", advisor1_title: "Senior Vermögensverwalterin", advisor2_name: "Lukas Baumann", advisor2_title: "Anlagespezialist", advisor3_name: "Sophie Dubois", advisor3_title: "Expertin für Vorsorgeplanung", button_connect: "Verbinden", schedule_message: "Vereinbaren Sie einen Termin mit Ihrem Berater." }
              }
