@@ -1,207 +1,190 @@
 <!DOCTYPE html>
 <html lang="en"> <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWAM</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BWAM - Static</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'brand-red': '#A6001A',
-              'brand-red-dark': '#850015',
-              'gray-light': '#f9fafb',
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+          tailwind.config = {
+            theme: {
+              extend: {
+                colors: {
+                  'brand-red': '#A6001A',
+                  'brand-red-dark': '#850015',
+                  'gray-light': '#f9fafb',
+                }
+              }
             }
           }
-        }
-      }
-    </script>
+        </script>
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
 
-    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css">
 
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/javascript">
+            window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
+            window.bwamScripts = {}; // Namespace for script.js functions
 
-    <script type="text/javascript">
-        window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
-        window.bwamScripts = {};
-        // Translations object MUST contain ALL keys used by React and script.js
-        window.bwamTranslations = {
-             en: {
-                 nav: { private_clients: "Private Clients", accounts_cards: "Accounts & Cards", investing: "Investing", pensions: "Pensions", financing: "Financing", business_clients: "Business Clients", institutional: "Institutional", about_us: "About Us", events: "Events", newsroom: "Newsroom" },
-                 aria: { search: "Search", open_menu: "Open menu", set_lang_en: "Set language to English", set_lang_de: "Set language to German"},
-                 hero: { title: "Welcome to BWAM", subtitle: "Your trusted partner for comprehensive financial solutions in Zürich and beyond.", button_services: "Explore Services", button_contact: "Contact Us" },
-                 about: { p1: "Founded in Zurich...", p2: "Our mission is...", p3: "Located in...", p4: "We leverage..." },
-                 events: { title: "Upcoming Events", subtitle: "Join us for insightful seminars and workshops. Register your interest below.", featured_title: "Investment Strategies 2025", featured_date: "Date: October 15, 2025", featured_location: "Location: BWAM Headquarters, Zurich", featured_desc: "Explore key market trends...", button_register: "Register Now", event2_title: "Digital Banking Security Workshop", event2_date: "Date: November 5, 2025", event2_location: "Location: Online Webinar", event2_desc: "Learn best practices..." },
-                 news: { title: "News & Insights", card1_title: "Market Outlook Q3 2025", card1_desc: "Our analysis...", card2_title: "Planning for a Secure Retirement", card2_desc: "Key considerations...", card3_title: "Tips for Secure Digital Banking", card3_desc: "How to protect yourself...", read_more: "Read More", more_news: "More News" },
-                 // Add ALL other necessary translation keys from previous examples here...
-                 footer: { tagline: "Your reliable financial partner.", quicklinks: "Quick Links", services: "Services", legal: "Legal", careers: "Careers", contact: "Contact Us", privacy: "Privacy Policy", terms: "Terms of Use", imprint: "Impressum", cookies: "Cookie Settings", accessibility: "Accessibility", rights: "All rights reserved.", location: "Location: Zürich, Switzerland.", newsroom: "Newsroom", mortgages: "Mortgages", digital_banking: "Digital Banking" },
-                 consent: { message: "We use cookies...", reject: "Reject All", accept: "Accept All" },
-                 modal: { close: "Close modal", title: "Find Your Advisor", advisor1_name: "Anna Müller", /* ... more modal keys ... */ button_connect: "Connect", schedule_message: "Schedule an appointment..." },
-                 login: "Login", logout: "Logout", profile: "Profile", settings: "Settings", welcome: "Welcome", language: "Language", emailPlaceholder: "Enter email", loginError: "Please enter a valid email.",
-                 dropdown: { myProfile: "My Profile", settings: "Settings", logout: "Logout" },
-                 profilePage: { title: "My Profile", subtitle: "Manage your personal information...", /* ... ALL profile page keys ... */ memberSinceLabel: "Member Since" }
-                },
-             de: { /* ... ALL German translations ... */ }
-        };
-    </script>
+            // Translations Object (Ensure this is COMPLETE!)
+            window.bwamTranslations = {
+                 en: {
+                     nav: {
+                        private_banking: "Private Banking", // Changed from private_clients
+                        accounts_cards: "Accounts & Cards",
+                        investing: "Investing",
+                        pensions: "Pensions",
+                        financing: "Financing",
+                        business_clients: "Business Clients",
+                        institutional: "Institutional",
+                        about_us: "About Us",
+                        events: "Events",
+                        newsroom: "Newsroom"
+                     },
+                     aria: { search: "Search", open_menu: "Open menu", set_lang_en: "Set language to English", set_lang_de: "Set language to German"},
+                     hero: { title: "Welcome to BWAM", subtitle: "Your trusted partner...", button_services: "Explore Services", button_contact: "Contact Us" },
+                     about: { p1: "Founded in Zurich...", p2: "Our mission is...", p3: "Located in...", p4: "We leverage..." },
+                     events: { title: "Upcoming Events", subtitle: "Join us for insightful seminars...", button_register: "Register Now", event2_title: "Digital Banking Security Workshop", event2_date: "Date: November 5, 2025", event2_location: "Location: Online Webinar", event2_desc: "Learn best practices..." },
+                     news: { title: "News & Insights", card1_title:"...", card1_desc:"...", card2_title:"...", card2_desc:"...", card3_title:"...", card3_desc:"...", read_more:"Read More", more_news:"More News"},
+                     footer: { tagline: "...", quicklinks: "Quick Links", services: "Services", legal: "Legal", careers: "Careers", contact: "Contact Us", privacy: "Privacy Policy", terms: "Terms of Use", imprint: "Impressum", cookies: "Cookie Settings", accessibility: "Accessibility", rights: "All rights reserved.", location: "Location: Zürich, Switzerland.", newsroom: "Newsroom", mortgages: "Mortgages", digital_banking: "Digital Banking" },
+                     consent: { message: "We use cookies...", reject: "Reject All", accept: "Accept All" },
+                     modal: { close: "Close modal", title: "Find Your Advisor", /* ... other modal keys ... */ },
+                     login: "Login"
+                 },
+                 de: {
+                     nav: {
+                        private_banking: "Private Banking", // Changed from Privatkunden
+                        accounts_cards: "Konten & Karten",
+                        investing: "Anlegen",
+                        pensions: "Vorsorge",
+                        financing: "Finanzieren",
+                        business_clients: "Geschäftskunden",
+                        institutional: "Institutionelle",
+                        about_us: "Über Uns",
+                        events: "Veranstaltungen",
+                        newsroom: "Newsroom"
+                     },
+                     aria: { search: "Suche", open_menu: "Menü öffnen", set_lang_en: "Sprache auf Englisch setzen", set_lang_de: "Sprache auf Deutsch setzen"},
+                     hero: { title: "Willkommen bei BWAM", /* etc. */ },
+                     about: { /* ... */ }, events: { /* ... */ }, news: { /* ... */ },
+                     footer: { /* ... */ }, consent: { /* ... */ }, modal: { /* ... */ },
+                     login: "Anmelden"
+                 }
+            };
+        </script>
 
-</head>
-<body class="pb-32 has-mountain-bg">
+    </head>
+    <body class="pb-32 has-mountain-bg">
 
-    <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-             <div class="flex justify-between items-center py-3 h-20">
-                 <div class="flex-shrink-0">
-                     <a href="#home" id="logo-link" class="nav-section-link flex items-center group" title="BWAM Home">
-                         <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 md:h-12 w-auto mr-2 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                         <span class="font-bold text-xl text-brand-red" style="display: none;" aria-hidden="true">BWAM</span>
-                         <script> /* Logo fallback */ document.addEventListener('DOMContentLoaded', () => { /* ... */ }); </script>
-                     </a>
-                 </div>
-                 <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
-                     <div class="group relative">...</div>
-                     <a href="#business-clients" ...>Business Clients</a>
-                     <a href="#institutional" ...>Institutional</a>
-                     <a href="#about-us" ...>About Us</a>
-                     <a href="#events" ...>Events</a>
-                     <a href="#news" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-brand-red py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.newsroom"><i data-lucide="newspaper" class="mr-1 h-4 w-4"></i>Newsroom</a> </nav>
-                 <div class="flex items-center space-x-3 sm:space-x-4">
-                     <button aria-label="Search" ...><i data-lucide="search"></i></button>
-                     <div id="react-profile-header" class="flex items-center"></div>
-                     <div class="md:hidden"> <button id="mobile-menu-button" ...><i data-lucide="menu"></i></button> </div>
-                 </div>
-             </div>
-         </div>
-         <div id="mobile-menu" class="hidden md:hidden ...">
-            ...
-            <a href="#news" ... data-lang-key="nav.newsroom">Newsroom</a>
-            ...
-         </div>
-    </header>
+        <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-3 h-20">
+                    <div class="flex-shrink-0">
+                        <a href="#home" id="logo-link" class="nav-section-link flex items-center group" title="BWAM Home">
+                            <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 md:h-12 w-auto mr-2 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                            <span class="font-bold text-xl text-brand-red" style="display: none;" aria-hidden="true">BWAM</span>
+                            <script> /* Logo fallback */ document.addEventListener('DOMContentLoaded', () => { /* ... */ }); </script>
+                        </a>
+                    </div>
 
-    <main id="main-content">
-        <div id="static-content-wrapper">
+                    <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                        <div class="group relative">
+                            <button class="nav-link text-base font-medium text-gray-600 hover:text-brand-red inline-flex items-center py-3 transition-colors duration-200" data-lang-key="nav.private_banking"> {/* Updated Key */}
+                                <i data-lucide="users" class="mr-1 h-4 w-4"></i>Private Banking <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
+                            </button>
+                            <div class="dropdown-menu"> <div class="py-1" role="none">
+                                <a href="#accounts-cards" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.accounts_cards"><i data-lucide="credit-card" class="mr-2 h-4 w-4 inline-block"></i>Accounts & Cards</a>
+                                <a href="#investing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.investing"><i data-lucide="trending-up" class="mr-2 h-4 w-4 inline-block"></i>Investing</a>
+                                <a href="#pensions" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.pensions"><i data-lucide="umbrella" class="mr-2 h-4 w-4 inline-block"></i>Pensions</a>
+                                <a href="#financing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-brand-red rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.financing"><i data-lucide="home" class="mr-2 h-4 w-4 inline-block"></i>Financing</a>
+                            </div></div>
+                        </div>
+                        <a href="#business-clients" class="nav-section-link nav-link ..." data-lang-key="nav.business_clients"><i data-lucide="briefcase"></i>Business Clients</a>
+                        <a href="#institutional" class="nav-section-link nav-link ..." data-lang-key="nav.institutional"><i data-lucide="building-2"></i>Institutional</a>
+                        <a href="#about-us" class="nav-section-link nav-link ..." data-lang-key="nav.about_us"><i data-lucide="info"></i>About Us</a>
+                        <a href="#events" class="nav-section-link nav-link ..." data-lang-key="nav.events"><i data-lucide="calendar"></i>Events</a>
+                        <a href="#news" class="nav-section-link nav-link ..." data-lang-key="nav.newsroom"><i data-lucide="newspaper"></i>Newsroom</a>
+                    </nav>
 
-            <section id="home" class="main-section ...">...</section>
-            <section id="about-us" class="main-section ...">...</section>
-
-            <section id="events" class="main-section py-16 lg:py-24 bg-gray-light">
-                <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-element">
-                    <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center justify-center w-full">
-                        <i data-lucide="calendar" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="events.title">Upcoming Events</span>
-                    </h2>
-                    <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">
-                        Join us for insightful seminars and workshops. Register your interest below.
-                    </p>
-                    <div class="max-w-2xl mx-auto">
-                        <div class="bg-white p-8 rounded-xl shadow-lg border-2 border-brand-red text-left hover:shadow-xl transition-shadow duration-300">
-                            <h4 class="text-xl font-semibold mb-4 text-brand-red">Future Wealth Forum 2025: Navigating the Next Wave of Investment</h4>
-                            <p class="text-gray-600 mb-2"><i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i><span>Date: October 15, 2025</span></p>
-                            <p class="text-gray-600 mb-4"><i data-lucide="map-pin" class="inline-block w-4 h-4 mr-2 text-gray-500"></i><span>Location: Baur au Lac, Zürich</span></p>
-                            <p class="text-sm text-gray-500 mb-6">Explore key economic trends, investment opportunities, and strategies for resilient portfolios. Includes networking apéro.</p>
-                            <a href="https://events.blackthorn.io/en/KB1u1Ug7/future-wealth-forum-2025-navigating-the-next-wave-of-investment-4a9qKBXZql/overview"
-                               target="_blank" rel="noopener noreferrer"
-                               class="inline-flex items-center bg-brand-red text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-brand-red-dark transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red">
-                                <i data-lucide="arrow-up-right-from-square" class="mr-2 h-5 w-5"></i>
-                                View Details & Register
+                    <div class="flex items-center space-x-3 sm:space-x-4">
+                        <button aria-label="Search" ...><i data-lucide="search"></i></button>
+                        <div id="static-header-controls" class="flex items-center space-x-4">
+                            <div class="flex items-center ...">
+                                <i data-lucide="globe"></i>
+                                <button id="lang-en" data-lang="en" ...>EN</button>
+                                <span>|</span>
+                                <button id="lang-de" data-lang="de" ...>DE</button>
+                            </div>
+                            <a href="#" id="login-link" ... data-lang-key="login">
+                                <i data-lucide="log-in"></i>Login
                             </a>
+                        </div>
+                        <div class="md:hidden">
+                            <button id="mobile-menu-button" ...><i data-lucide="menu"></i></button>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section id="news" class="main-section py-16 lg:py-24 bg-white">
-                <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                     <div class="text-center mb-14 lg:mb-20 fade-in-element">
-                         <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center"><i data-lucide="newspaper" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="news.title">News & Insights</span></h2>
-                     </div>
-                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                         <div class="flex flex-col bg-gray-light rounded-xl shadow-lg ...">...</div>
-                         <div class="flex flex-col bg-gray-light rounded-xl shadow-lg ...">...</div>
-                         <div class="flex flex-col bg-gray-light rounded-xl shadow-lg ...">...</div>
-                     </div>
-                     <div class="text-center mt-16 fade-in-element">...</div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40">
+                <div class="px-4 pt-4 pb-5 space-y-1"> {/* Reduced vertical space slightly */}
+                    <div class="px-3 py-2 text-sm font-semibold text-gray-500 uppercase tracking-wider" data-lang-key="nav.private_banking">Private Banking</div>
+                    <a href="#accounts-cards" class="nav-section-link block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.accounts_cards"><i data-lucide="credit-card" class="mr-2 h-5 w-5 inline-block"></i>Accounts & Cards</a>
+                    <a href="#investing" class="nav-section-link block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.investing"><i data-lucide="trending-up" class="mr-2 h-5 w-5 inline-block"></i>Investing</a>
+                    <a href="#pensions" class="nav-section-link block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.pensions"><i data-lucide="umbrella" class="mr-2 h-5 w-5 inline-block"></i>Pensions</a>
+                    <a href="#financing" class="nav-section-link block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.financing"><i data-lucide="home" class="mr-2 h-5 w-5 inline-block"></i>Financing</a>
+
+                    <div class="pt-2 pb-1"><hr></div>
+
+                     <a href="#business-clients" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.business_clients"><i data-lucide="briefcase" class="mr-2 h-5 w-5 inline-block"></i>Business Clients</a>
+                     <a href="#institutional" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.institutional"><i data-lucide="building-2" class="mr-2 h-5 w-5 inline-block"></i>Institutional</a>
+                     <a href="#about-us" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.about_us"><i data-lucide="info" class="mr-2 h-5 w-5 inline-block"></i>About Us</a>
+                     <a href="#events" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.events"><i data-lucide="calendar" class="mr-2 h-5 w-5 inline-block"></i>Events</a>
+                     <a href="#news" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-brand-red transition-colors duration-150" data-lang-key="nav.newsroom"><i data-lucide="newspaper" class="mr-2 h-5 w-5 inline-block"></i>Newsroom</a>
                  </div>
-              </section>
-              <section id="business-clients" class="main-section ... hidden">...</section>
-            <section id="institutional" class="main-section ... hidden">...</section>
-            <section id="accounts-cards" class="main-section ... hidden">...</section>
-            </div> <div id="react-profile-section"></div>
+            </div>
+        </header>
 
-    </main>
+        <main id="main-content">
+            <div id="static-content-wrapper">
+                <section id="home" class="main-section ...">...</section>
+                <section id="about-us" class="main-section ...">...</section>
+                <section id="events" class="main-section ..."> ... </section>
+                <section id="news" class="main-section ..."> ... </section>
+                <section id="business-clients" class="main-section ... hidden">...</section>
+                <section id="institutional" class="main-section ... hidden">...</section>
+                <section id="accounts-cards" class="main-section ... hidden">...</section>
+                <section id="investing" class="main-section ... hidden">...</section>
+                <section id="pensions" class="main-section ... hidden">...</section>
+                <section id="financing" class="main-section ... hidden">...</section>
+                </div>
+        </main>
 
-    <footer class="bg-gray-900 text-gray-400 py-16">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-10">
-                <div>...</div>
-                <div>...</div>
-                <div>...</div>
-                <div>...</div>
-             </div>
-             <div class="border-t border-gray-700 pt-8 mt-8 text-center text-sm text-gray-500">
-                 &copy; <span id="current-year"></span> BWAM. <span data-lang-key="footer.rights">All rights reserved.</span> <span data-lang-key="footer.location">Location: Zürich, Switzerland.</span>
-             </div>
-         </div>
-      </footer>
-      <div id="consent-banner" class="fixed ...">...</div>
-    <div id="advisor-modal" class="fixed ... hidden modal">...</div>
-    <div id="scroll-banker" class="hidden md:block">...</div>
+        <footer class="bg-gray-900 text-gray-400 py-16">
+            ...
+        </footer>
 
-    <script src="datalayer.js" defer></script>
-    <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/..." async></script>
-    <script src="script.js" defer></script>
+        <div id="consent-banner" ...>...</div>
+        <div id="advisor-modal" ...>...</div>
+        <div id="scroll-banker" ...>...</div>
 
-    <script type="text/babel">
-        // React code as provided in the previous step
-        const { useState, useEffect, useRef, useCallback, useContext } = React;
-        const translations = window.bwamTranslations; // Use global object
-        window.bwamTranslations = translations; // Ensure it's set
+        <script src="datalayer.js" defer></script>
+        <script src="script.js" defer></script> <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/..." async></script>
 
-        // Icon Components ...
-        const UserCircleIcon = ({ size = 28 }) => ( <svg>...</svg> );
-        const GlobeIcon = ({ size = 16 }) => ( <svg>...</svg> );
-        // ... ALL other Icon components ...
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Lucide Init ...
+                // Footer Year ...
+                // Footer Link Listeners ...
+            });
+        </script>
 
-        // useAuth Hook ...
-        const useAuth = () => { /* ... */ return { user, loading, login, logout }; };
-
-        // AppProvider Context ...
-        const AppContext = React.createContext();
-        function AppProvider({ children }) { /* ... */ return <AppContext.Provider value={value}>{children}</AppContext.Provider>; }
-
-        // HeaderApp Component ...
-        function HeaderApp() { /* ... */ return ( /* JSX for header */ ); }
-
-        // ProfileSection Component ...
-        function ProfileSection() { /* ... */ return ( /* JSX for profile page */ ); }
-
-        // ReactDOM Render Calls ...
-        try {
-            ReactDOM.render(<AppProvider><HeaderApp /></AppProvider>, document.getElementById('react-profile-header'));
-            ReactDOM.render(<AppProvider><ProfileSection /></AppProvider>, document.getElementById('react-profile-section'));
-        } catch (error) { console.error("React Rendering Error:", error); }
-
-    </script>
-
-    <script>
-        // DOMContentLoaded logic as in previous step
-        document.addEventListener('DOMContentLoaded', () => {
-            // Lucide Init ...
-            // Footer Year ...
-            // Footer Link Listeners ...
-        });
-    </script>
-
-</body>
+    </body>
 </html>
