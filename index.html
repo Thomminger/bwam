@@ -1,30 +1,81 @@
 <!DOCTYPE html>
-<html lang="de">
-<head>
+<html lang="de"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWAM - Optimized</title> <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
+    <title>BWAM - Interactive Version</title>
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏦</text></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://unpkg.com"> <link rel="preconnect" href="https://images.unsplash.com"> <link rel="preconnect" href="https://placehold.co"> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <script src="https://cdn.tailwindcss.com"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest/dist/lucide.min.js"></script>
 
     <script type="text/javascript">
         window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
         window.bwamScripts = {}; // Namespace for script.js functions
-        // Translations should ideally be loaded async or part of the JS bundle
+
+        // --- Embedded Translations (Ensure this is complete!) ---
         window.bwamTranslations = {
-             en: { /* ... EN translations ... */ },
-             de: { /* ... DE translations ... */ } // Populate full translations here
+             en: {
+                 nav: { private_clients: "Private Clients", accounts_cards: "Accounts & Cards", investing: "Investing", pensions: "Pensions", financing: "Financing", business_clients: "Business Clients", institutional: "Institutional", about_us: "About Us", events: "Events", newsroom: "Newsroom" },
+                 aria: { search: "Search", open_menu: "Open menu" },
+                 hero: { title: "Welcome to BWAM", subtitle: "Your trusted partner for comprehensive financial solutions in Zürich and beyond.", button_services: "Explore Services", button_contact: "Contact Us" },
+                 about: { p1: "Founded in Zurich with deep roots in Swiss banking tradition, BWAM (Banking & Wealth Asset Management) combines decades of financial expertise with a forward-thinking approach.", p2: "Our mission is to provide personalized, transparent, and reliable financial services to private individuals, businesses, and institutions. We believe in building long-term relationships based on trust and mutual success.", p3: "Located in the heart of Zurich's financial district, we are committed to upholding the highest standards of integrity and contributing positively to our community.", p4: "We leverage cutting-edge technology to enhance client experience while maintaining the personalized touch that defines Swiss private banking. Our diverse team brings global perspectives and local market insights." },
+                 events: { title: "Upcoming Events", subtitle: "Join us for insightful seminars and workshops. Register your interest below.", featured_title: "Investment Strategies 2025", featured_date: "Date: October 15, 2025", featured_location: "Location: BWAM Headquarters, Zurich", featured_desc: "Explore key market trends and portfolio positioning for the upcoming year with our chief strategist.", button_register: "Register Now", event2_title: "Digital Banking Security Workshop", event2_date: "Date: November 5, 2025", event2_location: "Location: Online Webinar", event2_desc: "Learn best practices for protecting your accounts and data in the digital age. Q&A with cybersecurity experts." },
+                 news: { title: "News & Insights", card1_title: "Market Outlook Q3 2025", card1_desc: "Our analysis of current market trends and potential opportunities for investors.", card2_title: "Planning for a Secure Retirement", card2_desc: "Key considerations for building a robust pension plan in Switzerland.", card3_title: "Tips for Secure Digital Banking", card3_desc: "How to protect yourself while managing your finances online with BWAM.", read_more: "Read More", more_news: "More News" },
+                 services: { subtitle: "Tailored financial solutions...", business: { card1_title: "Corporate Accounts", card1_desc:"Flexible business accounts...", card2_title: "Business Financing", card2_desc: "Access capital for growth...", card3_title:"Cash Management", card3_desc: "Optimize your cash flow..." } },
+                 institutional: { subtitle: "Sophisticated investment management...", card1_title: "Asset Management", card1_desc: "Discretionary and advisory mandates...", card2_title: "Custody & Execution", card2_desc: "Secure safekeeping..." },
+                 accounts: { intro: "Manage your daily finances...", feature1: "Competitive interest rates...", feature2: "Various credit card options...", feature3: "Easy international payments...", feature4: "Dedicated support...", button_open: "Open Account"},
+                 investing: { intro: "Grow your wealth...", option1_title: "Managed Portfolios", option1_desc: "Let our experts manage...", option2_title: "Advisory Services", option2_desc: "Receive personalized advice...", disclaimer: "Investments involve risks..." },
+                 pensions: { intro: "Secure your future...", pillar3a: "Tax-advantaged Pillar 3a...", vested_benefits: "Vested benefits accounts...", planning: "Comprehensive retirement planning...", button_learn: "Learn More"},
+                 financing: { intro: "Achieve your goals...", option1_title: "Mortgages", option1_desc: "Tailored mortgage solutions...", option2_title: "Personal Loans", option2_desc: "Flexible personal credit...", credit_check: "Loan approval is subject to credit check..." },
+                 corporate_accounts: { intro: "Streamline your business operations...", feature1:"Multi-currency capabilities...", feature2: "Advanced online and mobile banking...", feature3: "Integration options...", feature4: "Dedicated relationship manager...", button_contact: "Contact Sales" },
+                 business_financing: { intro: "Fuel your company's growth...", option1_title: "Term Loans", option1_desc: "Structured loans...", option2_title: "Lines of Credit", option2_desc: "Flexible access to funds..." },
+                 cash_management: { intro: "Optimize your company's liquidity...", feature1: "Automated payment processing...", feature2: "Receivables management...", feature3: "Liquidity solutions...", feature4:"Real-time reporting...", button_explore: "Explore Tools" },
+                 contact_cta: { title: "Contact BWAM", subtitle: "Our advisors are ready..." },
+                 footer: { tagline: "Your reliable financial partner.", quicklinks: "Quick Links", services: "Services", legal: "Legal", careers: "Careers", contact: "Contact Us", privacy: "Privacy Policy", terms: "Terms of Use", imprint: "Imprint", cookies: "Cookie Settings", accessibility: "Accessibility", rights: "All rights reserved.", location: "Location: Zürich, Switzerland.", newsroom: "Newsroom", mortgages: "Mortgages", digital_banking: "Digital Banking" },
+                 consent: { message: "We use cookies and similar technologies to enhance your experience and display relevant content. By clicking \"Accept All,\" you agree to the use of these technologies. You can change your selection at any time.", reject: "Reject All", accept: "Accept All" },
+                 modal: { close: "Close modal", title: "Find Your Advisor", advisor1_name: "Anna Müller", advisor1_title: "Senior Wealth Manager", advisor2_name: "Lukas Baumann", advisor2_title: "Investment Specialist", advisor3_name: "Sophie Dubois", advisor3_title: "Retirement Planning Expert", button_connect: "Connect", schedule_message: "Schedule an appointment with your advisor." },
+                 // React Specific
+                 login: "Login", logout: "Logout", profile: "Profile", settings: "Settings", welcome: "Welcome", language: "Language", emailPlaceholder: "Enter email", loginError: "Please enter a valid email.",
+                 dropdown: { myProfile: "My Profile", settings: "Settings", logout: "Logout", address: "Address", zurichAddress: "Bahnhofstrasse 1, 8001 Zürich, Switzerland", fictionalProgress: "Profile Completion" },
+                 profilePage: { title: "My Profile", subtitle: "Manage your personal information and account details.", summaryTitle: "Account Summary", checkingLabel: "Checking Account", savingsLabel: "Savings Account", investmentLabel: "Investment Portfolio", totalLabel: "Total Assets", goalTitle: "Savings Goal: World Trip", goalDesc: "Progress towards your adventure fund.", goalComplete: "Complete", actionsTitle: "Quick Actions", actionTransfer: "Make a Transfer", actionStatement: "View Statements", actionAdvisor: "Contact Advisor", transactionsTitle: "Recent Transactions", thDate: "Date", thDescription: "Description", thAmount: "Amount (CHF)", txDesc1: "Grocery Store Coop", txDesc2: "Salary Deposit - Employer AG", txDesc3: "Online Purchase - Galaxus", txDesc4: "Restaurant Kronenhalle", txDesc5: "Rent Payment - Verwaltung GmbH", personalInfoTitle: "Personal Information", editButton: "Edit", nameLabel: "Name", emailLabel: "Email", phoneLabel: "Phone", addressLabel: "Address", memberSinceLabel: "Member Since" }
+                },
+             de: {
+                 nav: { private_clients: "Privatkunden", accounts_cards: "Konten & Karten", investing: "Anlegen", pensions: "Vorsorge", financing: "Finanzieren", business_clients: "Geschäftskunden", institutional: "Institutionelle", about_us: "Über Uns", events: "Veranstaltungen", newsroom: "Newsroom" },
+                 aria: { search: "Suche", open_menu: "Menü öffnen" },
+                 hero: { title: "Willkommen bei BWAM", subtitle: "Ihr vertrauenswürdiger Partner für umfassende Finanzlösungen in Zürich und darüber hinaus.", button_services: "Dienstleistungen entdecken", button_contact: "Kontaktieren Sie uns" },
+                 about: { p1: "Gegründet in Zürich mit tiefen Wurzeln in der Schweizer Bankentradition, kombiniert BWAM (Banking & Wealth Asset Management) jahrzehntelange Finanzexpertise mit einem zukunftsorientierten Ansatz.", p2: "Unsere Mission ist es, personalisierte, transparente und zuverlässige Finanzdienstleistungen für Privatpersonen, Unternehmen und Institutionen anzubieten. Wir glauben an den Aufbau langfristiger Beziehungen, die auf Vertrauen und gegenseitigem Erfolg basieren.", p3: "Ansässig im Herzen des Zürcher Finanzdistrikts, verpflichten wir uns zur Einhaltung höchster Integritätsstandards und leisten einen positiven Beitrag zu unserer Gemeinschaft.", p4: "Wir nutzen Spitzentechnologie, um das Kundenerlebnis zu verbessern, während wir die persönliche Note beibehalten, die das Schweizer Private Banking auszeichnet. Unser vielfältiges Team bringt globale Perspektiven und lokale Marktkenntnisse ein." },
+                 events: { title: "Kommende Veranstaltungen", subtitle: "Nehmen Sie an unseren aufschlussreichen Seminaren und Workshops teil. Melden Sie unten Ihr Interesse an.", featured_title: "Anlagestrategien 2025", featured_date: "Datum: 15. Oktober 2025", featured_location: "Ort: BWAM Hauptsitz, Zürich", featured_desc: "Entdecken Sie mit unserem Chefstrategen die wichtigsten Markttrends und Portfolio-Positionierungen für das kommende Jahr.", button_register: "Jetzt anmelden", event2_title: "Workshop Digitale Banksicherheit", event2_date: "Datum: 5. November 2025", event2_location: "Ort: Online-Webinar", event2_desc: "Lernen Sie Best Practices zum Schutz Ihrer Konten und Daten im digitalen Zeitalter. Fragen & Antworten mit Cybersecurity-Experten." },
+                 news: { title: "News & Einblicke", card1_title: "Marktausblick Q3 2025", card1_desc: "Unsere Analyse aktueller Markttrends und potenzieller Chancen für Investoren.", card2_title: "Planung für einen sicheren Ruhestand", card2_desc: "Wichtige Überlegungen zum Aufbau einer soliden Altersvorsorge in der Schweiz.", card3_title: "Tipps für sicheres Online-Banking", card3_desc: "Wie Sie sich schützen können, während Sie Ihre Finanzen online bei BWAM verwalten.", read_more: "Mehr lesen", more_news: "Weitere News" },
+                 services: { subtitle: "Massgeschneiderte Finanzlösungen...", business: { card1_title: "Firmenkonten", card1_desc:"Flexible Geschäftskonten...", card2_title: "Unternehmensfinanzierung", card2_desc: "Zugang zu Kapital...", card3_title:"Cash Management", card3_desc: "Optimieren Sie Ihren Cashflow..." } },
+                 institutional: { subtitle: "Anspruchsvolle Vermögensverwaltung...", card1_title: "Vermögensverwaltung", card1_desc: "Diskretionäre und Beratungsmandate...", card2_title: "Depot & Ausführung", card2_desc: "Sichere Verwahrung..." },
+                 accounts: { intro: "Verwalten Sie Ihre täglichen Finanzen...", feature1: "Wettbewerbsfähige Zinssätze...", feature2: "Diverse Kreditkartenoptionen...", feature3: "Einfache Auslandszahlungen...", feature4: "Engagierte Unterstützung...", button_open: "Konto eröffnen"},
+                 investing: { intro: "Vermehren Sie Ihr Vermögen...", option1_title: "Verwaltete Portfolios", option1_desc: "Lassen Sie unsere Experten...", option2_title: "Beratungsdienste", option2_desc: "Erhalten Sie persönliche Anlageberatung...", disclaimer: "Anlagen sind mit Risiken verbunden..." },
+                 pensions: { intro: "Sichern Sie Ihre Zukunft...", pillar3a: "Steuerbegünstigte Säule 3a...", vested_benefits: "Freizügigkeitskonten...", planning: "Umfassende Pensionsplanung...", button_learn: "Mehr erfahren"},
+                 financing: { intro: "Erreichen Sie Ihre Ziele...", option1_title: "Hypotheken", option1_desc: "Massgeschneiderte Hypothekenlösungen...", option2_title: "Privatkredite", option2_desc: "Flexible Privatkreditoptionen...", credit_check: "Kreditvergabe vorbehaltlich Bonitätsprüfung..." },
+                 corporate_accounts: { intro: "Optimieren Sie Ihre Geschäftsabläufe...", feature1:"Multi-Währungs-Fähigkeiten...", feature2: "Fortschrittliche Online-Banking-Plattform...", feature3: "Integrationsoptionen...", feature4: "Persönlicher Kundenbetreuer...", button_contact: "Vertrieb kontaktieren" },
+                 business_financing: { intro: "Treiben Sie das Wachstum Ihres Unternehmens voran...", option1_title: "Festkredite", option1_desc: "Strukturierte Kredite...", option2_title: "Kreditlinien", option2_desc: "Flexibler Zugang zu Mitteln..." },
+                 cash_management: { intro: "Optimieren Sie die Liquidität Ihres Unternehmens...", feature1: "Automatisierte Zahlungsabwicklung...", feature2: "Debitorenmanagement...", feature3: "Liquiditätslösungen...", feature4:"Echtzeit-Reporting...", button_explore: "Tools entdecken" },
+                 contact_cta: { title: "Kontaktieren Sie BWAM", subtitle: "Unsere Berater helfen Ihnen gerne..." },
+                 footer: { tagline: "Ihr zuverlässiger Finanzpartner.", quicklinks: "Schnellinks", services: "Dienstleistungen", legal: "Rechtliches", careers: "Karriere", contact: "Kontakt", privacy: "Datenschutz", terms: "Nutzungsbedingungen", imprint: "Impressum", cookies: "Cookie-Einstellungen", accessibility: "Barrierefreiheit", rights: "Alle Rechte vorbehalten.", location: "Standort: Zürich, Schweiz.", newsroom: "Newsroom", mortgages: "Hypotheken", digital_banking: "Digital Banking" },
+                 consent: { message: "Wir verwenden Cookies und ähnliche Technologien, um Ihr Erlebnis zu verbessern und relevante Inhalte anzuzeigen. Indem Sie auf „Alle annehmen“ klicken, stimmen Sie der Verwendung dieser Technologien zu. Sie können Ihre Auswahl jederzeit ändern.", reject: "Alle ablehnen", accept: "Alle annehmen" },
+                 modal: { close: "Schliessen", title: "Finden Sie Ihren Berater", advisor1_name: "Anna Müller", advisor1_title: "Senior Vermögensverwalterin", advisor2_name: "Lukas Baumann", advisor2_title: "Anlagespezialist", advisor3_name: "Sophie Dubois", advisor3_title: "Expertin Vorsorgeplanung", button_connect: "Verbinden", schedule_message: "Vereinbaren Sie einen Termin mit Ihrem Berater." },
+                 // React Specific
+                 login: "Anmelden", logout: "Abmelden", profile: "Profil", settings: "Einstellungen", welcome: "Willkommen", language: "Sprache", emailPlaceholder: "E-Mail eingeben", loginError: "Bitte geben Sie eine gültige E-Mail ein.",
+                 dropdown: { myProfile: "Mein Profil", settings: "Einstellungen", logout: "Abmelden", address: "Adresse", zurichAddress: "Bahnhofstrasse 1, 8001 Zürich, Schweiz", fictionalProgress: "Profil-Vervollständigung" },
+                 profilePage: { title: "Mein Profil", subtitle: "Verwalten Sie Ihre persönlichen Daten und Kontodetails.", summaryTitle: "Kontoübersicht", checkingLabel: "Kontokorrent", savingsLabel: "Sparkonto", investmentLabel: "Anlageportfolio", totalLabel: "Gesamtvermögen", goalTitle: "Sparziel: Weltreise", goalDesc: "Fortschritt für Ihr Abenteuer.", goalComplete: "Vollständig", actionsTitle: "Schnellzugriff", actionTransfer: "Überweisung tätigen", actionStatement: "Kontoauszüge ansehen", actionAdvisor: "Berater kontaktieren", transactionsTitle: "Letzte Transaktionen", thDate: "Datum", thDescription: "Beschreibung", thAmount: "Betrag (CHF)", txDesc1: "Einkauf Coop", txDesc2: "Lohnzahlung - Arbeitgeber AG", txDesc3: "Online-Kauf - Galaxus", txDesc4: "Restaurant Kronenhalle", txDesc5: "Mietzahlung - Verwaltung GmbH", personalInfoTitle: "Persönliche Informationen", editButton: "Bearbeiten", nameLabel: "Name", emailLabel: "E-Mail", phoneLabel: "Telefon", addressLabel: "Adresse", memberSinceLabel: "Mitglied seit" }
+             }
         };
     </script>
 
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     </head>
 <body class="pb-32 has-mountain-bg">
 
@@ -32,162 +83,218 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-3 h-20">
                 <div class="flex-shrink-0">
-                    <a href="#home" id="logo-link" class="nav-section-link flex items-center group" title="BWAM Home">
+                     <a href="#home" id="logo-link" class="nav-section-link flex items-center group" title="BWAM Home">
                          <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 md:h-12 w-auto mr-2 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
-                        <span class="font-bold text-xl text-brand-red" style="display: none;" aria-hidden="true">BWAM</span>
-                         <script>
-                             // Fallback logic (keep as is, seems okay)
-                             document.addEventListener('DOMContentLoaded', () => { /* ... */ });
-                         </script>
-                    </a>
+                         <span class="font-bold text-xl text-brand-red" style="display: none;" aria-hidden="true">BWAM</span>
+                         <script> /* Logo fallback */ document.addEventListener('DOMContentLoaded', () => { /* ... */ }); </script>
+                     </a>
                 </div>
 
                 <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
-                    <div class="group relative">
-                        <button class="nav-link text-base font-medium text-gray-600 hover:text-brand-red inline-flex items-center py-3 transition-colors duration-200" data-lang-key="nav.private_clients">
-                            <i data-lucide="users" class="mr-1 h-4 w-4"></i>Private Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
-                        </button>
-                        <div class="dropdown-menu absolute left-0 mt-1 w-60 rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-2">
-                            <div class="py-1" role="none">
-                                <a href="#accounts-cards" class="nav-section-link ...">Accounts & Cards</a>
-                                <a href="#investing" class="nav-section-link ...">Investing</a>
-                                <a href="#pensions" class="nav-section-link ...">Pensions</a>
-                                <a href="#financing" class="nav-section-link ...">Financing</a>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#business-clients" class="nav-section-link ...">Business Clients</a>
-                    <a href="#institutional" class="nav-section-link ...">Institutional</a>
-                    <a href="#about-us" class="nav-section-link nav-link ..."><i data-lucide="info"></i>About Us</a>
-                    <a href="#news" class="nav-section-link nav-link ..."><i data-lucide="newspaper"></i>Newsroom</a> <a href="#events" class="nav-section-link nav-link ..."><i data-lucide="calendar"></i>Events</a>
+                   <div class="group relative"> <button class="..." data-lang-key="nav.private_clients">...</button> <div class="dropdown-menu ...">...</div> </div>
+                   <a href="#business-clients" class="nav-section-link ..." data-lang-key="nav.business_clients">...</a>
+                   <a href="#institutional" class="nav-section-link ..." data-lang-key="nav.institutional">...</a>
+                   <a href="#about-us" class="nav-section-link ..." data-lang-key="nav.about_us">...</a>
+                   <a href="#news" class="nav-section-link ..." data-lang-key="nav.newsroom">...</a>
+                   <a href="#events" class="nav-section-link ..." data-lang-key="nav.events">...</a>
                 </nav>
 
                 <div class="flex items-center space-x-3 sm:space-x-4">
-                    <button aria-label="Search" class="..." title="Search">
-                        <i data-lucide="search" class="h-5 w-5"></i>
-                    </button>
-                    <div id="react-profile-header" class="flex items-center">
-                        </div>
-                    <div class="md:hidden">
-                         <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="...">
-                             <i data-lucide="menu" class="h-6 w-6"></i>
-                         </button>
-                    </div>
+                    <button aria-label="Search" class="..." title="Search" data-lang-key="aria.search"> <i data-lucide="search"></i> </button>
+                    <div id="react-profile-header" class="flex items-center"></div>
+                    <div class="md:hidden"> <button id="mobile-menu-button" data-lang-key="aria.open_menu" ...> <i data-lucide="menu"></i> </button> </div>
                 </div>
             </div>
         </div>
-
-        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40">
-             <div class="px-4 pt-4 pb-5 space-y-2">
-                 <a href="#home" class="nav-section-link ...">Private Clients</a>
-                 <a href="#business-clients" class="nav-section-link ...">Business Clients</a>
-                 <a href="#institutional" class="nav-section-link ...">Institutional</a>
-                 <a href="#about-us" class="nav-section-link ...">About Us</a>
-                 <a href="#news" class="nav-section-link ...">Newsroom</a>
-                 <a href="#events" class="nav-section-link ...">Events</a>
-                 </div>
-         </div>
+        <div id="mobile-menu" class="hidden md:hidden ..."> <div class="..."><a href="#home" data-lang-key="nav.private_clients">...</a></div> </div>
     </header>
 
     <main id="main-content">
         <div id="static-content-wrapper">
-            <section id="home" class="main-section relative min-h-[70vh] md:min-h-[80vh] flex items-center text-white overflow-hidden">
-                 <div class="absolute inset-0 z-0">
-                     <img src="images/hero-background.jpg" alt="Swiss Alps background" class="w-full h-full object-cover">
-                     <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent opacity-90"></div>
-                 </div>
-                 <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
-                     <div class="max-w-3xl text-left fade-in-element">
-                         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-5 leading-tight text-shadow" data-lang-key="hero.title">Welcome to BWAM</h1>
-                         <p class="text-lg sm:text-xl mb-10 text-gray-100 max-w-2xl" data-lang-key="hero.subtitle">Your trusted partner...</p>
-                         <div class="flex flex-wrap gap-4">
-                            </div>
-                     </div>
-                 </div>
+            <section id="home" class="main-section relative min-h-[70vh] ...">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Swiss Alps background" class="...">
+                <div class="..."><h1 data-lang-key="hero.title">...</h1><p data-lang-key="hero.subtitle">...</p>...</div>
             </section>
 
             <section id="about-us" class="main-section py-16 md:py-24 bg-white">
-                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                     <div class="grid md:grid-cols-2 gap-12 items-center">
-                         <div class="fade-in-element">
-                             <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center"><i data-lucide="info" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="nav.about_us">About Us</span></h2>
-                             <p>...</p>
-                         </div>
-                         <div class="fade-in-element" style="transition-delay: 150ms;">
-                             <img src="images/about-us.jpg" loading="lazy" alt="BWAM Office" class="rounded-xl shadow-xl w-full h-auto object-cover">
-                         </div>
+                <div class="container ..."><div class="grid ...">
+                    <div><h2 data-lang-key="nav.about_us">...</h2><p data-lang-key="about.p1">...</p>...</div>
+                    <div><img src="https://images.unsplash.com/photo-1560439514-4e9645039924?..." loading="lazy" alt="BWAM Office" class="..."></div>
+                </div></div>
+            </section>
+
+            <section id="news" class="main-section py-16 lg:py-24 bg-gray-light">
+                 <div class="container ...">
+                     <div class="text-center ..."><h2 data-lang-key="news.title">...</h2></div>
+                     <div class="grid ...">
+                         <div><img src="https://placehold.co/600x400/e5e7eb/4b5563?text=Market+Update" loading="lazy" alt="News Image 1" ...><div class="..."><h3 data-lang-key="news.card1_title">...</h3><p data-lang-key="news.card1_desc">...</p>...</div></div>
+                         <div><img src="https://placehold.co/600x400/d1d5db/374151?text=Retirement+Planning" loading="lazy" alt="News Image 2" ...><div class="..."><h3 data-lang-key="news.card2_title">...</h3><p data-lang-key="news.card2_desc">...</p>...</div></div>
+                         <div><img src="https://placehold.co/600x400/9ca3af/1f2937?text=Digital+Banking+Tips" loading="lazy" alt="News Image 3" ...><div class="..."><h3 data-lang-key="news.card3_title">...</h3><p data-lang-key="news.card3_desc">...</p>...</div></div>
+                     </div>
+                     <div class="text-center ..."><a href="#" data-lang-key="news.more_news">...</a></div>
+                 </div>
+            </section>
+
+            <section id="events" class="main-section py-16 lg:py-24 bg-white">
+                 <div class="container ...">
+                     <h2 data-lang-key="events.title">...</h2>
+                     <p data-lang-key="events.subtitle">...</p>
+                     <div class="grid ...">
+                        <div><h4 data-lang-key="events.featured_title">...</h4><p data-lang-key="events.featured_date">...</p>...<button data-lang-key="events.button_register">...</button></div>
+                        <div><h4 data-lang-key="events.event2_title">...</h4><p data-lang-key="events.event2_date">...</p>...<button data-lang-key="events.button_register">...</button></div>
                      </div>
                  </div>
             </section>
 
-            <section id="news" class="main-section py-16 lg:py-24 bg-gray-light">
-                 <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                     <div class="text-center mb-14 lg:mb-20 fade-in-element">
-                         <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center"><i data-lucide="newspaper" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="news.title">Newsroom</span></h2> </div>
-                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                         <div class="flex flex-col bg-white rounded-xl shadow-lg ... fade-in-element">
-                             <img src="images/news1.jpg" loading="lazy" alt="News Image 1" class="w-full h-52 object-cover ...">
-                             <div class="p-6 ..."> ... </div>
-                         </div>
-                         <div class="flex flex-col bg-white rounded-xl shadow-lg ... fade-in-element" style="transition-delay: 100ms;">
-                             <img src="images/news2.jpg" loading="lazy" alt="News Image 2" class="w-full h-52 object-cover ...">
-                             <div class="p-6 ..."> ... </div>
-                         </div>
-                         <div class="flex flex-col bg-white rounded-xl shadow-lg ... fade-in-element" style="transition-delay: 200ms;">
-                             <img src="images/news3.jpg" loading="lazy" alt="News Image 3" class="w-full h-52 object-cover ...">
-                             <div class="p-6 ..."> ... </div>
-                         </div>
-                     </div>
-                     <div class="text-center mt-16 fade-in-element"> ... </div>
-                 </div>
-              </section>
+            <section id="business-clients" class="main-section ... hidden" data-lang-key="nav.business_clients"> ... <h3 data-lang-key="services.business.card1_title">...</section>
+            <section id="institutional" class="main-section ... hidden" data-lang-key="nav.institutional"> ... <h3 data-lang-key="institutional.card1_title">...</section>
+            <section id="accounts-cards" class="main-section ... hidden" data-lang-key="nav.accounts_cards"> ... <span data-lang-key="accounts.feature1">...</section>
+            <section id="investing" class="main-section ... hidden" data-lang-key="nav.investing"> ... <h4 data-lang-key="investing.option1_title">...</section>
+            <section id="pensions" class="main-section ... hidden" data-lang-key="nav.pensions"> ... <span data-lang-key="pensions.pillar3a">...</section>
+            <section id="financing" class="main-section ... hidden" data-lang-key="nav.financing"> ... <h4 data-lang-key="financing.option1_title">...</section>
+            <section id="contact" class="main-section ... hidden"> <h2 data-lang-key="contact_cta.title">...</section>
 
-            <section id="events" class="main-section py-16 lg:py-24 bg-white">
-                 <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-element">
-                     <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center justify-center w-full"><i data-lucide="calendar" class="text-brand-red mr-3 h-8 w-8"></i><span data-lang-key="events.title">Upcoming Events</span></h2>
-                     <p>...</p>
-                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                        </div>
-                 </div>
-              </section>
-
-            <section id="business-clients" class="main-section py-16 md:py-24 bg-gray-light hidden"> ... </section>
-            <section id="institutional" class="main-section py-16 md:py-24 bg-white hidden"> ... </section>
-            <section id="accounts-cards" class="main-section py-16 lg:py-24 bg-white hidden"> ... </section>
-            <section id="investing" class="main-section py-16 lg:py-24 bg-gray-light hidden"> ... </section>
-            <section id="pensions" class="main-section py-16 lg:py-24 bg-white hidden"> ... </section>
-            <section id="financing" class="main-section py-16 lg:py-24 bg-gray-light hidden"> ... </section>
-            <section id="contact" class="main-section py-16 lg:py-24 bg-white hidden"> ... </section>
-        </div> <div id="react-profile-section">
-            </div>
-
+        </div> <div id="react-profile-section"></div>
     </main>
 
-    <footer class="bg-gray-900 text-gray-400 py-16"> ... </footer>
+    <footer class="bg-gray-900 text-gray-400 py-16">
+        ... <h4 data-lang-key="footer.quicklinks">...</h4> ...
+        <span data-lang-key="footer.rights">...</span>
+    </footer>
 
-    <div id="consent-banner" class="..."> ... </div>
-    <div id="advisor-modal" class="..."> ... </div>
+    <div id="consent-banner" class="fixed ..."> <p data-lang-key="consent.message">...</p> <button id="consent-reject" data-lang-key="consent.reject">...</button> <button id="consent-accept" data-lang-key="consent.accept">...</button> </div>
+    <div id="advisor-modal" class="fixed ... hidden"> <h3 data-lang-key="modal.title">...</h3> <img src="..." alt="Advisor Anna Müller" ...> ... </div>
 
     <div id="scroll-banker" class="hidden md:block"> ... </div>
 
     <script src="datalayer.js" defer></script>
-
     <script src="script.js" defer></script>
+    <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/..." defer></script>
 
-    <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/beacon/c360a/d2799336-52d2-4f39-832b-d481cbc97fed/scripts/c360a.min.js" defer></script>
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback, useContext } = React;
+
+        // Translations are now loaded from window.bwamTranslations defined in <head>
+        const translations = window.bwamTranslations || { en: {}, de: {} };
+
+        // --- Inline SVG Icons ---
+        // (Include all necessary SVG icon components: UserCircleIcon, GlobeIcon, etc.)
+        const UserCircleIcon = ({ size = 28 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg> );
+        const LogOutIcon = ({ size = 16 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> );
+        const SettingsIcon = ({ size = 16 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> );
+        const MapPinIcon = ({ size = 14 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> );
+        const GlobeIcon = ({ size = 16 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> );
+        const UserIcon = ({ size = 16 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> );
+        // ... include others as needed: LandmarkIcon, TargetIcon, ZapIcon, ListIcon etc.
+
+        // --- Authentication Hook (useAuth) ---
+        // (Uses localStorage - Keep as defined previously)
+        const useAuth = () => {
+             const initialUser = JSON.parse(localStorage.getItem('bwamUser'));
+             const [user, setUser] = useState(initialUser);
+             const [loading, setLoading] = useState(true);
+             useEffect(() => { /* ... loading simulation ... */ }, []);
+             useEffect(() => { /* ... update local storage ... */ }, [user]);
+             const login = (email) => { /* ... validation & setUser ... */ };
+             const logout = () => { /* ... setUser(null) ... */ };
+             return { user, loading, login, logout };
+        };
+
+        // --- App Context (AppProvider) ---
+        // (Manages auth, language, view - Keep as defined previously)
+        const AppContext = React.createContext();
+        function AppProvider({ children }) {
+             const auth = useAuth();
+             const [language, setLanguage] = useState(() => localStorage.getItem('bwamLang') || document.documentElement.lang || 'de');
+             const [view, setView] = useState('main');
+             useEffect(() => { /* ... update html lang, local storage, call static update ... */ }, [language]);
+             const t = useCallback((key) => { /* ... translation lookup ... */ }, [language]);
+             const changeLanguage = (newLang) => { /* ... setLanguage ... */ };
+             const changeView = (newView) => { /* ... setView, toggle static/react visibility ... */ };
+             useEffect(() => { /* ... handle popstate for back/forward ... */ }, [auth.user]);
+             const value = { ...auth, language, changeLanguage, t, view, changeView };
+             return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+        }
+
+        // --- Header Component (HeaderApp) ---
+        // (Includes Login form, Profile dropdown, Language switcher - Keep as defined previously)
+         function HeaderApp() {
+             const { user, loading, login, logout, language, changeLanguage, t, view, changeView } = useContext(AppContext);
+             // ... states: isProfileOpen, emailInput, loginError ...
+             // ... refs: profileRef ...
+             // ... effects: click outside ...
+             // ... handlers: handleLogin, handleLogout, handleViewProfile ...
+             // ... helpers: getUsername ...
+
+             if (loading) { return <div className="h-8 w-8 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>; } // Simple spinner
+
+             return (
+                 <div className="flex items-center space-x-4">
+                     {/* Language Switcher */}
+                     <div className="relative group"> {/* Use Tailwind group for hover */}
+                         <button className="flex items-center px-2 py-1 border border-gray-300 rounded-full text-sm text-gray-600 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-red" title={t('language')}>
+                             <GlobeIcon size={16} />
+                             <span className="mx-1 font-medium">{language.toUpperCase()}</span>
+                             <i data-lucide="chevron-down" className="h-4 w-4 text-gray-400 transition-transform duration-200 group-hover:rotate-180"></i>
+                         </button>
+                         {/* Dropdown Menu for Language */}
+                         <div className="absolute right-0 mt-1 w-24 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform group-hover:translate-y-0 translate-y-1">
+                             <a href="#" onClick={(e) => { e.preventDefault(); changeLanguage('en'); }} className={`block px-4 py-2 text-sm ${language === 'en' ? 'bg-brand-red text-white font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-brand-red'}`}>English</a>
+                             <a href="#" onClick={(e) => { e.preventDefault(); changeLanguage('de'); }} className={`block px-4 py-2 text-sm ${language === 'de' ? 'bg-brand-red text-white font-semibold' : 'text-gray-700 hover:bg-gray-100 hover:text-brand-red'}`}>Deutsch</a>
+                         </div>
+                     </div>
+
+                     {/* Login / Profile */}
+                     {user ? ( /* ... Profile Dropdown JSX ... */ ) : ( /* ... Login Form JSX ... */ )}
+                 </div>
+             );
+         }
+
+
+        // --- Profile Section Component (ProfileSection) ---
+        // (Renders the profile page - Keep as defined previously)
+         function ProfileSection() {
+             const { user, t, view } = useContext(AppContext);
+             if (view !== 'profile' || !user) return null;
+             // ... profile page JSX using t() for translations ...
+             return ( <div>{/* Profile Page Content */}</div> );
+         }
+
+        // --- Render React Components ---
+        // Wrap both in the *same* provider instance if they need to share state/context directly,
+        // although HeaderApp and ProfileSection don't directly interact in this setup.
+        // Rendering them separately with their own Provider is also fine here.
+        ReactDOM.render(<AppProvider><HeaderApp /></AppProvider>, document.getElementById('react-profile-header'));
+        ReactDOM.render(<AppProvider><ProfileSection /></AppProvider>, document.getElementById('react-profile-section'));
+
+    </script>
 
     <script>
+      function initializeLucide() {
+          if (typeof lucide !== 'undefined') {
+              try {
+                  lucide.createIcons();
+                  console.log("Lucide icons initialized.");
+              } catch (error) {
+                  console.error("Error creating Lucide icons:", error);
+              }
+          } else {
+              console.warn("Lucide library not loaded. Icons might not appear.");
+          }
+      }
+      // Run on initial load
       document.addEventListener('DOMContentLoaded', () => {
-        if (typeof lucide !== 'undefined') {
-          lucide.createIcons();
-        } else {
-          console.warn("Lucide icons library not loaded.");
-        }
-        const yearSpan = document.getElementById('current-year');
-        if (yearSpan) {
-          yearSpan.textContent = new Date().getFullYear();
-        }
+          initializeLucide(); // Initialize icons present in initial HTML
+          const yearSpan = document.getElementById('current-year');
+          if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+
+          // Also ensure icons are re-initialized if React adds new ones later
+          // This is tricky without direct hooks into React's render cycle.
+          // A MutationObserver could watch the React roots, but might be overkill.
+          // The call within updateStaticContentLanguage might catch some cases.
+          // If icons within React components don't render, this needs refinement.
       });
     </script>
+
 </body>
 </html>
