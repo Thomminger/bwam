@@ -25,13 +25,14 @@
         window.CONSENT_STORAGE_KEY = 'bwam_consent_status';
         window.bwamScripts = {};
         window.bwamTranslations = { en: {}, de: {} };
-        // window.AppContext = {}; // Exposed by React code below now
+        // Removed window.AppContext placeholder - script.js won't need view state from React now
     </script>
 
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    </head>
+</head>
 <body class="pb-32 has-mountain-bg">
 
     <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
@@ -39,7 +40,7 @@
             <div class="flex justify-between items-center py-3 h-20">
                 <div class="flex-shrink-0">
                     <a href="#home" id="logo-link" class="nav-section-link flex items-center group" title="BWAM Home">
-                        <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 md:h-12 w-auto mr-2 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                         <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-10 md:h-12 w-auto mr-2 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
                         <span class="font-bold text-xl text-[var(--brand-red)]" style="display: none;" aria-hidden="true">BWAM</span>
                          <script>
                              // Fallback logic for broken logo image
@@ -53,21 +54,28 @@
                         <button class="nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200" data-lang-key="nav.private_clients">
                             <i data-lucide="users" class="mr-1 h-4 w-4"></i>Private Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
                         </button>
-                        <div class="dropdown-menu">...</div>
+                        <div class="dropdown-menu">
+                             <div class="py-1" role="none">
+                                <a href="#accounts-cards" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.accounts_cards"><i data-lucide="credit-card" class="mr-2 h-4 w-4 inline-block"></i>Accounts & Cards</a>
+                                <a href="#investing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.investing"><i data-lucide="trending-up" class="mr-2 h-4 w-4 inline-block"></i>Investing</a>
+                                <a href="#pensions" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.pensions"><i data-lucide="umbrella" class="mr-2 h-4 w-4 inline-block"></i>Pensions</a>
+                                <a href="#financing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem" data-lang-key="nav.financing"><i data-lucide="home" class="mr-2 h-4 w-4 inline-block"></i>Financing</a>
+                            </div>
+                        </div>
                     </div>
-                    <a href="#business-clients" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] ..." data-lang-key="nav.business_clients">...</a>
-                    <a href="#institutional" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] ..." data-lang-key="nav.institutional">...</a>
-                    <a href="#about-us" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] ..." data-lang-key="nav.about_us">...</a>
-                    <a href="#events" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] ..." data-lang-key="nav.events">...</a>
+                    <a href="#business-clients" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.business_clients"><i data-lucide="briefcase" class="mr-1 h-4 w-4"></i>Business Clients</a>
+                    <a href="#institutional" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.institutional"><i data-lucide="building-2" class="mr-1 h-4 w-4"></i>Institutional</a>
+                    <a href="#about-us" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.about_us"><i data-lucide="info" class="mr-1 h-4 w-4"></i>About Us</a>
+                    <a href="#events" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200" data-lang-key="nav.events"><i data-lucide="calendar" class="mr-1 h-4 w-4"></i>Events</a>
                 </nav>
 
                 <div class="flex items-center space-x-3 sm:space-x-4">
-                    <button aria-label="Search" class="p-2 text-gray-500 hover:text-[var(--brand-red)] ..." data-lang-key-aria="aria.search" title="Search" data-lang-key-title="aria.search">
+                    <button aria-label="Search" class="p-2 text-gray-500 hover:text-[var(--brand-red)] rounded-full hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key-aria="aria.search" title="Search" data-lang-key-title="aria.search">
                         <i data-lucide="search" class="h-5 w-5"></i>
                     </button>
                     <div id="react-profile-header" class="flex items-center"></div>
                     <div class="md:hidden">
-                         <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="p-2 text-gray-500 hover:text-[var(--brand-red)] ..." data-lang-key-aria="aria.open_menu">
+                         <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="p-2 text-gray-500 hover:text-[var(--brand-red)] rounded-md hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key-aria="aria.open_menu">
                              <i data-lucide="menu" class="h-6 w-6"></i>
                          </button>
                     </div>
@@ -75,12 +83,20 @@
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden ...">...</div>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-200 z-40">
+             <div class="px-4 pt-4 pb-5 space-y-2">
+                 <a href="#home" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150" data-lang-key="nav.private_clients"><i data-lucide="users" class="mr-2 h-5 w-5 inline-block"></i>Private Clients</a>
+                 <a href="#business-clients" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150" data-lang-key="nav.business_clients"><i data-lucide="briefcase" class="mr-2 h-5 w-5 inline-block"></i>Business Clients</a>
+                 <a href="#institutional" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150" data-lang-key="nav.institutional"><i data-lucide="building-2" class="mr-2 h-5 w-5 inline-block"></i>Institutional</a>
+                 <a href="#about-us" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150" data-lang-key="nav.about_us"><i data-lucide="info" class="mr-2 h-5 w-5 inline-block"></i>About Us</a>
+                 <a href="#events" class="nav-section-link block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150" data-lang-key="nav.events"><i data-lucide="calendar" class="mr-2 h-5 w-5 inline-block"></i>Events</a>
+             </div>
+         </div>
     </header>
 
     <main id="main-content">
         <div id="static-content-wrapper">
-            <section id="home" class="main-section ...">...</section>
+             <section id="home" class="main-section ...">...</section>
             <section id="about-us" class="main-section ...">...</section>
             <section id="events" class="main-section ...">...</section>
             <section id="news" class="main-section ...">...</section>
@@ -93,10 +109,12 @@
             <section id="corporate-accounts" class="main-section ... hidden">...</section>
             <section id="business-financing" class="main-section ... hidden">...</section>
             <section id="cash-management" class="main-section ... hidden">...</section>
-        </div> <div id="react-profile-section"></div>
-    </main>
 
-    <footer class="bg-gray-900 text-gray-400 py-16">...</footer>
+        </div> </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-16">
+         ...
+      </footer>
 
     <div id="consent-banner" class="fixed bottom-0 left-0 right-0 ...">...</div>
 
@@ -105,286 +123,197 @@
     <div id="scroll-banker" class="hidden md:block">...</div>
 
     <script src="script.js"></script>
-
-    <script type="text/javascript">
-      (function() {
-        const { useState, useEffect, useRef, useCallback, useContext, createElement: e } = React;
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback, useContext } = React;
 
         // --- Embedded Translations ---
         const translations = {
              en: {
                  login: "Login", logout: "Logout", profile: "Profile", settings: "Settings", welcome: "Welcome", language: "Language", emailPlaceholder: "Enter email", loginError: "Please enter a valid email.",
-                 dropdown: { myProfile: "My Profile", settings: "Settings", logout: "Logout" },
-                 profilePage: { title: "My Profile", subtitle: "Manage your personal information and account details.", summaryTitle: "Account Summary", checkingLabel: "Checking Account", savingsLabel: "Savings Account", investmentLabel: "Investment Portfolio", totalLabel: "Total Assets", goalTitle: "Savings Goal: World Trip", goalDesc: "Progress towards your adventure fund.", goalComplete: "Complete", actionsTitle: "Quick Actions", actionTransfer: "Make a Transfer", actionStatement: "View Statements", actionAdvisor: "Contact Advisor", transactionsTitle: "Recent Transactions", thDate: "Date", thDescription: "Description", thAmount: "Amount (CHF)", txDesc1: "Grocery Store Coop", txDesc2: "Salary Deposit - Employer AG", txDesc3: "Online Purchase - Galaxus", txDesc4: "Restaurant Kronenhalle", txDesc5: "Rent Payment - Verwaltung GmbH", personalInfoTitle: "Personal Information", editButton: "Edit", nameLabel: "Name", emailLabel: "Email", phoneLabel: "Phone", addressLabel: "Address", memberSinceLabel: "Member Since" },
+                 dropdown: { logout: "Logout" }, // Only Logout needed now
+                 // Removed profilePage keys
                  aria: { search: "Search", open_menu: "Open menu", set_lang_en: "Set language to English", set_lang_de: "Set language to German" },
+                 // Keep modal keys if modal is still used
                  modal: { close: "Close modal", title: "Find Your Advisor", advisor1_name: "Anna Müller", advisor1_title: "Senior Wealth Manager", advisor2_name: "Lukas Baumann", advisor2_title: "Investment Specialist", advisor3_name: "Sophie Dubois", advisor3_title: "Retirement Planning Expert", button_connect: "Connect", schedule_message: "Schedule an appointment with your advisor." }
+
              },
              de: {
                  login: "Anmelden", logout: "Ausloggen", profile: "Profil", settings: "Einstellungen", welcome: "Willkommen", language: "Sprache", emailPlaceholder: "E-Mail eingeben", loginError: "Bitte geben Sie eine gültige E-Mail ein.",
-                 dropdown: { myProfile: "Mein Profil", settings: "Einstellungen", logout: "Ausloggen" },
-                 profilePage: { title: "Mein Profil", subtitle: "Verwalten Sie Ihre persönlichen Daten und Kontodetails.", summaryTitle: "Kontoübersicht", checkingLabel: "Kontokorrent", savingsLabel: "Sparkonto", investmentLabel: "Anlageportfolio", totalLabel: "Gesamtvermögen", goalTitle: "Sparziel: Weltreise", goalDesc: "Fortschritt für Ihr Abenteuer.", goalComplete: "Vollständig", actionsTitle: "Schnellzugriff", actionTransfer: "Überweisung tätigen", actionStatement: "Kontoauszüge ansehen", actionAdvisor: "Berater kontaktieren", transactionsTitle: "Letzte Transaktionen", thDate: "Datum", thDescription: "Beschreibung", thAmount: "Betrag (CHF)", txDesc1: "Einkauf Coop", txDesc2: "Lohnzahlung - Arbeitgeber AG", txDesc3: "Online-Kauf - Galaxus", txDesc4: "Restaurant Kronenhalle", txDesc5: "Mietzahlung - Verwaltung GmbH", personalInfoTitle: "Persönliche Informationen", editButton: "Bearbeiten", nameLabel: "Name", emailLabel: "E-Mail", phoneLabel: "Telefon", addressLabel: "Adresse", memberSinceLabel: "Mitglied seit" },
+                 dropdown: { logout: "Ausloggen" }, // Only Logout needed now
+                 // Removed profilePage keys
                  aria: { search: "Suche", open_menu: "Menü öffnen", set_lang_en: "Sprache auf Englisch setzen", set_lang_de: "Sprache auf Deutsch setzen" },
-                 modal: { close: "Modal schließen", title: "Finden Sie Ihren Berater", advisor1_name: "Anna Müller", advisor1_title: "Senior Vermögensverwalterin", advisor2_name: "Lukas Baumann", advisor2_title: "Anlagespezialist", advisor3_name: "Sophie Dubois", advisor3_title: "Expertin für Vorsorgeplanung", button_connect: "Verbinden", schedule_message: "Vereinbaren Sie einen Termin mit Ihrem Berater." }
+                 // Keep modal keys if modal is still used
+                  modal: { close: "Modal schließen", title: "Finden Sie Ihren Berater", advisor1_name: "Anna Müller", advisor1_title: "Senior Vermögensverwalterin", advisor2_name: "Lukas Baumann", advisor2_title: "Anlagespezialist", advisor3_name: "Sophie Dubois", advisor3_title: "Expertin für Vorsorgeplanung", button_connect: "Verbinden", schedule_message: "Vereinbaren Sie einen Termin mit Ihrem Berater." }
              }
         };
         window.bwamTranslations = translations;
 
-        // --- Converted SVG Icon Components ---
-        const UserCircleIcon = ({ size = 28 }) => e('svg',{/*...*/},e('circle',{/*...*/}), e('circle',{/*...*/}), e('path',{/*...*/}));
-        const LogOutIcon = ({ size = 16 }) => e('svg',{/*...*/},e('path',{/*...*/}),e('polyline',{/*...*/}),e('line',{/*...*/}));
-        const SettingsIcon = ({ size = 16 }) => e('svg',{/*...*/},e('circle',{/*...*/}),e('path',{/*...*/}));
-        const GlobeIcon = ({ size = 16 }) => e('svg',{/*...*/},e('circle',{/*...*/}),e('line',{/*...*/}),e('path',{/*...*/}));
-        const UserIcon = ({ size = 16 }) => e('svg',{/*...*/},e('path',{/*...*/}),e('circle',{/*...*/}));
-        const LandmarkIcon = ({ size = 16 }) => e('svg',{/*...*/},e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}),e('polygon',{/*...*/}));
-        const TargetIcon = ({ size = 16 }) => e('svg',{/*...*/},e('circle',{/*...*/}),e('circle',{/*...*/}),e('circle',{/*...*/}));
-        const ZapIcon = ({ size = 16 }) => e('svg',{/*...*/},e('polygon',{/*...*/}));
-        const ListIcon = ({ size = 16 }) => e('svg',{/*...*/},e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}));
-        const SendIcon = ({ size = 14 }) => e('svg',{/*...*/},e('line',{/*...*/}),e('polygon',{/*...*/}));
-        const FileTextIcon = ({ size = 14 }) => e('svg',{/*...*/},e('path',{/*...*/}),e('polyline',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}),e('line',{/*...*/}));
-        const MessageSquareIcon = ({ size = 14 }) => e('svg',{/*...*/},e('path',{/*...*/}));
-        const EditIcon = ({ size = 12 }) => e('svg',{/*...*/},e('path',{/*...*/}),e('path',{/*...*/}));
+        // --- Inline SVG Icons ---
+        // Keep SVGs needed for HeaderApp (UserCircle, Logout, Globe)
+        const UserCircleIcon = ({ size = 28 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="10" r="3"></circle><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path></svg> );
+        const LogOutIcon = ({ size = 16 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> );
+        const GlobeIcon = ({ size = 16 }) => ( <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> );
+        // Other SVGs can be removed if not used elsewhere
 
-
-        // --- Authentication Hook (Plain JS) ---
+        // --- Authentication Hook ---
         const useAuth = () => { /* ... same as before ... */
-            const initialUser = JSON.parse(localStorage.getItem('bwamUser'));
-            const [user, setUser] = useState(initialUser);
-            const [loading, setLoading] = useState(true);
-            useEffect(() => { const t = setTimeout(() => setLoading(false), 200); return () => clearTimeout(t); }, []);
-            useEffect(() => { if (user) { localStorage.setItem('bwamUser', JSON.stringify(user)); } else { localStorage.removeItem('bwamUser'); } }, [user]);
-            const login = (email) => { if (typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setUser({ email }); return true; } return false; };
-            const logout = () => setUser(null);
-            return { user, loading, login, logout };
+             const initialUser = JSON.parse(localStorage.getItem('bwamUser'));
+             const [user, setUser] = useState(initialUser);
+             const [loading, setLoading] = useState(true);
+             useEffect(() => { const t = setTimeout(() => setLoading(false), 200); return () => clearTimeout(t); }, []);
+             useEffect(() => { if (user) { localStorage.setItem('bwamUser', JSON.stringify(user)); } else { localStorage.removeItem('bwamUser'); } }, [user]);
+             const login = (email) => { if (typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setUser({ email }); return true; } return false; };
+             const logout = () => setUser(null);
+             return { user, loading, login, logout };
         };
 
-        // --- Main Application Context (Plain JS) ---
+        // --- Simplified Application Context ---
         const AppContext = React.createContext();
-        function AppProvider({ children }) { /* ... same as before ... */
+
+        function AppProvider({ children }) {
             const auth = useAuth();
             const [language, setLanguage] = useState(document.documentElement.lang || 'en');
-            const [view, setView] = useState('main');
-            const t = useCallback((key) => { if (!key) return ''; try { return key.split('.').reduce((o, k) => o && o[k], translations[language]) || key; } catch (err) { console.warn(`Translation key error: ${key} [${language}]`); return key; } }, [language]);
-            const changeLanguage = (newLang) => { if (translations[newLang] && newLang !== language) { setLanguage(newLang); document.documentElement.lang = newLang; if (window.bwamScripts?.updateStaticContentLanguage) { setTimeout(() => window.bwamScripts.updateStaticContentLanguage(newLang), 0); } else { console.warn("updateStaticContentLanguage not found."); } } };
-            const changeView = (newView) => { const sc = document.getElementById('static-content-wrapper'), ps = document.getElementById('react-profile-section'), cv = ps?.classList.contains('visible') ? 'profile' : 'main'; if (newView === cv) { if (newView === 'profile') window.scrollTo({ top: 0, behavior: 'smooth' }); return; } if (newView === 'profile') { setView('profile'); sc?.classList.add('hidden-by-react'); ps?.classList.add('visible'); window.scrollTo({ top: 0, behavior: 'smooth' }); if (window.bwamDataLayer?.trackProfileView && auth.user) { window.bwamDataLayer.trackProfileView(auth.user.email); } } else { setView('main'); ps?.classList.remove('visible'); sc?.classList.remove('hidden-by-react'); } };
-            useEffect(() => { const pop = () => { const h = window.location.hash; if (h === '#profile' && auth.user) { changeView('profile'); } else if (h !== '#profile') { changeView('main'); } else { changeView('main'); history.replaceState(null, null, '#home'); } }; window.addEventListener('popstate', pop); const ih = window.location.hash; if (ih === '#profile' && auth.user) { changeView('profile'); } else if (ih === '#profile' && !auth.user) { history.replaceState(null, null, '#home'); changeView('main'); } else { changeView('main'); } return () => window.removeEventListener('popstate', pop); }, [auth.user]);
-            useEffect(() => { window.AppContext = { view, changeView }; return () => { delete window.AppContext; }; }, [view, changeView]);
-            const value = { ...auth, language, changeLanguage, t, view, changeView };
-            return e(AppContext.Provider, { value: value }, children);
-         }
+            // Removed 'view' state and 'changeView' function
 
-        // --- Header Component (Restored Dynamic Welcome) ---
+            const t = useCallback((key) => {
+                 if (!key) return '';
+                try {
+                    return key.split('.').reduce((obj, k) => obj && obj[k], translations[language]) || key;
+                } catch (e) {
+                    console.warn(`Translation key error: ${key} [${language}]`);
+                    return key;
+                }
+            }, [language]);
+
+            const changeLanguage = (newLang) => {
+                if (translations[newLang] && newLang !== language) {
+                    setLanguage(newLang);
+                    document.documentElement.lang = newLang;
+                    if (window.bwamScripts?.updateStaticContentLanguage) {
+                         setTimeout(() => window.bwamScripts.updateStaticContentLanguage(newLang), 0);
+                    } else {
+                        console.warn("updateStaticContentLanguage function not found.");
+                    }
+                }
+            };
+
+             // No longer need view-related effects or context exposure
+
+            // Pass only necessary values
+            const value = { ...auth, language, changeLanguage, t };
+            return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+        }
+
+        // --- Header Component (Simplified - No Profile Link/View Change) ---
         function HeaderApp() {
-            const { user, loading, login, logout, language, changeLanguage, t, view, changeView } = useContext(AppContext);
-            const [isProfileOpen, setIsProfileOpen] = useState(false);
+            // Get only needed context
+            const { user, loading, login, logout, language, changeLanguage, t } = useContext(AppContext);
+            const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Renamed from isProfileOpen
             const [emailInput, setEmailInput] = useState('');
             const [loginError, setLoginError] = useState(false);
-            const profileRef = useRef(null);
-            useEffect(() => { const clickOut = (ev) => { if (profileRef.current && !profileRef.current.contains(ev.target)) { const pb = document.getElementById('profile-button'); if (!pb || !pb.contains(ev.target)) { setIsProfileOpen(false); } } }; document.addEventListener("mousedown", clickOut); return () => document.removeEventListener("mousedown", clickOut); }, []);
-            const handleLogin = (ev) => { ev.preventDefault(); setLoginError(false); const ok = login(emailInput); if (!ok) { setLoginError(true); } else { setEmailInput(''); if (window.bwamDataLayer?.trackLoginSuccess) { window.bwamDataLayer.trackLoginSuccess(emailInput); } } };
-            const handleLogout = () => { const email = user?.email; logout(); setIsProfileOpen(false); if (window.bwamDataLayer?.trackLogout) { window.bwamDataLayer.trackLogout(email); } if (view === 'profile') { changeView('main'); history.pushState(null, null, '#home'); } };
-            const handleViewProfile = (ev) => { ev.preventDefault(); setIsProfileOpen(false); if (view !== 'profile') { changeView('profile'); history.pushState(null, null, '#profile'); } else { window.scrollTo({ top: 0, behavior: 'smooth' }); } };
-            // Helper to get username from email (restored)
-            const getUsername = (email) => { if (!email || !email.includes('@')) return 'User'; const namePart = email.split('@')[0]; return namePart.charAt(0).toUpperCase() + namePart.slice(1); };
-            if (loading) { return null; }
+            const dropdownRef = useRef(null); // Renamed from profileRef
 
-            return e('div', { className: "flex items-center space-x-4" },
-                e('div', { className: "flex items-center space-x-1 border border-gray-300 rounded-full px-2 py-1" },
-                    e(GlobeIcon, { size: 16 }),
-                    e('button', { onClick: () => changeLanguage('en'), className: `text-sm font-medium rounded-full px-2 py-0.5 transition-colors duration-150 ${language === 'en' ? 'bg-[var(--brand-red)] text-white' : 'text-gray-600 hover:bg-gray-200'}`, 'aria-label': t('aria.set_lang_en'), title: t('aria.set_lang_en') }, 'EN'),
-                    e('span', { className: "text-gray-300" }, '|'),
-                    e('button', { onClick: () => changeLanguage('de'), className: `text-sm font-medium rounded-full px-2 py-0.5 transition-colors duration-150 ${language === 'de' ? 'bg-[var(--brand-red)] text-white' : 'text-gray-600 hover:bg-gray-200'}`, 'aria-label': t('aria.set_lang_de'), title: t('aria.set_lang_de') }, 'DE')
-                ),
-                user
-                ? e('div', { className: "profile-dropdown-container", ref: profileRef },
-                    e('button', { id: "profile-button", onClick: () => setIsProfileOpen(!isProfileOpen), className: "flex items-center text-gray-600 hover:text-[var(--brand-red)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)] rounded-full p-1", 'aria-haspopup': "true", 'aria-expanded': isProfileOpen, title: t('profile') },
-                        e(UserCircleIcon, null)
-                    ),
-                    isProfileOpen && e('div', { className: "profile-dropdown-menu" },
-                        e('div', { className: "p-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white" },
-                            // Dynamic Welcome Message Restored
-                            e('h3', { className: "font-semibold text-lg" }, `${t('welcome')}, ${getUsername(user.email)}`),
-                            e('p', { className: "text-sm opacity-90 truncate" }, user.email)
-                        ),
-                        e('nav', { className: "border-t border-gray-100 py-1" },
-                            e('a', { href: "#profile", onClick: handleViewProfile, className: "flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150" }, e(UserIcon, { size: 16 }), e('span', { className: "ml-2" }, t('dropdown.myProfile'))),
-                            e('a', { href: "#", className: "flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150" }, e(SettingsIcon, null), e('span', { className: "ml-2" }, t('dropdown.settings'))),
-                            e('button', { onClick: handleLogout, className: "w-full text-left flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150" }, e(LogOutIcon, null), e('span', { className: "ml-2" }, t('dropdown.logout')))
-                        )
-                    )
-                  )
-                : e('form', { onSubmit: handleLogin, className: "login-form-container" }, // Login form remains the same
-                    e('input', { type: "email", value: emailInput, onChange: (ev) => { setEmailInput(ev.target.value); setLoginError(false); }, placeholder: t('emailPlaceholder'), className: `${loginError ? 'error' : ''}`, required: true, 'aria-label': t('emailPlaceholder'), 'aria-invalid': loginError, 'aria-describedby': loginError ? 'login-error-desc' : undefined }),
-                    e('button', { type: "submit" }, t('login')),
-                    loginError && e('p', { id: 'login-error-desc', className: "login-error-message" }, t('loginError'))
-                  )
+            useEffect(() => { // Click outside for dropdown
+                const handleClickOutside = (event) => {
+                    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                         // Check button id - needs adjustment if button ID changes
+                         const userButton = document.getElementById('user-button');
+                         if (!userButton || !userButton.contains(event.target)) {
+                            setIsDropdownOpen(false);
+                         }
+                    }
+                };
+                document.addEventListener("mousedown", handleClickOutside);
+                return () => document.removeEventListener("mousedown", handleClickOutside);
+            }, []);
+
+            const handleLogin = (e) => { /* ... same as before ... */
+                e.preventDefault();
+                setLoginError(false);
+                const success = login(emailInput);
+                if (!success) { setLoginError(true); }
+                else { setEmailInput(''); if (window.bwamDataLayer?.trackLoginSuccess) window.bwamDataLayer.trackLoginSuccess(emailInput); }
+             };
+
+            const handleLogout = () => { /* ... same as before, no view change needed ... */
+                 const loggedOutEmail = user?.email;
+                 logout();
+                 setIsDropdownOpen(false);
+                 if (window.bwamDataLayer?.trackLogout) window.bwamDataLayer.trackLogout(loggedOutEmail);
+                 // No need to change view or push history state
+             };
+
+            // Removed handleViewProfile function
+
+            const getUsername = (email) => { /* ... same as before ... */
+                 if (!email || !email.includes('@')) return 'User';
+                 const namePart = email.split('@')[0];
+                 return namePart.charAt(0).toUpperCase() + namePart.slice(1);
+            };
+
+            if (loading) {
+                return null; // Use :empty CSS pseudo-class for loading state
+            }
+
+            return (
+                <div className="flex items-center space-x-4">
+                    {/* Language Switcher */}
+                    <div className="flex items-center space-x-1 border border-gray-300 rounded-full px-2 py-1">
+                        <GlobeIcon size={16} />
+                        <button onClick={() => changeLanguage('en')} className={`text-sm font-medium rounded-full px-2 py-0.5 transition-colors duration-150 ${language === 'en' ? 'bg-[var(--brand-red)] text-white' : 'text-gray-600 hover:bg-gray-200'}`} aria-label={t('aria.set_lang_en')} title={t('aria.set_lang_en')}>EN</button>
+                        <span className="text-gray-300">|</span>
+                        <button onClick={() => changeLanguage('de')} className={`text-sm font-medium rounded-full px-2 py-0.5 transition-colors duration-150 ${language === 'de' ? 'bg-[var(--brand-red)] text-white' : 'text-gray-600 hover:bg-gray-200'}`} aria-label={t('aria.set_lang_de')} title={t('aria.set_lang_de')}>DE</button>
+                    </div>
+
+                    {/* Conditional: User Dropdown or Login Form */}
+                    {user ? (
+                        <div className="profile-dropdown-container" ref={dropdownRef}> {/* Use renamed ref */}
+                            {/* Changed button ID slightly */}
+                            <button id="user-button" onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center text-gray-600 hover:text-[var(--brand-red)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)] rounded-full p-1" aria-haspopup="true" aria-expanded={isDropdownOpen} title={t('profile')}>
+                                <UserCircleIcon />
+                            </button>
+                            {/* Simplified Dropdown */}
+                            {isDropdownOpen && (
+                                <div className="profile-dropdown-menu">
+                                    <div className="p-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+                                        <h3 className="font-semibold text-lg">{t('welcome')}, {getUsername(user.email)}</h3>
+                                        <p className="text-sm opacity-90 truncate">{user.email}</p>
+                                    </div>
+                                    <nav className="border-t border-gray-100 py-1">
+                                        {/* Removed My Profile & Settings links */}
+                                        <button onClick={handleLogout} className="w-full text-left flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
+                                            <LogOutIcon /> <span className="ml-2">{t('dropdown.logout')}</span>
+                                        </button>
+                                    </nav>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <form onSubmit={handleLogin} className="login-form-container">
+                            <input type="email" value={emailInput} onChange={(e) => { setEmailInput(e.target.value); setLoginError(false); }} placeholder={t('emailPlaceholder')} className={`${loginError ? 'error' : ''}`} required aria-label={t('emailPlaceholder')} aria-invalid={loginError} aria-describedby={loginError ? 'login-error-desc' : undefined}/>
+                            <button type="submit">{t('login')}</button>
+                            {loginError && <p id="login-error-desc" className="login-error-message">{t('loginError')}</p>}
+                        </form>
+                    )}
+                </div>
             );
         }
 
-        // --- Profile Section Component (Restored Dynamic Data Fetching - Mocked) ---
-         function ProfileSection() {
-            const { user, t, view } = useContext(AppContext);
-            const [profileData, setProfileData] = useState(null);
-            const [isLoading, setIsLoading] = useState(true);
-            const [error, setError] = useState(null);
+        // --- ProfileSection Component REMOVED ---
 
-            // Function to generate *mock* data based on email
-            const generateMockData = (email) => {
-                // Simple pseudo-randomization based on email characters
-                // NOTE: This is NOT secure or truly random, just for demonstration!
-                let seed = 0;
-                if (email) {
-                    for (let i = 0; i < email.length; i++) {
-                        seed = (seed * 31 + email.charCodeAt(i)) | 0; // Simple hash
-                    }
-                }
+        // --- Render React Component (Only HeaderApp) ---
+        ReactDOM.render(
+            <AppProvider>
+                <HeaderApp />
+            </AppProvider>,
+            document.getElementById('react-profile-header')
+        );
+        // Removed ReactDOM.render call for ProfileSection
 
-                // Helper function to get username from email (can be different from header one)
-                 const getFullName = (email) => {
-                    if (!email || !email.includes('@')) return 'Valued Customer';
-                    const namePart = email.split('@')[0];
-                    // Simple capitalization and replace dot with space
-                    return namePart.replace('.', ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                 };
-
-                return {
-                     name: getFullName(email),
-                     phone: `+41 7${Math.abs(seed % 9) + 1} ${Math.abs(seed % 900) + 100} ${Math.abs(seed % 90) + 10} ${Math.abs(seed % 90) + 10}`,
-                     address: `${Math.abs(seed % 90) + 1} Example St, 80${Math.abs(seed % 50) + 10} Zürich`,
-                     memberSince: `20${18 + Math.abs(seed % 6)}-${String(Math.abs(seed % 12) + 1).padStart(2, '0')}-${String(Math.abs(seed % 28) + 1).padStart(2, '0')}`,
-                     checkingBalance: 10000 + (seed % 15000),
-                     savingsBalance: 50000 + (seed % 50000),
-                     investmentValue: 100000 + (seed % 100000),
-                     savingsGoalTarget: 15000 + (seed % 10000),
-                     savingsGoalCurrent: Math.min(10000 + Math.abs(seed % 20000), 15000 + (seed % 10000)), // Ensure current <= target
-                     transactions: [ // Keep transactions static or pseudo-randomize amounts too
-                         { id: 1, date: "2025-05-04", descKey: "profilePage.txDesc1", amount: -(70 + Math.abs(seed % 30)) },
-                         { id: 2, date: "2025-05-03", descKey: "profilePage.txDesc2", amount: (4500 + Math.abs(seed % 1000)) },
-                         { id: 3, date: "2025-05-02", descKey: "profilePage.txDesc3", amount: -(150 + Math.abs(seed % 100)) },
-                         { id: 4, date: "2025-05-01", descKey: "profilePage.txDesc4", amount: -(80 + Math.abs(seed % 50)) },
-                         { id: 5, date: "2025-05-01", descKey: "profilePage.txDesc5", amount: -(120 + Math.abs(seed % 80)) }
-                     ].sort((a,b) => new Date(b.date) - new Date(a.date)) // Sort by date desc
-                };
-            };
-
-            // Effect to fetch/simulate data
-             useEffect(() => {
-                 if (view === 'profile' && user) {
-                     setIsLoading(true);
-                     setError(null);
-                     console.log("Fetching profile data for:", user.email);
-                     const fetchTimeout = setTimeout(() => {
-                         try {
-                              const fetchedData = generateMockData(user.email);
-                              setProfileData(fetchedData);
-                              console.log("Profile data generated:", fetchedData);
-                         } catch(err) {
-                              console.error("Error generating mock profile data:", err);
-                              setError("Failed to load profile data.");
-                         } finally {
-                              setIsLoading(false);
-                         }
-                     }, 600); // Simulate network delay
-                     return () => clearTimeout(fetchTimeout);
-                 } else {
-                      setIsLoading(false);
-                      setProfileData(null);
-                      setError(null);
-                 }
-             }, [view, user]); // Re-run if view or user changes
-
-            // Render conditions
-            if (view !== 'profile' || !user) return null;
-            if (isLoading) {
-                return e('div', { className: "profile-section-content text-center py-20" },
-                    e('div', { className: "inline-block border-4 border-gray-300 border-t-[var(--brand-red)] rounded-full w-12 h-12 animate-spin" }),
-                    e('p', { className: "mt-4 text-gray-600" }, 'Loading profile...')
-                );
-            }
-            if (error) {
-                return e('div', { className: "profile-section-content text-center py-20 text-red-600" }, error);
-            }
-            if (!profileData) {
-                return e('div', { className: "profile-section-content text-center py-20 text-gray-600" }, 'Profile data not available.');
-            }
-
-            // Calculations and Formatting (use fetched profileData)
-            const totalAssets = profileData.checkingBalance + profileData.savingsBalance + profileData.investmentValue;
-            const goalProgress = Math.min(100, (profileData.savingsGoalCurrent / profileData.savingsGoalTarget) * 100);
-            const formatCurrency = (v) => v.toLocaleString(document.documentElement.lang || 'en', { style: 'currency', currency: 'CHF' });
-            const formatDate = (d) => new Date(d).toLocaleDateString(document.documentElement.lang || 'en', { year: 'numeric', month: 'long', day: 'numeric' });
-
-            // --- Render Profile UI (using React.createElement) ---
-            return e('div', { className: "profile-section-content fade-in-element is-visible" },
-                e('div', { className: "text-center mb-14 lg:mb-16" },
-                    e('h2', { className: "text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center" }, e(UserCircleIcon, { size: 36 }), e('span', { className: "ml-3" }, t('profilePage.title'))),
-                    e('p', { className: "text-lg text-gray-600" }, t('profilePage.subtitle'))
-                ),
-                e('div', { className: "grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12" },
-                    e('div', { className: "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300" }, // Summary
-                        e('h3', { className: "text-lg font-semibold mb-4 inline-flex items-center text-[var(--brand-red)]" }, e(LandmarkIcon, null), e('span', { className: "ml-2" }, t('profilePage.summaryTitle'))),
-                        e('div', { className: "space-y-3 text-sm" },
-                            e('div', { className: "flex justify-between" }, e('span', { className: "text-gray-600" }, t('profilePage.checkingLabel') + ':'), e('span', { className: "font-medium text-gray-800" }, formatCurrency(profileData.checkingBalance))),
-                            e('div', { className: "flex justify-between" }, e('span', { className: "text-gray-600" }, t('profilePage.savingsLabel') + ':'), e('span', { className: "font-medium text-gray-800" }, formatCurrency(profileData.savingsBalance))),
-                            e('div', { className: "flex justify-between" }, e('span', { className: "text-gray-600" }, t('profilePage.investmentLabel') + ':'), e('span', { className: "font-medium text-gray-800" }, formatCurrency(profileData.investmentValue))),
-                            e('div', { className: "flex justify-between border-t pt-3 mt-3" }, e('span', { className: "text-gray-600 font-semibold" }, t('profilePage.totalLabel') + ':'), e('span', { className: "font-semibold text-lg text-[var(--brand-red)]" }, formatCurrency(totalAssets)))
-                        )
-                    ),
-                    e('div', { className: "space-y-8" }, // Goal & Personal Info Column
-                        e('div', { className: "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300" }, // Goal
-                            e('h3', { className: "text-lg font-semibold mb-4 inline-flex items-center text-[var(--brand-red)]" }, e(TargetIcon, null), e('span', { className: "ml-2" }, t('profilePage.goalTitle'))),
-                            e('p', { className: "text-sm text-gray-600 mb-3" }, t('profilePage.goalDesc')),
-                            e('div', { className: "w-full bg-gray-200 rounded-full h-2.5 mb-2" }, e('div', { className: "bg-gradient-to-r from-green-400 to-blue-500 h-2.5 rounded-full", style: { width: `${goalProgress}%` } })),
-                            e('div', { className: "flex justify-between text-xs text-gray-500" }, e('span', null, formatCurrency(profileData.savingsGoalCurrent)), e('span', null, formatCurrency(profileData.savingsGoalTarget))),
-                            e('p', { className: "text-center text-sm font-medium mt-3 text-green-600" }, `${goalProgress.toFixed(0)}% ${t('profilePage.goalComplete')}`)
-                        ),
-                        e('div', { className: "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300" }, // Personal Info
-                            e('div', { className: "flex justify-between items-center mb-4" },
-                                e('h3', { className: "text-lg font-semibold inline-flex items-center text-[var(--brand-red)]" }, e(UserIcon, null), e('span', { className: "ml-2" }, t('profilePage.personalInfoTitle'))),
-                                e('button', { className: "text-xs text-blue-600 hover:underline inline-flex items-center focus-visible:ring-1 focus-visible:ring-blue-500 rounded" }, e(EditIcon, { size: 12 }), e('span', { className: "ml-1" }, t('profilePage.editButton')))
-                            ),
-                            e('div', { className: "space-y-2 text-sm" },
-                                e('div', { className: "flex" }, e('span', { className: "w-1/3 text-gray-500 font-medium" }, t('profilePage.nameLabel') + ':'), e('span', { className: "w-2/3 text-gray-800" }, profileData.name)),
-                                e('div', { className: "flex" }, e('span', { className: "w-1/3 text-gray-500 font-medium" }, t('profilePage.emailLabel') + ':'), e('span', { className: "w-2/3 text-gray-800 break-all" }, user.email)), // Show logged in email
-                                e('div', { className: "flex" }, e('span', { className: "w-1/3 text-gray-500 font-medium" }, t('profilePage.phoneLabel') + ':'), e('span', { className: "w-2/3 text-gray-800" }, profileData.phone)),
-                                e('div', { className: "flex" }, e('span', { className: "w-1/3 text-gray-500 font-medium" }, t('profilePage.addressLabel') + ':'), e('span', { className: "w-2/3 text-gray-800" }, profileData.address)),
-                                e('div', { className: "flex" }, e('span', { className: "w-1/3 text-gray-500 font-medium" }, t('profilePage.memberSinceLabel') + ':'), e('span', { className: "w-2/3 text-gray-800" }, formatDate(profileData.memberSince)))
-                            )
-                        )
-                    ),
-                    e('div', { className: "bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300" }, // Quick Actions
-                        e('h3', { className: "text-lg font-semibold mb-4 inline-flex items-center text-[var(--brand-red)]" }, e(ZapIcon, null), e('span', { className: "ml-2" }, t('profilePage.actionsTitle'))),
-                         e('div', { className: "space-y-3" }, /* Buttons... */ )
-                    )
-                ),
-                e('div', { className: "bg-white p-6 md:p-8 rounded-xl shadow-lg" }, // Transactions
-                    e('h3', { className: "text-xl font-semibold mb-6 inline-flex items-center" }, e(ListIcon, null), e('span', { className: "ml-2" }, t('profilePage.transactionsTitle'))),
-                    e('div', { className: "overflow-x-auto" },
-                        e('table', { className: "w-full text-sm text-left text-gray-500" },
-                            e('thead', { className: "text-xs text-gray-700 uppercase bg-gray-100" }, /* ... th ... */ ),
-                            e('tbody', null,
-                                profileData.transactions.map((tx) =>
-                                    e('tr', { key: tx.id, className: "bg-white border-b hover:bg-gray-50" },
-                                        e('td', { className: "px-4 py-3 whitespace-nowrap" }, formatDate(tx.date)),
-                                        e('td', { className: "px-4 py-3 font-medium text-gray-900" }, t(tx.descKey)),
-                                        e('td', { className: `px-4 py-3 text-right font-medium ${tx.amount < 0 ? 'text-red-600' : 'text-green-600'}` }, `${tx.amount < 0 ? '-' : '+'} ${formatCurrency(Math.abs(tx.amount))}`)
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            ); // End ProfileSection return
-         } // End ProfileSection component
-
-        // --- Render React Components into DOM ---
-        ReactDOM.render( e(AppProvider, null, e(HeaderApp, null)), document.getElementById('react-profile-header') );
-        ReactDOM.render( e(AppProvider, null, e(ProfileSection, null)), document.getElementById('react-profile-section') );
-
-      })(); // End IIFE
     </script>
 
     <script>
-         document.addEventListener('DOMContentLoaded', () => { /* ... same as before ... */ });
+        document.addEventListener('DOMContentLoaded', () => { /* ... same as before ... */ });
      </script>
 
 </body>
