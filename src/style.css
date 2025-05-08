@@ -1,8 +1,8 @@
 /* Custom Properties */
 :root {
-    --brand-red: #e63946;
-    --brand-red-dark: #c1121f;
-    --gray-light: #f8f9fa;
+    --brand-red: #E30613;
+    --brand-red-dark: #B30000;
+    --gray-light: #F5F5F5;
     --gray-dark: #212529;
     --transition-speed: 0.3s;
     --color-primary: var(--brand-red);
