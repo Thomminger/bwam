@@ -62,7 +62,10 @@ window.bwamTranslations = {
         'aria.search': 'Search',
         'aria.open_menu': 'Open menu',
         'aria.close_menu': 'Close menu',
-        'aria.language_switch': 'Switch language'
+        'aria.language_switch': 'Switch language',
+        'aria.set_lang_en': 'Switch to English',
+        'aria.set_lang_de': 'Switch to German',
+        'aria.set_lang_fr': 'Switch to French'
     },
     
     de: {
@@ -127,7 +130,10 @@ window.bwamTranslations = {
         'aria.search': 'Suchen',
         'aria.open_menu': 'Menü öffnen',
         'aria.close_menu': 'Menü schließen',
-        'aria.language_switch': 'Sprache wechseln'
+        'aria.language_switch': 'Sprache wechseln',
+        'aria.set_lang_en': 'Zu Englisch wechseln',
+        'aria.set_lang_de': 'Zu Deutsch wechseln',
+        'aria.set_lang_fr': 'Zu Französisch wechseln'
     },
     
     fr: {
@@ -192,6 +198,9 @@ window.bwamTranslations = {
         'aria.search': 'Rechercher',
         'aria.open_menu': 'Ouvrir le menu',
         'aria.close_menu': 'Fermer le menu',
-        'aria.language_switch': 'Changer de langue'
+        'aria.language_switch': 'Changer de langue',
+        'aria.set_lang_en': 'Passer à l\'anglais',
+        'aria.set_lang_de': 'Passer à l\'allemand',
+        'aria.set_lang_fr': 'Passer au français'
     }
 }; 
