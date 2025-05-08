@@ -266,3 +266,135 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
     }
 });
+
+// Initialize Salesforce Data Cloud
+window.sfdc = window.sfdc || {};
+window.sfdc.beacon = window.sfdc.beacon || {};
+
+// Track page views
+function trackPageView(pageData = {}) {
+    if (window.sfdc && window.sfdc.beacon) {
+        window.sfdc.beacon.track('pageView', {
+            pageName: document.title,
+            pageUrl: window.location.href,
+            pageType: 'content',
+            language: document.documentElement.lang,
+            ...pageData
+        });
+    }
+}
+
+// Track user interactions
+function trackUserInteraction(interactionType, interactionData = {}) {
+    if (window.sfdc && window.sfdc.beacon) {
+        window.sfdc.beacon.track('userInteraction', {
+            interactionType,
+            timestamp: new Date().toISOString(),
+            ...interactionData
+        });
+    }
+}
+
+// Track form submissions
+function trackFormSubmission(formId, formData = {}) {
+    if (window.sfdc && window.sfdc.beacon) {
+        window.sfdc.beacon.track('formSubmission', {
+            formId,
+            timestamp: new Date().toISOString(),
+            ...formData
+        });
+    }
+}
+
+// Track language changes
+function trackLanguageChange(oldLang, newLang) {
+    if (window.sfdc && window.sfdc.beacon) {
+        window.sfdc.beacon.track('languageChange', {
+            oldLanguage: oldLang,
+            newLanguage: newLang,
+            timestamp: new Date().toISOString()
+        });
+    }
+}
+
+// Track consent changes
+function trackConsentChange(consentType, consentValue) {
+    if (window.sfdc && window.sfdc.beacon) {
+        window.sfdc.beacon.track('consentChange', {
+            consentType,
+            consentValue,
+            timestamp: new Date().toISOString()
+        });
+    }
+}
+
+// Track navigation clicks
+function trackNavigationClick(navItem, navType) {
+    if (window.sfdc && window.sfdc.beacon) {
+        window.sfdc.beacon.track('navigationClick', {
+            navItem,
+            navType,
+            timestamp: new Date().toISOString()
+        });
+    }
+}
+
+// Track modal interactions
+function trackModalInteraction(modalId, action) {
+    if (window.sfdc && window.sfdc.beacon) {
+        window.sfdc.beacon.track('modalInteraction', {
+            modalId,
+            action,
+            timestamp: new Date().toISOString()
+        });
+    }
+}
+
+// Initialize tracking
+document.addEventListener('DOMContentLoaded', () => {
+    // Track initial page view
+    trackPageView();
+
+    // Track navigation clicks
+    document.querySelectorAll('.nav-section-link').forEach(link => {
+        link.addEventListener('click', () => {
+            trackNavigationClick(link.textContent.trim(), 'section');
+        });
+    });
+
+    // Track language changes
+    const languageSelect = document.querySelector('select[value="currentLanguage"]');
+    if (languageSelect) {
+        languageSelect.addEventListener('change', (e) => {
+            trackLanguageChange(document.documentElement.lang, e.target.value);
+        });
+    }
+
+    // Track consent changes
+    const consentAccept = document.getElementById('consent-accept');
+    const consentReject = document.getElementById('consent-reject');
+    if (consentAccept) {
+        consentAccept.addEventListener('click', () => {
+            trackConsentChange('cookies', 'accepted');
+        });
+    }
+    if (consentReject) {
+        consentReject.addEventListener('click', () => {
+            trackConsentChange('cookies', 'rejected');
+        });
+    }
+
+    // Track modal interactions
+    const advisorModal = document.getElementById('advisor-modal');
+    const modalCloseButton = document.getElementById('modal-close-button');
+    const contactCtaButton = document.getElementById('contact-cta-button');
+
+    if (advisorModal && modalCloseButton && contactCtaButton) {
+        contactCtaButton.addEventListener('click', () => {
+            trackModalInteraction('advisor-modal', 'open');
+        });
+        modalCloseButton.addEventListener('click', () => {
+            trackModalInteraction('advisor-modal', 'close');
+        });
+    }
+});

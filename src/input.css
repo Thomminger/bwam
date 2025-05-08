@@ -4,9 +4,9 @@
 
 /* Custom styles */
 :root {
-    --brand-red: #FF0000;
-    --brand-red-dark: #CC0000;
-    --gray-light: #F5F5F5;
+    --brand-red: #e63946;
+    --brand-red-dark: #c1121f;
+    --gray-light: #f3f4f6;
 }
 
 /* Additional custom styles */
@@ -17,4 +17,39 @@
 
 .shadow-md {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@layer base {
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+}
+
+@layer components {
+    .nav-link {
+        @apply text-gray-600 hover:text-[var(--brand-red)] transition-colors duration-200;
+    }
+
+    .nav-section-link {
+        @apply text-gray-600 hover:text-[var(--brand-red)] transition-colors duration-200;
+    }
+
+    .dropdown-menu {
+        @apply absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden group-hover:block;
+    }
+
+    .fade-in-element {
+        @apply opacity-0 translate-y-4 transition-all duration-700;
+    }
+
+    .fade-in-element.visible {
+        @apply opacity-100 translate-y-0;
+    }
+
+    .has-mountain-bg {
+        background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
 } 

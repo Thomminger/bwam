@@ -4,7 +4,7 @@
   "description": "BWAM Banking Website",
   "main": "index.html",
   "scripts": {
-    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css",
     "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
   },
   "dependencies": {
@@ -14,7 +14,6 @@
   "devDependencies": {
     "tailwindcss": "^3.3.0",
     "@babel/core": "^7.22.0",
-    "@babel/preset-react": "^7.22.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24"
   },

@@ -2,15 +2,14 @@
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx}",
-    "./*.js"
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        'brand-red': '#FF0000',
-        'brand-red-dark': '#CC0000',
-        'gray-light': '#F5F5F5'
+        'brand-red': 'var(--brand-red)',
+        'brand-red-dark': 'var(--brand-red-dark)',
+        'gray-light': 'var(--gray-light)',
       },
     },
   },

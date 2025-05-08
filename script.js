@@ -721,4 +721,123 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize language on page load
     initializeLanguage();
 
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Language switching functionality
+    const languageSelect = document.querySelector('select[value="currentLanguage"]');
+    if (languageSelect) {
+        languageSelect.addEventListener('change', (e) => {
+            const newLang = e.target.value;
+            window.bwamTranslations.currentLanguage = newLang;
+            updatePageLanguage(newLang);
+        });
+    }
+
+    // Update page language
+    function updatePageLanguage(lang) {
+        document.querySelectorAll('[data-lang-key]').forEach(element => {
+            const key = element.getAttribute('data-lang-key');
+            if (window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+                element.textContent = window.bwamTranslations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-lang-key-aria]').forEach(element => {
+            const key = element.getAttribute('data-lang-key-aria');
+            if (window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+                element.setAttribute('aria-label', window.bwamTranslations[lang][key]);
+            }
+        });
+
+        document.querySelectorAll('[data-lang-key-title]').forEach(element => {
+            const key = element.getAttribute('data-lang-key-title');
+            if (window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+                element.setAttribute('title', window.bwamTranslations[lang][key]);
+            }
+        });
+    }
+
+    // Mobile menu functionality
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+
+    // Consent banner functionality
+    if (consentBanner && consentAcceptButton && consentRejectButton) {
+        const consentStatus = localStorage.getItem(CONSENT_STORAGE_KEY);
+        
+        if (!consentStatus) {
+            consentBanner.classList.remove('hidden');
+        }
+
+        consentAcceptButton.addEventListener('click', () => {
+            localStorage.setItem(CONSENT_STORAGE_KEY, 'accepted');
+            consentBanner.classList.add('hidden');
+        });
+
+        consentRejectButton.addEventListener('click', () => {
+            localStorage.setItem(CONSENT_STORAGE_KEY, 'rejected');
+            consentBanner.classList.add('hidden');
+        });
+    }
+
+    // Advisor modal functionality
+    if (advisorModal && modalOverlay && modalCloseButton && contactCtaButton) {
+        const openModal = () => {
+            advisorModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = () => {
+            advisorModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        };
+
+        contactCtaButton.addEventListener('click', openModal);
+        modalCloseButton.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+    }
+
+    // Scroll animations
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in-element').forEach(element => {
+        observer.observe(element);
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('.nav-section-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const href = link.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+
 }); // End DOMContentLoaded
