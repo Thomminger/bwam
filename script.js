@@ -579,6 +579,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = new URL(window.location.href);
         url.searchParams.set('lang', lang);
         window.history.pushState({}, '', url);
+
+        // Track language change
+        if (typeof window.bwamDataLayer?.trackLanguageChange === 'function') {
+            window.bwamDataLayer.trackLanguageChange(lang);
+        }
     };
 
     // Initialize language based on user preference or URL parameter
@@ -712,5 +717,8 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('auth_token');
         });
     }
+
+    // Initialize language on page load
+    initializeLanguage();
 
 }); // End DOMContentLoaded
