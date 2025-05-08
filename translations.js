@@ -56,6 +56,7 @@ window.bwamTranslations = {
         'login.button': 'Login',
         'login.error': 'Login failed. Please check your credentials and try again.',
         'login.success': 'Login successful. Redirecting...',
+        'login.emailPlaceholder': 'Enter email',
         
         // Accessibility
         'aria.search': 'Search',
@@ -120,6 +121,7 @@ window.bwamTranslations = {
         'login.button': 'Anmelden',
         'login.error': 'Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Anmeldedaten und versuchen Sie es erneut.',
         'login.success': 'Anmeldung erfolgreich. Weiterleitung...',
+        'login.emailPlaceholder': 'E-Mail eingeben',
         
         // Accessibility
         'aria.search': 'Suchen',
@@ -184,6 +186,7 @@ window.bwamTranslations = {
         'login.button': 'Se Connecter',
         'login.error': 'Échec de la connexion. Veuillez vérifier vos identifiants et réessayer.',
         'login.success': 'Connexion réussie. Redirection...',
+        'login.emailPlaceholder': 'Entrez votre email',
         
         // Accessibility
         'aria.search': 'Rechercher',
