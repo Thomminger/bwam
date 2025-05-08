@@ -1,0 +1,32 @@
+{
+  "name": "bwam",
+  "version": "1.0.0",
+  "description": "BWAM Banking Website",
+  "main": "index.html",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.0",
+    "@babel/core": "^7.22.0",
+    "@babel/preset-react": "^7.22.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thomminger/bwam.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thomminger/bwam/issues"
+  },
+  "homepage": "https://github.com/Thomminger/bwam#readme"
+}
