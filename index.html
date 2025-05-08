@@ -18,7 +18,7 @@
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <a href="/" class="flex items-center">
-                    <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-8">
+                    <img src="https://placehold.co/200x80/1a202c/ffffff?text=BWAM" alt="BWAM Logo" class="h-8">
                 </a>
                 
                 <!-- Desktop Navigation -->
@@ -57,7 +57,7 @@
     <!-- Main Content -->
     <main class="pt-20">
         <!-- Hero Section -->
-        <section class="bg-gray-light py-16">
+        <section class="bg-gray-light py-16" style="background-image: url('https://placehold.co/1920x1080/1a202c/ffffff?text=BWAM+Banking'); background-size: cover; background-position: center;">
             <div class="container mx-auto px-4">
                 <h1 class="text-4xl font-bold text-gray-900 mb-4" data-lang-key="hero.title">Welcome to BWAM</h1>
                 <p class="text-xl text-gray-700 mb-8" data-lang-key="hero.description">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
@@ -96,43 +96,77 @@
         </section>
 
         <!-- Events Section -->
-        <section class="bg-gray-light py-16">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-12" data-lang-key="events.title">Upcoming Events</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="events.event1.title">Investment Seminar</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="events.event1.description">Join us for an informative session on investment strategies.</p>
-                        <button class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="events.event1.button">Register Now</button>
+        <section id="events" class="main-section py-16 lg:py-24 bg-[var(--gray-light)]">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-element">
+                <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center justify-center w-full">
+                    <i data-lucide="calendar" class="text-[var(--brand-red)] mr-3 h-8 w-8"></i>
+                    <span data-lang-key="events.title">Upcoming Events</span>
+                </h2>
+                <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left hover:shadow-xl transition-shadow duration-300">
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Future+Wealth+Forum" alt="Future Wealth Forum 2025" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                        <h4 class="text-xl font-semibold mb-4" data-lang-key="events.future_wealth_title">Future Wealth Forum 2025: Navigating the Next Wave of Investment</h4>
+                        <p class="text-gray-600 mb-2">
+                            <i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
+                            <span data-lang-key="events.featured_date">Date: October 15, 2025</span>
+                        </p>
+                        <p class="text-gray-600 mb-4">
+                            <i data-lucide="map-pin" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
+                            <span data-lang-key="events.featured_location">Location: BWAM Headquarters, Zurich</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mb-6" data-lang-key="events.future_wealth_desc">Join BWAM's leading strategists and market analysts for an exclusive evening exploring the key economic trends shaping 2025 and beyond. Discover insights into innovative investment opportunities, sustainable finance growth areas, and strategies for building resilient portfolios in a dynamic global landscape. Includes networking apéro with peers and experts.</p>
+                        <a href="https://events.blackthorn.io/en/KB1u1Ug7/future-wealth-forum-2025-navigating-the-next-wave-of-investment-4a9qKBXZql/overview" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-[var(--brand-red)] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[var(--brand-red-dark)] transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key="events.future_wealth_button">
+                            <i data-lucide="external-link" class="mr-2 h-5 w-5"></i>View Event Details
+                        </a>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="events.event2.title">Business Networking</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="events.event2.description">Connect with industry leaders and expand your network.</p>
-                        <button class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="events.event2.button">Register Now</button>
+                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left hover:shadow-xl transition-shadow duration-300">
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Digital+Banking+Security" alt="Digital Banking Security Workshop" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                        <h4 class="text-xl font-semibold mb-4" data-lang-key="events.event2_title">Digital Banking Security Workshop</h4>
+                        <p class="text-gray-600 mb-2">
+                            <i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
+                            <span data-lang-key="events.event2_date">Date: November 5, 2025</span>
+                        </p>
+                        <p class="text-gray-600 mb-4">
+                            <i data-lucide="laptop" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
+                            <span data-lang-key="events.event2_location">Location: Online Webinar</span>
+                        </p>
+                        <p class="text-sm text-gray-500 mb-6" data-lang-key="events.event2_desc">Learn best practices for protecting your accounts and data in the digital age. Q&A with cybersecurity experts.</p>
+                        <button class="inline-flex items-center bg-[var(--brand-red)] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[var(--brand-red-dark)] transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key="events.button_register">
+                            <i data-lucide="edit" class="mr-2 h-5 w-5"></i>Register Now
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- News Section -->
-        <section class="py-16">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-12" data-lang-key="news.title">Latest News</h2>
+        <section id="news" class="main-section py-16 lg:py-24 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-14 lg:mb-20 fade-in-element">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center">
+                        <i data-lucide="newspaper" class="text-[var(--brand-red)] mr-3 h-8 w-8"></i>
+                        <span data-lang-key="news.title">News & Insights</span>
+                    </h2>
+                </div>
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.article1.title">Market Insights</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="news.article1.description">Latest trends and analysis in the financial markets.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.article1.link">Read More</a>
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Market+Outlook" alt="Market Outlook Q3 2025" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.card1_title">Market Outlook Q3 2025</h3>
+                        <p class="text-gray-600 mb-4" data-lang-key="news.card1_desc">Our analysis of current market trends and potential opportunities for investors.</p>
+                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.read_more">Read More</a>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.article2.title">Sustainable Finance</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="news.article2.description">Our commitment to sustainable investment practices.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.article2.link">Read More</a>
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Retirement+Planning" alt="Planning for a Secure Retirement" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.card2_title">Planning for a Secure Retirement</h3>
+                        <p class="text-gray-600 mb-4" data-lang-key="news.card2_desc">Key strategies and considerations for building a robust retirement portfolio.</p>
+                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.read_more">Read More</a>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.article3.title">Digital Innovation</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="news.article3.description">How we're transforming banking for the digital age.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.article3.link">Read More</a>
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Sustainable+Finance" alt="Sustainable Finance Trends" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.card3_title">Sustainable Finance Trends</h3>
+                        <p class="text-gray-600 mb-4" data-lang-key="news.card3_desc">Exploring the growing importance of ESG factors in investment decisions.</p>
+                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.read_more">Read More</a>
                     </div>
                 </div>
             </div>
@@ -154,7 +188,7 @@
             <div class="grid md:grid-cols-4 gap-8">
                 <!-- Company Info -->
                 <div>
-                    <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-8 mb-4">
+                    <img src="https://placehold.co/200x80/1a202c/ffffff?text=BWAM" alt="BWAM Logo" class="h-8 mb-4">
                     <p class="text-gray-400" data-lang-key="footer.company_desc">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
                 </div>
 
