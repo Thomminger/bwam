@@ -725,35 +725,25 @@ document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
 
     // Language switching functionality
-    const languageSelect = document.querySelector('select[value="currentLanguage"]');
+    const languageSelect = document.getElementById('languageSelect');
     if (languageSelect) {
+        const currentLang = localStorage.getItem('language') || 'en';
+        languageSelect.value = currentLang;
+
         languageSelect.addEventListener('change', (e) => {
             const newLang = e.target.value;
-            window.bwamTranslations.currentLanguage = newLang;
+            localStorage.setItem('language', newLang);
             updatePageLanguage(newLang);
         });
     }
 
-    // Update page language
+    // Function to update page language
     function updatePageLanguage(lang) {
-        document.querySelectorAll('[data-lang-key]').forEach(element => {
+        const elements = document.querySelectorAll('[data-lang-key]');
+        elements.forEach(element => {
             const key = element.getAttribute('data-lang-key');
             if (window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
                 element.textContent = window.bwamTranslations[lang][key];
-            }
-        });
-
-        document.querySelectorAll('[data-lang-key-aria]').forEach(element => {
-            const key = element.getAttribute('data-lang-key-aria');
-            if (window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
-                element.setAttribute('aria-label', window.bwamTranslations[lang][key]);
-            }
-        });
-
-        document.querySelectorAll('[data-lang-key-title]').forEach(element => {
-            const key = element.getAttribute('data-lang-key-title');
-            if (window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
-                element.setAttribute('title', window.bwamTranslations[lang][key]);
             }
         });
     }
@@ -761,9 +751,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mobile menu functionality
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', () => {
-            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
             mobileMenu.classList.toggle('hidden');
+            const isExpanded = mobileMenu.classList.contains('hidden') ? 'false' : 'true';
+            mobileMenuButton.setAttribute('aria-expanded', isExpanded);
         });
     }
 
@@ -823,19 +813,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Smooth scrolling for navigation links
-    document.querySelectorAll('.nav-section-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            const href = link.getAttribute('href');
-            if (href.startsWith('#')) {
-                e.preventDefault();
-                const targetId = href.substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         });
     });

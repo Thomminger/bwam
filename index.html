@@ -23,48 +23,18 @@
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <div class="relative group">
-                        <button class="flex items-center space-x-1 text-gray-700 hover:text-brand-red">
-                            <span data-lang-key="nav.private_clients">Private Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden group-hover:block">
-                            <a href="/private-clients/accounts-cards" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.accounts_cards">Accounts & Cards</a>
-                            <a href="/private-clients/investing" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.investing">Investing</a>
-                        </div>
-                    </div>
-                    
-                    <div class="relative group">
-                        <button class="flex items-center space-x-1 text-gray-700 hover:text-brand-red">
-                            <span data-lang-key="nav.business_clients">Business Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden group-hover:block">
-                            <a href="/business-clients/business-accounts" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.business_accounts">Business Accounts</a>
-                        </div>
-                    </div>
-                    
-                    <div class="relative group">
-                        <button class="flex items-center space-x-1 text-gray-700 hover:text-brand-red">
-                            <span data-lang-key="nav.institutional">Institutional</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden group-hover:block">
-                            <a href="/institutional/asset-management" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.asset_management">Asset Management</a>
-                        </div>
-                    </div>
+                    <a href="/private-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.private_clients">Private Clients</a>
+                    <a href="/business-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.business_clients">Business Clients</a>
+                    <a href="/institutional" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.institutional">Institutional</a>
                 </div>
 
-                <!-- Language Switcher and Search -->
+                <!-- Language Switcher -->
                 <div class="hidden md:flex items-center space-x-4">
                     <select id="languageSelect" class="border rounded px-2 py-1">
                         <option value="en">English</option>
                         <option value="de">Deutsch</option>
                         <option value="fr">Français</option>
                     </select>
-                    <button class="text-gray-700 hover:text-brand-red">
-                        <i data-lucide="search" class="w-5 h-5"></i>
-                    </button>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -76,36 +46,9 @@
             <!-- Mobile Navigation -->
             <div class="md:hidden hidden mt-4">
                 <div class="space-y-4">
-                    <div>
-                        <button class="flex items-center justify-between w-full text-gray-700">
-                            <span data-lang-key="nav.private_clients">Private Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="pl-4 mt-2 space-y-2 hidden">
-                            <a href="/private-clients/accounts-cards" class="block text-gray-700" data-lang-key="nav.accounts_cards">Accounts & Cards</a>
-                            <a href="/private-clients/investing" class="block text-gray-700" data-lang-key="nav.investing">Investing</a>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <button class="flex items-center justify-between w-full text-gray-700">
-                            <span data-lang-key="nav.business_clients">Business Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="pl-4 mt-2 space-y-2 hidden">
-                            <a href="/business-clients/business-accounts" class="block text-gray-700" data-lang-key="nav.business_accounts">Business Accounts</a>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <button class="flex items-center justify-between w-full text-gray-700">
-                            <span data-lang-key="nav.institutional">Institutional</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="pl-4 mt-2 space-y-2 hidden">
-                            <a href="/institutional/asset-management" class="block text-gray-700" data-lang-key="nav.asset_management">Asset Management</a>
-                        </div>
-                    </div>
+                    <a href="/private-clients" class="block text-gray-700" data-lang-key="nav.private_clients">Private Clients</a>
+                    <a href="/business-clients" class="block text-gray-700" data-lang-key="nav.business_clients">Business Clients</a>
+                    <a href="/institutional" class="block text-gray-700" data-lang-key="nav.institutional">Institutional</a>
                 </div>
             </div>
         </nav>
@@ -260,9 +203,7 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="src/translations.js"></script>
-    <script src="src/pages.js"></script>
-    <script src="src/router.js"></script>
-    <script src="src/script.js"></script>
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
