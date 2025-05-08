@@ -153,9 +153,9 @@ const router = {
         // Handle navigation
         window.addEventListener('popstate', this.handleRoute.bind(this));
         document.addEventListener('click', (e) => {
-            if (e.target.matches('a[href^="/bwam/"]')) {
+            if (e.target.matches('a[href^="#/bwam/"]')) {
                 e.preventDefault();
-                const path = e.target.getAttribute('href').replace('/bwam', '');
+                const path = e.target.getAttribute('href').replace('#/bwam', '');
                 this.navigate(path);
             }
         });
@@ -166,7 +166,7 @@ const router = {
 
     // Handle route changes
     handleRoute() {
-        const path = window.location.pathname.replace('/bwam', '') || '/';
+        const path = window.location.hash.replace('#/bwam', '') || '/';
         const page = this.pages[path.slice(1)];
 
         if (page) {
@@ -179,7 +179,7 @@ const router = {
 
     // Navigate to a new route
     navigate(path) {
-        window.history.pushState(null, '', `/bwam${path}`);
+        window.history.pushState(null, '', `#/bwam${path}`);
         this.handleRoute();
     },
 
@@ -210,7 +210,7 @@ const router = {
             <div class="max-w-4xl mx-auto text-center py-16">
                 <h1 class="text-4xl font-bold mb-4">404 - Page Not Found</h1>
                 <p class="text-gray-600 mb-8">The page you are looking for does not exist.</p>
-                <a href="/bwam/" class="inline-block bg-brand-red text-white px-6 py-3 rounded-lg hover:bg-brand-red-dark transition-colors">
+                <a href="#/" class="inline-block bg-brand-red text-white px-6 py-3 rounded-lg hover:bg-brand-red-dark transition-colors">
                     Return to Home
                 </a>
             </div>
