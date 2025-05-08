@@ -4,7 +4,17 @@
 
 /* Custom styles */
 :root {
-    --brand-red: #A6001A;
-    --brand-red-dark: #850015;
-    --gray-light: #f9fafb;
+    --brand-red: #FF0000;
+    --brand-red-dark: #CC0000;
+    --gray-light: #F5F5F5;
+}
+
+/* Additional custom styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 } 

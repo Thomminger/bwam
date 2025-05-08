@@ -1,11 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.{html,js}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx}",
+    "./*.js"
+  ],
   theme: {
     extend: {
       colors: {
-        'brand-red': 'var(--brand-red)',
-        'brand-red-dark': 'var(--brand-red-dark)',
+        'brand-red': '#FF0000',
+        'brand-red-dark': '#CC0000',
+        'gray-light': '#F5F5F5'
       },
     },
   },
