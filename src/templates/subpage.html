@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWAM - Your Trusted Financial Partner</title>
-    <link href="dist/output.css" rel="stylesheet">
+    <title>BWAM - <span data-lang-key="page.title">Page Title</span></title>
+    <link href="../dist/output.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-white">
-    <!-- Subpage Template -->
-    <template id="subpage-template">
-        <!-- Template content will be loaded from src/templates/subpage.html -->
-    </template>
-
     <!-- Header -->
     <header class="fixed w-full bg-white shadow-md z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <a href="/" class="flex items-center">
-                    <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-8">
+                    <img src="../images/bwam-logo.jpg" alt="BWAM Logo" class="h-8">
                 </a>
                 
                 <!-- Desktop Navigation -->
@@ -116,81 +111,16 @@
         <!-- Hero Section -->
         <section class="bg-gray-light py-16">
             <div class="container mx-auto px-4">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-lang-key="hero.title">Welcome to BWAM</h1>
-                <p class="text-xl text-gray-700 mb-8" data-lang-key="hero.description">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
-                <button class="bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-red-dark transition-colors" data-lang-key="hero.cta">Get Started</button>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-lang-key="page.title">Page Title</h1>
+                <p class="text-xl text-gray-700" data-lang-key="page.description">Page Description</p>
             </div>
         </section>
 
-        <!-- About Us Section -->
+        <!-- Features Section -->
         <section class="py-16">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-12" data-lang-key="about.title">About Us</h2>
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <div class="text-brand-red mb-4">
-                            <i data-lucide="users" class="w-12 h-12 mx-auto"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="about.expertise.title">Expertise</h3>
-                        <p class="text-gray-600" data-lang-key="about.expertise.description">Our team of experienced professionals provides expert financial guidance.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-brand-red mb-4">
-                            <i data-lucide="shield" class="w-12 h-12 mx-auto"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="about.trust.title">Trust</h3>
-                        <p class="text-gray-600" data-lang-key="about.trust.description">Building long-term relationships based on trust and reliability.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-brand-red mb-4">
-                            <i data-lucide="globe" class="w-12 h-12 mx-auto"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="about.global.title">Global Reach</h3>
-                        <p class="text-gray-600" data-lang-key="about.global.description">International expertise with a local touch in Zürich.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Events Section -->
-        <section class="bg-gray-light py-16">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-12" data-lang-key="events.title">Upcoming Events</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="events.event1.title">Investment Seminar</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="events.event1.description">Join us for an informative session on investment strategies.</p>
-                        <button class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="events.event1.button">Register Now</button>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="events.event2.title">Business Networking</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="events.event2.description">Connect with industry leaders and expand your network.</p>
-                        <button class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="events.event2.button">Register Now</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- News Section -->
-        <section class="py-16">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-12" data-lang-key="news.title">Latest News</h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.article1.title">Market Insights</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="news.article1.description">Latest trends and analysis in the financial markets.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.article1.link">Read More</a>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.article2.title">Sustainable Finance</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="news.article2.description">Our commitment to sustainable investment practices.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.article2.link">Read More</a>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="news.article3.title">Digital Innovation</h3>
-                        <p class="text-gray-600 mb-4" data-lang-key="news.article3.description">How we're transforming banking for the digital age.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.article3.link">Read More</a>
-                    </div>
+                    <!-- Feature cards will be dynamically inserted here -->
                 </div>
             </div>
         </section>
@@ -211,7 +141,7 @@
             <div class="grid md:grid-cols-4 gap-8">
                 <!-- Company Info -->
                 <div>
-                    <img src="images/bwam-logo.jpg" alt="BWAM Logo" class="h-8 mb-4">
+                    <img src="../images/bwam-logo.jpg" alt="BWAM Logo" class="h-8 mb-4">
                     <p class="text-gray-400" data-lang-key="footer.company_desc">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
                 </div>
 
@@ -260,9 +190,8 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="src/translations.js"></script>
-    <script src="src/pages.js"></script>
-    <script src="src/router.js"></script>
-    <script src="src/script.js"></script>
+    <script src="../translations.js"></script>
+    <script src="../pages.js"></script>
+    <script src="../script.js"></script>
 </body>
-</html>
+</html> 

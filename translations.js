@@ -65,7 +65,18 @@ window.bwamTranslations = {
         'aria.language_switch': 'Switch language',
         'aria.set_lang_en': 'Switch to English',
         'aria.set_lang_de': 'Switch to German',
-        'aria.set_lang_fr': 'Switch to French'
+        'aria.set_lang_fr': 'Switch to French',
+        
+        // Footer
+        'footer.company_desc': 'Your trusted partner for comprehensive financial solutions in Zürich and beyond.',
+        'footer.quick_links': 'Quick Links',
+        'footer.services': 'Services',
+        'footer.contact': 'Contact',
+        'footer.address': 'Bahnhofstrasse 123, 8001 Zürich',
+        'footer.copyright': '© 2024 BWAM. All rights reserved.',
+        'footer.privacy': 'Privacy Policy',
+        'footer.terms': 'Terms of Service',
+        'footer.cookies': 'Cookie Policy'
     },
     
     de: {
@@ -133,7 +144,18 @@ window.bwamTranslations = {
         'aria.language_switch': 'Sprache wechseln',
         'aria.set_lang_en': 'Zu Englisch wechseln',
         'aria.set_lang_de': 'Zu Deutsch wechseln',
-        'aria.set_lang_fr': 'Zu Französisch wechseln'
+        'aria.set_lang_fr': 'Zu Französisch wechseln',
+        
+        // Footer
+        'footer.company_desc': 'Ihr vertrauenswürdiger Partner für umfassende Finanzlösungen in Zürich und darüber hinaus.',
+        'footer.quick_links': 'Schnelllinks',
+        'footer.services': 'Dienstleistungen',
+        'footer.contact': 'Kontakt',
+        'footer.address': 'Bahnhofstrasse 123, 8001 Zürich',
+        'footer.copyright': '© 2024 BWAM. Alle Rechte vorbehalten.',
+        'footer.privacy': 'Datenschutz',
+        'footer.terms': 'Nutzungsbedingungen',
+        'footer.cookies': 'Cookie-Richtlinie'
     },
     
     fr: {
@@ -201,6 +223,17 @@ window.bwamTranslations = {
         'aria.language_switch': 'Changer de langue',
         'aria.set_lang_en': 'Passer à l\'anglais',
         'aria.set_lang_de': 'Passer à l\'allemand',
-        'aria.set_lang_fr': 'Passer au français'
+        'aria.set_lang_fr': 'Passer au français',
+        
+        // Footer
+        'footer.company_desc': 'Votre partenaire de confiance pour des solutions financières complètes à Zurich et au-delà.',
+        'footer.quick_links': 'Liens Rapides',
+        'footer.services': 'Services',
+        'footer.contact': 'Contact',
+        'footer.address': 'Bahnhofstrasse 123, 8001 Zurich',
+        'footer.copyright': '© 2024 BWAM. Tous droits réservés.',
+        'footer.privacy': 'Politique de Confidentialité',
+        'footer.terms': 'Conditions d\'Utilisation',
+        'footer.cookies': 'Politique des Cookies'
     }
 }; 
