@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+:root {
+    --brand-red: #A6001A;
+    --brand-red-dark: #850015;
+    --gray-light: #f9fafb;
+} 

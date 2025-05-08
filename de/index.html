@@ -730,23 +730,34 @@
         const AppContext = React.createContext();
 
         function AppProvider({ children }) {
-             const auth = useAuth();
-             // Default language is now fixed to German
-             const language = 'de';
-             const [view, setView] = useState('main'); // 'main' or 'profile'
+            const auth = useAuth();
+            // Default language from HTML tag, fallback to 'de'
+            const [language, setLanguage] = useState(document.documentElement.lang || 'de');
+            const [view, setView] = useState('main'); // 'main' or 'profile'
 
-             const t = useCallback((key) => {
-                   if (!key) return '';
-                 try {
-                     // Access German translations directly
-                     return key.split('.').reduce((obj, k) => obj && obj[k], translations['de']) || key;
-                 } catch (e) {
-                     console.warn(`Translation key error: ${key} [de]`);
-                     return key;
-                 }
-             }, [language]); // Dependency array still includes language for clarity, but it's fixed
+            const t = useCallback((key) => {
+                if (!key) return '';
+                try {
+                    return key.split('.').reduce((obj, k) => obj && obj[k], translations[language]) || key;
+                } catch (e) {
+                    console.warn(`Translation key error: ${key} [${language}]`);
+                    return key;
+                }
+            }, [language]);
 
-            // Removed changeLanguage function
+            const changeLanguage = (newLang) => {
+                if (translations[newLang] && newLang !== language) {
+                    setLanguage(newLang);
+                    document.documentElement.lang = newLang;
+                    // Trigger update for static content via exposed function
+                    if (window.bwamScripts && typeof window.bwamScripts.updateStaticContentLanguage === 'function') {
+                        // Use setTimeout to ensure React state update completes before DOM manipulation
+                        setTimeout(() => window.bwamScripts.updateStaticContentLanguage(newLang), 0);
+                    } else {
+                        console.warn("bwamScripts.updateStaticContentLanguage function not found.");
+                    }
+                }
+            };
 
             const changeView = (newView) => {
                  const staticContent = document.getElementById('static-content-wrapper');
@@ -816,13 +827,13 @@
               }, [view, changeView]);
 
 
-            const value = { ...auth, language, t, view, changeView }; // language is fixed
+            const value = { ...auth, language, changeLanguage, t, view, changeView };
             return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
         }
 
         // --- Header Component (Login/Profile) ---
         function HeaderApp() {
-            const { user, loading, login, logout, t, view, changeView } = useContext(AppContext); // Removed language and changeLanguage
+            const { user, loading, login, logout, language, changeLanguage, t, view, changeView } = useContext(AppContext);
             const [isProfileOpen, setIsProfileOpen] = useState(false);
             const [emailInput, setEmailInput] = useState('');
             const [loginError, setLoginError] = useState(false);
@@ -830,12 +841,12 @@
 
             useEffect(() => {
                 const handleClickOutside = (event) => {
-                     if (profileRef.current && !profileRef.current.contains(event.target)) {
-                          const profileButton = document.getElementById('profile-button'); // Avoid closing if clicking the button itself
-                          if (!profileButton || !profileButton.contains(event.target)) {
+                    if (profileRef.current && !profileRef.current.contains(event.target)) {
+                        const profileButton = document.getElementById('profile-button');
+                        if (!profileButton || !profileButton.contains(event.target)) {
                             setIsProfileOpen(false);
-                          }
-                     }
+                        }
+                    }
                 };
                 document.addEventListener("mousedown", handleClickOutside);
                 return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -849,54 +860,41 @@
                     setLoginError(true);
                 } else {
                     setEmailInput('');
-                    // Track successful login
-                      if (typeof window.bwamDataLayer?.trackLoginSuccess === 'function') {
-                           window.bwamDataLayer.trackLoginSuccess(emailInput);
-                      }
+                    if (typeof window.bwamDataLayer?.trackLoginSuccess === 'function') {
+                        window.bwamDataLayer.trackLoginSuccess(emailInput);
+                    }
                 }
             };
-
-            const handleLogout = () => {
-                const loggedOutEmail = user?.email;
-                logout();
-                setIsProfileOpen(false);
-                // Track logout
-                  if (typeof window.bwamDataLayer?.trackLogout === 'function') {
-                        window.bwamDataLayer.trackLogout(loggedOutEmail);
-                  }
-                // If on profile page, navigate back to main view and update URL
-                if (view === 'profile') {
-                    changeView('main');
-                    history.pushState(null, null, '#home'); // Update URL to reflect main view
-                }
-            };
-
-            const handleViewProfile = (e) => {
-                e.preventDefault();
-                setIsProfileOpen(false);
-                if (view !== 'profile') {
-                     changeView('profile');
-                     history.pushState(null, null, '#profile'); // Update URL hash
-                } else {
-                     window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top if already on profile
-                }
-            };
-
-            const getUsername = (email) => {
-                 if (!email || !email.includes('@')) return 'Benutzer';
-                 const namePart = email.split('@')[0];
-                 return namePart.replace('.', ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-            };
-
-            if (loading) {
-                // Use the CSS loading indicator defined in style.css
-                // The :empty pseudo-class handles this until React renders
-                return null;
-            }
 
             return (
                 <div className="flex items-center space-x-4">
-                    {/* Language Switcher - REMOVED */}
+                    {/* Language Switcher */}
+                    <div className="flex items-center space-x-1 border border-gray-300 rounded-full px-2 py-1">
+                        <GlobeIcon size={16} />
+                        <button
+                            onClick={() => changeLanguage('en')}
+                            className={`text-sm font-medium rounded-full px-2 py-0.5 transition-colors duration-150 ${language === 'en' ? 'bg-[var(--brand-red)] text-white' : 'text-gray-600 hover:bg-gray-200'}`}
+                            aria-label={t('aria.set_lang_en')}
+                            title={t('aria.set_lang_en')}>
+                            EN
+                        </button>
+                        <span className="text-gray-300">|</span>
+                        <button
+                            onClick={() => changeLanguage('de')}
+                            className={`text-sm font-medium rounded-full px-2 py-0.5 transition-colors duration-150 ${language === 'de' ? 'bg-[var(--brand-red)] text-white' : 'text-gray-600 hover:bg-gray-200'}`}
+                            aria-label={t('aria.set_lang_de')}
+                            title={t('aria.set_lang_de')}>
+                            DE
+                        </button>
+                        <span className="text-gray-300">|</span>
+                        <button
+                            onClick={() => changeLanguage('fr')}
+                            className={`text-sm font-medium rounded-full px-2 py-0.5 transition-colors duration-150 ${language === 'fr' ? 'bg-[var(--brand-red)] text-white' : 'text-gray-600 hover:bg-gray-200'}`}
+                            aria-label={t('aria.set_lang_fr')}
+                            title={t('aria.set_lang_fr')}>
+                            FR
+                        </button>
+                    </div>
 
                     {/* Conditional: Profile Dropdown or Login Form */}
                     {user ? (
@@ -905,41 +903,41 @@
                                 <UserCircleIcon />
                             </button>
                             {isProfileOpen && (
-                                <div className="profile-dropdown-menu"> {/* Styles in style.css */}
-                                     <div className="p-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
-                                         <h3 className="font-semibold text-lg">{t('welcome')}, {getUsername(user.email)}</h3>
-                                         <p className="text-sm opacity-90 truncate">{user.email}</p>
-                                     </div>
-                                     <nav className="border-t border-gray-100 py-1">
-                                         <a href="#profile" onClick={handleViewProfile} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150">
-                                             <UserIcon size={16} /> <span className="ml-2">{t('dropdown.myProfile')}</span>
-                                         </a>
-                                         <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[var(--brand-red)] transition-colors duration-150">
-                                             <SettingsIcon /> <span className="ml-2">{t('dropdown.settings')}</span>
-                                         </a>
-                                         <button onClick={handleLogout} className="w-full text-left flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150">
-                                             <LogOutIcon /> <span className="ml-2">{t('dropdown.logout')}</span>
-                                         </button>
-                                     </nav>
-                                 </div>
+                                <div className="profile-dropdown-menu">
+                                    <div className="p-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
+                                        <h3 className="font-semibold text-lg">{t('welcome')}, {getUsername(user.email)}</h3>
+                                        <p className="text-sm opacity-90 truncate">{user.email}</p>
+                                    </div>
+                                    <div className="p-2">
+                                        <button onClick={() => { changeView('profile'); setIsProfileOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
+                                            {t('dropdown.myProfile')}
+                                        </button>
+                                        <button onClick={() => { changeView('settings'); setIsProfileOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
+                                            {t('dropdown.settings')}
+                                        </button>
+                                        <button onClick={logout} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md">
+                                            {t('dropdown.logout')}
+                                        </button>
+                                    </div>
+                                </div>
                             )}
                         </div>
                     ) : (
-                         <form onSubmit={handleLogin} className="login-form-container"> {/* Styles in style.css */}
-                             <input
-                                 type="email"
-                                 value={emailInput}
-                                 onChange={(e) => { setEmailInput(e.target.value); setLoginError(false); }}
-                                 placeholder={t('emailPlaceholder')}
-                                 className={`${loginError ? 'error' : ''}`} // Use .error class for styling invalid state
-                                 required
-                                 aria-label={t('emailPlaceholder')}
-                                 aria-invalid={loginError} // Indicate invalid state for accessibility
-                                 aria-describedby={loginError ? 'login-error-desc' : undefined}
-                             />
-                             <button type="submit">{t('login')}</button>
-                             {loginError && <p id="login-error-desc" className="login-error-message">{t('loginError')}</p>}
-                         </form>
+                        <form onSubmit={handleLogin} className="login-form-container">
+                            <input
+                                type="email"
+                                value={emailInput}
+                                onChange={(e) => { setEmailInput(e.target.value); setLoginError(false); }}
+                                placeholder={t('emailPlaceholder')}
+                                className={`${loginError ? 'error' : ''}`}
+                                required
+                                aria-label={t('emailPlaceholder')}
+                                aria-invalid={loginError}
+                                aria-describedby={loginError ? 'login-error-desc' : undefined}
+                            />
+                            <button type="submit">{t('login')}</button>
+                            {loginError && <p id="login-error-desc" className="login-error-message">{t('loginError')}</p>}
+                        </form>
                     )}
                 </div>
             );

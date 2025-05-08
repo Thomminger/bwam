@@ -530,5 +530,195 @@ document.addEventListener('DOMContentLoaded', () => {
          }
     }, 0);
 
+    // Language switching functionality
+    const switchLanguage = (lang) => {
+        // Store the selected language in localStorage
+        localStorage.setItem('preferred_language', lang);
+        
+        // Update the HTML lang attribute
+        document.documentElement.lang = lang;
+        
+        // Update all elements with data-lang-key attributes
+        document.querySelectorAll('[data-lang-key]').forEach(element => {
+            const key = element.getAttribute('data-lang-key');
+            if (window.bwamTranslations && window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+                element.textContent = window.bwamTranslations[lang][key];
+            }
+        });
+        
+        // Update all elements with data-lang-key-aria attributes
+        document.querySelectorAll('[data-lang-key-aria]').forEach(element => {
+            const key = element.getAttribute('data-lang-key-aria');
+            if (window.bwamTranslations && window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+                element.setAttribute('aria-label', window.bwamTranslations[lang][key]);
+            }
+        });
+        
+        // Update all elements with data-lang-key-title attributes
+        document.querySelectorAll('[data-lang-key-title]').forEach(element => {
+            const key = element.getAttribute('data-lang-key-title');
+            if (window.bwamTranslations && window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+                element.setAttribute('title', window.bwamTranslations[lang][key]);
+            }
+        });
+        
+        // Update all elements with data-lang-key-placeholder attributes
+        document.querySelectorAll('[data-lang-key-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-lang-key-placeholder');
+            if (window.bwamTranslations && window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+                element.setAttribute('placeholder', window.bwamTranslations[lang][key]);
+            }
+        });
+        
+        // Reinitialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        
+        // Update the URL without reloading the page
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', lang);
+        window.history.pushState({}, '', url);
+
+        // Track language change
+        if (typeof window.bwamDataLayer?.trackLanguageChange === 'function') {
+            window.bwamDataLayer.trackLanguageChange(lang);
+        }
+    };
+
+    // Initialize language based on user preference or URL parameter
+    const initializeLanguage = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const langParam = urlParams.get('lang');
+        const storedLang = localStorage.getItem('preferred_language');
+        const browserLang = navigator.language.split('-')[0];
+        
+        // Priority: URL parameter > stored preference > browser language > default (en)
+        const selectedLang = langParam || storedLang || browserLang || 'en';
+        
+        // Ensure the selected language is supported
+        const supportedLangs = ['en', 'de', 'fr'];
+        const finalLang = supportedLangs.includes(selectedLang) ? selectedLang : 'en';
+        
+        switchLanguage(finalLang);
+    };
+
+    // Login functionality
+    const handleLogin = async (credentials) => {
+        try {
+            // Show loading state
+            const loginButton = document.querySelector('#login-button');
+            if (loginButton) {
+                loginButton.disabled = true;
+                loginButton.innerHTML = '<i data-lucide="loader" class="animate-spin mr-2 h-5 w-5"></i>Logging in...';
+                lucide.createIcons();
+            }
+            
+            // Make login request
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(credentials)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+            
+            const data = await response.json();
+            
+            // Store auth token
+            localStorage.setItem('auth_token', data.token);
+            
+            // Update UI for logged-in state
+            updateUIForLoggedInUser(data.user);
+            
+            // Redirect to dashboard or home
+            window.location.href = '/dashboard';
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            // Show error message in current language
+            const errorMessage = window.bwamTranslations[document.documentElement.lang]?.login?.error || 'Login failed. Please try again.';
+            alert(errorMessage);
+        } finally {
+            // Reset button state
+            const loginButton = document.querySelector('#login-button');
+            if (loginButton) {
+                loginButton.disabled = false;
+                loginButton.innerHTML = '<i data-lucide="log-in" class="mr-2 h-5 w-5"></i>Login';
+                lucide.createIcons();
+            }
+        }
+    };
+
+    // Update UI for logged-in user
+    const updateUIForLoggedInUser = (user) => {
+        const profileHeader = document.getElementById('react-profile-header');
+        if (profileHeader) {
+            profileHeader.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm font-medium text-gray-700">${user.name}</span>
+                    <button onclick="handleLogout()" class="text-gray-500 hover:text-[var(--brand-red)]">
+                        <i data-lucide="log-out" class="h-5 w-5"></i>
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+    };
+
+    // Logout functionality
+    const handleLogout = () => {
+        localStorage.removeItem('auth_token');
+        window.location.href = '/';
+    };
+
+    // Add language switcher event listeners
+    document.querySelectorAll('[data-lang-switch]').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const lang = button.getAttribute('data-lang-switch');
+            switchLanguage(lang);
+        });
+    });
+    
+    // Add login form event listener
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const credentials = {
+                username: loginForm.querySelector('[name="username"]').value,
+                password: loginForm.querySelector('[name="password"]').value
+            };
+            handleLogin(credentials);
+        });
+    }
+    
+    // Check for existing auth token and update UI accordingly
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+        // Verify token and get user data
+        fetch('/api/verify-token', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.user) {
+                updateUIForLoggedInUser(data.user);
+            }
+        })
+        .catch(() => {
+            localStorage.removeItem('auth_token');
+        });
+    }
+
+    // Initialize language on page load
+    initializeLanguage();
 
 }); // End DOMContentLoaded
