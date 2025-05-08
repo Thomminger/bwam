@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="datalayer.js"></script>
+    <script src="translations.js"></script>
 
     <script type="text/javascript" src="https://cdn.pc-rnd.c360a.salesforce.com/beacon/c360a/d2799336-52d2-4f39-832b-d481cbc97fed/scripts/c360a.min.js" async></script>
 
@@ -85,11 +86,25 @@
                 </nav>
 
                 <div class="flex items-center space-x-3 sm:space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <button data-lang-switch="en" class="p-2 text-gray-500 hover:text-[var(--brand-red)] rounded-full hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" aria-label="Switch to English">EN</button>
+                        <button data-lang-switch="de" class="p-2 text-gray-500 hover:text-[var(--brand-red)] rounded-full hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" aria-label="Switch to German">DE</button>
+                        <button data-lang-switch="fr" class="p-2 text-gray-500 hover:text-[var(--brand-red)] rounded-full hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" aria-label="Switch to French">FR</button>
+                    </div>
                     <button aria-label="Search" class="p-2 text-gray-500 hover:text-[var(--brand-red)] rounded-full hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key-aria="aria.search" title="Search" data-lang-key-title="aria.search">
                         <i data-lucide="search" class="h-5 w-5"></i>
                     </button>
                     <div id="react-profile-header" class="flex items-center">
-                        </div>
+                        <form id="login-form" class="hidden">
+                            <div class="flex items-center space-x-2">
+                                <input type="text" name="username" placeholder="Username" class="px-3 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--brand-red)] focus:border-transparent" data-lang-key-placeholder="login.username">
+                                <input type="password" name="password" placeholder="Password" class="px-3 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--brand-red)] focus:border-transparent" data-lang-key-placeholder="login.password">
+                                <button type="submit" id="login-button" class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-[var(--brand-red)] rounded-md hover:bg-[var(--brand-red-dark)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-red)]" data-lang-key="login.button">
+                                    <i data-lucide="log-in" class="mr-2 h-4 w-4"></i>Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                     <div class="md:hidden">
                          <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="p-2 text-gray-500 hover:text-[var(--brand-red)] rounded-md hover:bg-gray-100 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key-aria="aria.open_menu">
                              <i data-lucide="menu" class="h-6 w-6"></i>
