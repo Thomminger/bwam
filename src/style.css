@@ -76,10 +76,12 @@ body {
 .btn-secondary {
     background-color: white;
     color: var(--brand-red);
+    border: 2px solid var(--brand-red);
 }
 
 .btn-secondary:hover {
-    background-color: var(--gray-light);
+    background-color: var(--brand-red);
+    color: white;
     transform: translateY(-1px);
 }
 
@@ -146,12 +148,13 @@ body {
     position: relative;
     color: var(--gray-dark);
     transition: color var(--transition-speed);
+    padding: 0.5rem 0;
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 0;
     left: 0;
     width: 0;
     height: 2px;

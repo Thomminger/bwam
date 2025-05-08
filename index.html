@@ -24,9 +24,39 @@
             
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="/private-clients" class="nav-link">Private Clients</a>
-                <a href="/business-clients" class="nav-link">Business Clients</a>
-                <a href="/institutional" class="nav-link">Institutional</a>
+                <div class="relative group">
+                    <a href="/private-clients" class="nav-link flex items-center">
+                        Private Clients
+                        <i data-lucide="chevron-down" class="ml-1 h-4 w-4"></i>
+                    </a>
+                    <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
+                        <a href="/private-clients/accounts" class="block px-4 py-2 hover:bg-gray-100">Accounts & Cards</a>
+                        <a href="/private-clients/investment" class="block px-4 py-2 hover:bg-gray-100">Investment</a>
+                        <a href="/private-clients/retirement" class="block px-4 py-2 hover:bg-gray-100">Retirement Planning</a>
+                        <a href="/private-clients/financing" class="block px-4 py-2 hover:bg-gray-100">Financing</a>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <a href="/business-clients" class="nav-link flex items-center">
+                        Business Clients
+                        <i data-lucide="chevron-down" class="ml-1 h-4 w-4"></i>
+                    </a>
+                    <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
+                        <a href="/business-clients/accounts" class="block px-4 py-2 hover:bg-gray-100">Business Accounts</a>
+                        <a href="/business-clients/financing" class="block px-4 py-2 hover:bg-gray-100">Business Financing</a>
+                        <a href="/business-clients/liquidity" class="block px-4 py-2 hover:bg-gray-100">Liquidity Management</a>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <a href="/institutional" class="nav-link flex items-center">
+                        Institutional
+                        <i data-lucide="chevron-down" class="ml-1 h-4 w-4"></i>
+                    </a>
+                    <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden group-hover:block">
+                        <a href="/institutional/asset-management" class="block px-4 py-2 hover:bg-gray-100">Asset Management</a>
+                        <a href="/institutional/custody" class="block px-4 py-2 hover:bg-gray-100">Custody & Execution</a>
+                    </div>
+                </div>
                 <a href="/about" class="nav-link">About Us</a>
                 <a href="/events" class="nav-link">Events</a>
                 
@@ -50,13 +80,36 @@
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="md:hidden bg-white shadow-lg absolute w-full transform -translate-x-full transition-transform duration-300">
             <nav class="container mx-auto px-4 py-4">
-                <a href="/private-clients" class="block py-2">Private Clients</a>
-                <a href="/business-clients" class="block py-2">Business Clients</a>
-                <a href="/institutional" class="block py-2">Institutional</a>
-                <a href="/about" class="block py-2">About Us</a>
-                <a href="/events" class="block py-2">Events</a>
+                <div class="space-y-2">
+                    <div class="border-b pb-2">
+                        <a href="/private-clients" class="block py-2 font-semibold">Private Clients</a>
+                        <div class="pl-4 space-y-1">
+                            <a href="/private-clients/accounts" class="block py-1 text-sm">Accounts & Cards</a>
+                            <a href="/private-clients/investment" class="block py-1 text-sm">Investment</a>
+                            <a href="/private-clients/retirement" class="block py-1 text-sm">Retirement Planning</a>
+                            <a href="/private-clients/financing" class="block py-1 text-sm">Financing</a>
+                        </div>
+                    </div>
+                    <div class="border-b pb-2">
+                        <a href="/business-clients" class="block py-2 font-semibold">Business Clients</a>
+                        <div class="pl-4 space-y-1">
+                            <a href="/business-clients/accounts" class="block py-1 text-sm">Business Accounts</a>
+                            <a href="/business-clients/financing" class="block py-1 text-sm">Business Financing</a>
+                            <a href="/business-clients/liquidity" class="block py-1 text-sm">Liquidity Management</a>
+                        </div>
+                    </div>
+                    <div class="border-b pb-2">
+                        <a href="/institutional" class="block py-2 font-semibold">Institutional</a>
+                        <div class="pl-4 space-y-1">
+                            <a href="/institutional/asset-management" class="block py-1 text-sm">Asset Management</a>
+                            <a href="/institutional/custody" class="block py-1 text-sm">Custody & Execution</a>
+                        </div>
+                    </div>
+                    <a href="/about" class="block py-2">About Us</a>
+                    <a href="/events" class="block py-2">Events</a>
+                </div>
                 
-                <div class="language-switcher py-2">
+                <div class="language-switcher py-2 mt-4">
                     <select id="mobileLanguageSelect" class="bg-transparent border-none">
                         <option value="en">EN</option>
                         <option value="de">DE</option>
@@ -261,29 +314,36 @@
         <!-- Find Your Advisor Section -->
         <section class="py-16 lg:py-24 bg-white">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12">Find Your Advisor</h2>
+                <div class="text-center mb-14 lg:mb-20">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center">
+                        <i data-lucide="users" class="text-[var(--brand-red)] mr-3 h-8 w-8"></i>
+                        <span data-lang-key="advisors.title">Find Your Advisor</span>
+                    </h2>
+                </div>
                 <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                     <div class="text-center">
                         <img src="images/advisor-anna.png" alt="Anna Müller" class="w-48 h-48 object-cover rounded-full mx-auto mb-4">
-                        <h3 class="text-xl font-semibold mb-2">Anna Müller</h3>
-                        <p class="text-gray-600 mb-4">Senior Wealth Manager</p>
-                        <button class="bg-brand-red text-white px-6 py-2 rounded-lg hover:bg-brand-red-dark transition-colors">Connect</button>
+                        <h3 class="text-xl font-semibold mb-2" data-lang-key="advisors.anna.name">Anna Müller</h3>
+                        <p class="text-gray-600 mb-4" data-lang-key="advisors.anna.role">Senior Wealth Manager</p>
+                        <button class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-lg hover:bg-[var(--brand-red-dark)] transition-colors" data-lang-key="advisors.connect">Connect</button>
                     </div>
                     <div class="text-center">
                         <img src="images/advisor-lukas.png" alt="Lukas Baumann" class="w-48 h-48 object-cover rounded-full mx-auto mb-4">
-                        <h3 class="text-xl font-semibold mb-2">Lukas Baumann</h3>
-                        <p class="text-gray-600 mb-4">Investment Specialist</p>
-                        <button class="bg-brand-red text-white px-6 py-2 rounded-lg hover:bg-brand-red-dark transition-colors">Connect</button>
+                        <h3 class="text-xl font-semibold mb-2" data-lang-key="advisors.lukas.name">Lukas Baumann</h3>
+                        <p class="text-gray-600 mb-4" data-lang-key="advisors.lukas.role">Investment Specialist</p>
+                        <button class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-lg hover:bg-[var(--brand-red-dark)] transition-colors" data-lang-key="advisors.connect">Connect</button>
                     </div>
                     <div class="text-center">
                         <img src="images/advisor-sophie.png" alt="Sophie Dubois" class="w-48 h-48 object-cover rounded-full mx-auto mb-4">
-                        <h3 class="text-xl font-semibold mb-2">Sophie Dubois</h3>
-                        <p class="text-gray-600 mb-4">Retirement Planning Expert</p>
-                        <button class="bg-brand-red text-white px-6 py-2 rounded-lg hover:bg-brand-red-dark transition-colors">Connect</button>
+                        <h3 class="text-xl font-semibold mb-2" data-lang-key="advisors.sophie.name">Sophie Dubois</h3>
+                        <p class="text-gray-600 mb-4" data-lang-key="advisors.sophie.role">Retirement Planning Expert</p>
+                        <button class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-lg hover:bg-[var(--brand-red-dark)] transition-colors" data-lang-key="advisors.connect">Connect</button>
                     </div>
                 </div>
-                <div class="text-center mt-8">
-                    <button class="bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-red-dark transition-colors">Schedule a Meeting</button>
+                <div class="text-center mt-12">
+                    <button class="bg-white text-[var(--brand-red)] border-2 border-[var(--brand-red)] px-8 py-3 rounded-lg font-semibold hover:bg-[var(--brand-red)] hover:text-white transition-colors" data-lang-key="advisors.schedule">
+                        Schedule a Meeting
+                    </button>
                 </div>
             </div>
         </section>
@@ -299,71 +359,73 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
+    <footer class="bg-[var(--gray-dark)] text-white py-16">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-4 gap-8">
-                <!-- Company Info -->
                 <div>
-                    <img src="images/bwam-logo-white.png" alt="BWAM Logo" class="h-8 mb-4">
-                    <p class="text-gray-400" data-lang-key="footer.company_desc">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
+                    <img src="images/bwam-logo-white.png" alt="BWAM Logo" class="h-10 mb-6">
+                    <p class="text-gray-400 mb-6" data-lang-key="footer.description">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
                 </div>
-
-                <!-- Quick Links -->
                 <div>
                     <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.quick_links">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="/private-clients" class="text-gray-400 hover:text-white">Private Clients</a></li>
-                        <li><a href="/business-clients" class="text-gray-400 hover:text-white">Business Clients</a></li>
-                        <li><a href="/institutional" class="text-gray-400 hover:text-white">Institutional</a></li>
-                        <li><a href="/careers" class="text-gray-400 hover:text-white">Careers</a></li>
-                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact Us</a></li>
-                        <li><a href="/press" class="text-gray-400 hover:text-white">Press Room</a></li>
+                        <li><a href="/private-clients" class="text-gray-400 hover:text-white transition-colors" data-lang-key="nav.private_clients">Private Clients</a></li>
+                        <li><a href="/business-clients" class="text-gray-400 hover:text-white transition-colors" data-lang-key="nav.business_clients">Business Clients</a></li>
+                        <li><a href="/institutional" class="text-gray-400 hover:text-white transition-colors" data-lang-key="nav.institutional">Institutional</a></li>
+                        <li><a href="/careers" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.careers">Careers</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.contact">Contact Us</a></li>
+                        <li><a href="/press" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.press">Press Room</a></li>
                     </ul>
                 </div>
-
-                <!-- Services -->
                 <div>
                     <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.services">Services</h3>
                     <ul class="space-y-2">
-                        <li><a href="/accounts" class="text-gray-400 hover:text-white">Accounts</a></li>
-                        <li><a href="/investment" class="text-gray-400 hover:text-white">Investment</a></li>
-                        <li><a href="/financing" class="text-gray-400 hover:text-white">Financing</a></li>
-                        <li><a href="/retirement" class="text-gray-400 hover:text-white">Retirement</a></li>
-                        <li><a href="/digital-banking" class="text-gray-400 hover:text-white">Digital Banking</a></li>
+                        <li><a href="/private-clients/accounts" class="text-gray-400 hover:text-white transition-colors" data-lang-key="services.accounts">Accounts</a></li>
+                        <li><a href="/private-clients/investment" class="text-gray-400 hover:text-white transition-colors" data-lang-key="services.investment">Investment</a></li>
+                        <li><a href="/private-clients/financing" class="text-gray-400 hover:text-white transition-colors" data-lang-key="services.financing">Financing</a></li>
+                        <li><a href="/private-clients/retirement" class="text-gray-400 hover:text-white transition-colors" data-lang-key="services.retirement">Retirement</a></li>
+                        <li><a href="/digital-banking" class="text-gray-400 hover:text-white transition-colors" data-lang-key="services.digital">Digital Banking</a></li>
                     </ul>
                 </div>
-
-                <!-- Contact -->
                 <div>
-                    <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.contact">Contact</h3>
-                    <address class="text-gray-400 not-italic">
-                        <p data-lang-key="footer.address">Bahnhofstrasse 123, 8001 Zürich</p>
-                        <p class="mt-2">+41 44 123 45 67</p>
-                        <p class="mt-2">info@bwam.ch</p>
-                    </address>
+                    <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.legal">Legal</h3>
+                    <ul class="space-y-2">
+                        <li><a href="/privacy" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.privacy">Privacy Policy</a></li>
+                        <li><a href="/terms" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.terms">Terms of Service</a></li>
+                        <li><a href="/imprint" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.imprint">Imprint</a></li>
+                        <li><a href="/cookies" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.cookies">Cookie Settings</a></li>
+                        <li><a href="/accessibility" class="text-gray-400 hover:text-white transition-colors" data-lang-key="footer.accessibility">Accessibility</a></li>
+                    </ul>
                 </div>
             </div>
-
-            <!-- Bottom Bar -->
-            <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400" data-lang-key="footer.copyright">© 2024 BWAM. All rights reserved. Location: Zürich, Switzerland.</p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="/privacy" class="text-gray-400 hover:text-white">Privacy Policy</a>
-                    <a href="/terms" class="text-gray-400 hover:text-white">Terms of Service</a>
-                    <a href="/cookies" class="text-gray-400 hover:text-white">Cookie Policy</a>
-                    <a href="/accessibility" class="text-gray-400 hover:text-white">Accessibility</a>
+            <div class="border-t border-gray-700 mt-12 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm" data-lang-key="footer.copyright">© 2024 BWAM. All rights reserved. Location: Zürich, Switzerland.</p>
+                    <div class="flex space-x-4 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="linkedin" class="h-6 w-6"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="twitter" class="h-6 w-6"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="facebook" class="h-6 w-6"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Cookie Banner -->
-    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4 transform translate-y-full transition-transform duration-300">
-        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
-            <p class="text-gray-600 mb-4 md:mb-0">We use cookies and similar technologies to improve your experience and show relevant content. By clicking "Accept All", you consent to the use of these technologies. You can change your preferences at any time.</p>
-            <div class="flex space-x-4">
-                <button class="text-gray-600 hover:text-gray-800">Reject All</button>
-                <button class="bg-brand-red text-white px-6 py-2 rounded-lg hover:bg-brand-red-dark transition-colors">Accept All</button>
+    <div id="cookieBanner" class="fixed bottom-0 left-0 right-0 bg-white shadow-lg transform translate-y-full transition-transform duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <p class="text-gray-600 mb-4 md:mb-0" data-lang-key="cookie.message">We use cookies and similar technologies to improve your experience and show relevant content. By clicking "Accept All", you consent to the use of these technologies. You can change your preferences at any time.</p>
+                <div class="flex space-x-4">
+                    <button class="text-gray-600 hover:text-gray-800 transition-colors" data-lang-key="cookie.reject">Reject All</button>
+                    <button class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-lg hover:bg-[var(--brand-red-dark)] transition-colors" data-lang-key="cookie.accept">Accept All</button>
+                </div>
             </div>
         </div>
     </div>
@@ -373,5 +435,9 @@
     <script src="src/template-loader.js"></script>
     <script src="src/router.js"></script>
     <script src="src/script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>
