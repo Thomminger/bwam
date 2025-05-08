@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BWAM - <span data-lang-key="page.title">Page Title</span></title>
-    <link href="../dist/output.css" rel="stylesheet">
+    <title>{{title}} - BWAM</title>
+    <link href="/bwam/dist/output.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-white">
@@ -12,54 +12,24 @@
     <header class="fixed w-full bg-white shadow-md z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
-                <a href="/" class="flex items-center">
-                    <img src="../images/bwam-logo.jpg" alt="BWAM Logo" class="h-8">
+                <a href="/bwam/" class="flex items-center">
+                    <img src="https://placehold.co/200x80/1a202c/ffffff?text=BWAM" alt="BWAM Logo" class="h-8">
                 </a>
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <div class="relative group">
-                        <button class="flex items-center space-x-1 text-gray-700 hover:text-brand-red">
-                            <span data-lang-key="nav.private_clients">Private Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden group-hover:block">
-                            <a href="/private-clients/accounts-cards" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.accounts_cards">Accounts & Cards</a>
-                            <a href="/private-clients/investing" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.investing">Investing</a>
-                        </div>
-                    </div>
-                    
-                    <div class="relative group">
-                        <button class="flex items-center space-x-1 text-gray-700 hover:text-brand-red">
-                            <span data-lang-key="nav.business_clients">Business Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden group-hover:block">
-                            <a href="/business-clients/business-accounts" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.business_accounts">Business Accounts</a>
-                        </div>
-                    </div>
-                    
-                    <div class="relative group">
-                        <button class="flex items-center space-x-1 text-gray-700 hover:text-brand-red">
-                            <span data-lang-key="nav.institutional">Institutional</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden group-hover:block">
-                            <a href="/institutional/asset-management" class="block px-4 py-2 text-gray-700 hover:bg-gray-100" data-lang-key="nav.asset_management">Asset Management</a>
-                        </div>
-                    </div>
+                    <a href="/bwam/private-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.private_clients">Private Clients</a>
+                    <a href="/bwam/business-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.business_clients">Business Clients</a>
+                    <a href="/bwam/institutional" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.institutional">Institutional</a>
                 </div>
 
-                <!-- Language Switcher and Search -->
+                <!-- Language Switcher -->
                 <div class="hidden md:flex items-center space-x-4">
                     <select id="languageSelect" class="border rounded px-2 py-1">
                         <option value="en">English</option>
                         <option value="de">Deutsch</option>
                         <option value="fr">Français</option>
                     </select>
-                    <button class="text-gray-700 hover:text-brand-red">
-                        <i data-lucide="search" class="w-5 h-5"></i>
-                    </button>
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -69,38 +39,11 @@
             </div>
 
             <!-- Mobile Navigation -->
-            <div class="md:hidden hidden mt-4">
+            <div id="mobile-menu" class="md:hidden hidden mt-4">
                 <div class="space-y-4">
-                    <div>
-                        <button class="flex items-center justify-between w-full text-gray-700">
-                            <span data-lang-key="nav.private_clients">Private Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="pl-4 mt-2 space-y-2 hidden">
-                            <a href="/private-clients/accounts-cards" class="block text-gray-700" data-lang-key="nav.accounts_cards">Accounts & Cards</a>
-                            <a href="/private-clients/investing" class="block text-gray-700" data-lang-key="nav.investing">Investing</a>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <button class="flex items-center justify-between w-full text-gray-700">
-                            <span data-lang-key="nav.business_clients">Business Clients</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="pl-4 mt-2 space-y-2 hidden">
-                            <a href="/business-clients/business-accounts" class="block text-gray-700" data-lang-key="nav.business_accounts">Business Accounts</a>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <button class="flex items-center justify-between w-full text-gray-700">
-                            <span data-lang-key="nav.institutional">Institutional</span>
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
-                        </button>
-                        <div class="pl-4 mt-2 space-y-2 hidden">
-                            <a href="/institutional/asset-management" class="block text-gray-700" data-lang-key="nav.asset_management">Asset Management</a>
-                        </div>
-                    </div>
+                    <a href="/bwam/private-clients" class="block text-gray-700" data-lang-key="nav.private_clients">Private Clients</a>
+                    <a href="/bwam/business-clients" class="block text-gray-700" data-lang-key="nav.business_clients">Business Clients</a>
+                    <a href="/bwam/institutional" class="block text-gray-700" data-lang-key="nav.institutional">Institutional</a>
                 </div>
             </div>
         </nav>
@@ -108,29 +51,24 @@
 
     <!-- Main Content -->
     <main class="pt-20">
-        <!-- Hero Section -->
-        <section class="bg-gray-light py-16">
+        <!-- Page Header -->
+        <section class="bg-gray-50 py-12">
             <div class="container mx-auto px-4">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-lang-key="page.title">Page Title</h1>
-                <p class="text-xl text-gray-700" data-lang-key="page.description">Page Description</p>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">{{title}}</h1>
+                <nav class="text-sm text-gray-600">
+                    <ol class="flex items-center space-x-2">
+                        <li><a href="/bwam/" class="hover:text-brand-red">Home</a></li>
+                        <li class="text-gray-400">/</li>
+                        <li>{{title}}</li>
+                    </ol>
+                </nav>
             </div>
         </section>
 
-        <!-- Features Section -->
+        <!-- Page Content -->
         <section class="py-16">
             <div class="container mx-auto px-4">
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Feature cards will be dynamically inserted here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="bg-brand-red text-white py-16">
-            <div class="container mx-auto px-4 text-center">
-                <h2 class="text-3xl font-bold mb-4" data-lang-key="cta.title">Ready to Get Started?</h2>
-                <p class="text-xl mb-8" data-lang-key="cta.description">Contact our team of experts today.</p>
-                <button class="bg-white text-brand-red px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors" data-lang-key="cta.button">Contact Us</button>
+                {{content}}
             </div>
         </section>
     </main>
@@ -141,7 +79,7 @@
             <div class="grid md:grid-cols-4 gap-8">
                 <!-- Company Info -->
                 <div>
-                    <img src="../images/bwam-logo.jpg" alt="BWAM Logo" class="h-8 mb-4">
+                    <img src="https://placehold.co/200x80/1a202c/ffffff?text=BWAM" alt="BWAM Logo" class="h-8 mb-4">
                     <p class="text-gray-400" data-lang-key="footer.company_desc">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
                 </div>
 
@@ -149,10 +87,10 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.quick_links">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="/about" class="text-gray-400 hover:text-white" data-lang-key="nav.about">About Us</a></li>
-                        <li><a href="/events" class="text-gray-400 hover:text-white" data-lang-key="nav.events">Events</a></li>
-                        <li><a href="/news" class="text-gray-400 hover:text-white" data-lang-key="nav.news">News</a></li>
-                        <li><a href="/contact" class="text-gray-400 hover:text-white" data-lang-key="nav.contact">Contact</a></li>
+                        <li><a href="/bwam/about" class="text-gray-400 hover:text-white" data-lang-key="nav.about_us">About Us</a></li>
+                        <li><a href="/bwam/events" class="text-gray-400 hover:text-white" data-lang-key="nav.events">Events</a></li>
+                        <li><a href="/bwam/news" class="text-gray-400 hover:text-white" data-lang-key="nav.news">News</a></li>
+                        <li><a href="/bwam/contact" class="text-gray-400 hover:text-white" data-lang-key="nav.contact">Contact</a></li>
                     </ul>
                 </div>
 
@@ -160,9 +98,9 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.services">Services</h3>
                     <ul class="space-y-2">
-                        <li><a href="/private-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.private_clients">Private Clients</a></li>
-                        <li><a href="/business-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.business_clients">Business Clients</a></li>
-                        <li><a href="/institutional" class="text-gray-400 hover:text-white" data-lang-key="nav.institutional">Institutional</a></li>
+                        <li><a href="/bwam/private-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.private_clients">Private Clients</a></li>
+                        <li><a href="/bwam/business-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.business_clients">Business Clients</a></li>
+                        <li><a href="/bwam/institutional" class="text-gray-400 hover:text-white" data-lang-key="nav.institutional">Institutional</a></li>
                     </ul>
                 </div>
 
@@ -181,17 +119,16 @@
             <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400" data-lang-key="footer.copyright">© 2024 BWAM. All rights reserved.</p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="/privacy" class="text-gray-400 hover:text-white" data-lang-key="footer.privacy">Privacy Policy</a>
-                    <a href="/terms" class="text-gray-400 hover:text-white" data-lang-key="footer.terms">Terms of Service</a>
-                    <a href="/cookies" class="text-gray-400 hover:text-white" data-lang-key="footer.cookies">Cookie Policy</a>
+                    <a href="/bwam/privacy" class="text-gray-400 hover:text-white" data-lang-key="footer.privacy">Privacy Policy</a>
+                    <a href="/bwam/terms" class="text-gray-400 hover:text-white" data-lang-key="footer.terms">Terms of Service</a>
+                    <a href="/bwam/cookies" class="text-gray-400 hover:text-white" data-lang-key="footer.cookies">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="../translations.js"></script>
-    <script src="../pages.js"></script>
-    <script src="../script.js"></script>
+    <script src="/bwam/translations.js"></script>
+    <script src="/bwam/script.js"></script>
 </body>
 </html> 

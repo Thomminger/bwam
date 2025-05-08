@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fadeInElements = document.querySelectorAll('.fade-in-element');
     const scrollBanker = document.getElementById('scroll-banker');
     // const logoLink = document.getElementById('logo-link'); // Not directly used in this script
+    const languageSelect = document.getElementById('languageSelect');
 
     // --- State ---
     let currentStaticSectionId = 'home'; // Track the currently visible *primary* static section ID
@@ -725,7 +726,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lucide.createIcons();
 
     // Language switching functionality
-    const languageSelect = document.getElementById('languageSelect');
     if (languageSelect) {
         const currentLang = localStorage.getItem('language') || 'en';
         languageSelect.value = currentLang;
@@ -826,5 +826,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Initialize router
+    if (typeof router !== 'undefined') {
+        router.init();
+    }
 
 }); // End DOMContentLoaded

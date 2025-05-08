@@ -23,9 +23,9 @@
                 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="/private-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.private_clients">Private Clients</a>
-                    <a href="/business-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.business_clients">Business Clients</a>
-                    <a href="/institutional" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.institutional">Institutional</a>
+                    <a href="/bwam/private-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.private_clients">Private Clients</a>
+                    <a href="/bwam/business-clients" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.business_clients">Business Clients</a>
+                    <a href="/bwam/institutional" class="text-gray-700 hover:text-brand-red" data-lang-key="nav.institutional">Institutional</a>
                 </div>
 
                 <!-- Language Switcher -->
@@ -44,11 +44,11 @@
             </div>
 
             <!-- Mobile Navigation -->
-            <div class="md:hidden hidden mt-4">
+            <div id="mobile-menu" class="md:hidden hidden mt-4">
                 <div class="space-y-4">
-                    <a href="/private-clients" class="block text-gray-700" data-lang-key="nav.private_clients">Private Clients</a>
-                    <a href="/business-clients" class="block text-gray-700" data-lang-key="nav.business_clients">Business Clients</a>
-                    <a href="/institutional" class="block text-gray-700" data-lang-key="nav.institutional">Institutional</a>
+                    <a href="/bwam/private-clients" class="block text-gray-700" data-lang-key="nav.private_clients">Private Clients</a>
+                    <a href="/bwam/business-clients" class="block text-gray-700" data-lang-key="nav.business_clients">Business Clients</a>
+                    <a href="/bwam/institutional" class="block text-gray-700" data-lang-key="nav.institutional">Institutional</a>
                 </div>
             </div>
         </nav>
@@ -57,55 +57,49 @@
     <!-- Main Content -->
     <main class="pt-20">
         <!-- Hero Section -->
-        <section class="bg-gray-light py-16" style="background-image: url('https://placehold.co/1920x1080/1a202c/ffffff?text=BWAM+Banking'); background-size: cover; background-position: center;">
-            <div class="container mx-auto px-4">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4" data-lang-key="hero.title">Welcome to BWAM</h1>
-                <p class="text-xl text-gray-700 mb-8" data-lang-key="hero.description">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
-                <button class="bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-red-dark transition-colors" data-lang-key="hero.cta">Get Started</button>
+        <section class="relative min-h-[70vh] md:min-h-[80vh] flex items-center" style="background-image: url('https://placehold.co/1920x1080/1a202c/ffffff?text=BWAM+Banking'); background-size: cover; background-position: center;">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+            <div class="container mx-auto px-4 relative z-10 text-white">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6" data-lang-key="hero.title">Welcome to BWAM</h1>
+                <p class="text-xl sm:text-2xl mb-8 max-w-2xl" data-lang-key="hero.subtitle">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="bg-brand-red text-white px-8 py-3 rounded-lg font-semibold hover:bg-brand-red-dark transition-colors" data-lang-key="hero.button_services">Explore Services</button>
+                    <button class="bg-white text-brand-red px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors" data-lang-key="hero.button_contact">Contact Us</button>
+                </div>
             </div>
         </section>
 
         <!-- About Us Section -->
-        <section class="py-16">
+        <section class="py-16 lg:py-24">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-12" data-lang-key="about.title">About Us</h2>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <div class="text-brand-red mb-4">
-                            <i data-lucide="users" class="w-12 h-12 mx-auto"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="about.expertise.title">Expertise</h3>
-                        <p class="text-gray-600" data-lang-key="about.expertise.description">Our team of experienced professionals provides expert financial guidance.</p>
+                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="about.title">About Us</h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <p class="text-lg text-gray-700" data-lang-key="about.p1">Founded in Zurich with deep roots in Swiss banking tradition, BWAM (Banking & Wealth Asset Management) combines decades of financial expertise with a forward-thinking approach.</p>
+                        <p class="text-lg text-gray-700" data-lang-key="about.p2">Our mission is to provide personalized, transparent, and reliable financial services to private individuals, businesses, and institutions. We believe in building long-term relationships based on trust and mutual success.</p>
+                        <p class="text-lg text-gray-700" data-lang-key="about.p3">Located in the heart of Zurich's financial district, we are committed to upholding the highest standards of integrity and contributing positively to our community.</p>
+                        <p class="text-lg text-gray-700" data-lang-key="about.p4">We leverage cutting-edge technology to enhance client experience while maintaining the personalized touch that defines Swiss private banking. Our diverse team brings global perspectives and local market insights.</p>
                     </div>
-                    <div class="text-center">
-                        <div class="text-brand-red mb-4">
-                            <i data-lucide="shield" class="w-12 h-12 mx-auto"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="about.trust.title">Trust</h3>
-                        <p class="text-gray-600" data-lang-key="about.trust.description">Building long-term relationships based on trust and reliability.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-brand-red mb-4">
-                            <i data-lucide="globe" class="w-12 h-12 mx-auto"></i>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2" data-lang-key="about.global.title">Global Reach</h3>
-                        <p class="text-gray-600" data-lang-key="about.global.description">International expertise with a local touch in Zürich.</p>
+                    <div class="relative">
+                        <img src="https://placehold.co/800x600/1a202c/ffffff?text=About+BWAM" alt="About BWAM" class="w-full h-full object-cover rounded-lg shadow-xl">
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Events Section -->
-        <section id="events" class="main-section py-16 lg:py-24 bg-[var(--gray-light)]">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-element">
-                <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center justify-center w-full">
-                    <i data-lucide="calendar" class="text-[var(--brand-red)] mr-3 h-8 w-8"></i>
-                    <span data-lang-key="events.title">Upcoming Events</span>
-                </h2>
-                <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left hover:shadow-xl transition-shadow duration-300">
-                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Future+Wealth+Forum" alt="Future Wealth Forum 2025" class="w-full h-48 object-cover rounded-t-lg mb-4">
+        <section id="events" class="py-16 lg:py-24 bg-[var(--gray-light)]">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-14 lg:mb-20">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center">
+                        <i data-lucide="calendar" class="text-[var(--brand-red)] mr-3 h-8 w-8"></i>
+                        <span data-lang-key="events.title">Upcoming Events</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Future+Wealth+Forum" alt="Future Wealth Forum 2025" class="w-full h-48 object-cover rounded-lg mb-4">
                         <h4 class="text-xl font-semibold mb-4" data-lang-key="events.future_wealth_title">Future Wealth Forum 2025: Navigating the Next Wave of Investment</h4>
                         <p class="text-gray-600 mb-2">
                             <i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
@@ -120,8 +114,8 @@
                             <i data-lucide="external-link" class="mr-2 h-5 w-5"></i>View Event Details
                         </a>
                     </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left hover:shadow-xl transition-shadow duration-300">
-                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Digital+Banking+Security" alt="Digital Banking Security Workshop" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Digital+Banking+Security" alt="Digital Banking Security Workshop" class="w-full h-48 object-cover rounded-lg mb-4">
                         <h4 class="text-xl font-semibold mb-4" data-lang-key="events.event2_title">Digital Banking Security Workshop</h4>
                         <p class="text-gray-600 mb-2">
                             <i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
@@ -141,32 +135,41 @@
         </section>
 
         <!-- News Section -->
-        <section id="news" class="main-section py-16 lg:py-24 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-14 lg:mb-20 fade-in-element">
-                    <h2 class="text-3xl lg:text-4xl font-bold mb-4 inline-flex items-center">
+        <section id="news" class="py-16 lg:py-24 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-14 lg:mb-20">
+                    <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center">
                         <i data-lucide="newspaper" class="text-[var(--brand-red)] mr-3 h-8 w-8"></i>
                         <span data-lang-key="news.title">News & Insights</span>
                     </h2>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Market+Outlook" alt="Market Outlook Q3 2025" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Market+Outlook" alt="Market Outlook Q3 2025" class="w-full h-48 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold mb-2" data-lang-key="news.card1_title">Market Outlook Q3 2025</h3>
                         <p class="text-gray-600 mb-4" data-lang-key="news.card1_desc">Our analysis of current market trends and potential opportunities for investors.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.read_more">Read More</a>
+                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark inline-flex items-center" data-lang-key="news.read_more">
+                            Read More
+                            <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
+                        </a>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Retirement+Planning" alt="Planning for a Secure Retirement" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Retirement+Planning" alt="Planning for a Secure Retirement" class="w-full h-48 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold mb-2" data-lang-key="news.card2_title">Planning for a Secure Retirement</h3>
                         <p class="text-gray-600 mb-4" data-lang-key="news.card2_desc">Key strategies and considerations for building a robust retirement portfolio.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.read_more">Read More</a>
+                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark inline-flex items-center" data-lang-key="news.read_more">
+                            Read More
+                            <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
+                        </a>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md">
-                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Sustainable+Finance" alt="Sustainable Finance Trends" class="w-full h-48 object-cover rounded-t-lg mb-4">
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                        <img src="https://placehold.co/600x400/1a202c/ffffff?text=Sustainable+Finance" alt="Sustainable Finance Trends" class="w-full h-48 object-cover rounded-lg mb-4">
                         <h3 class="text-xl font-semibold mb-2" data-lang-key="news.card3_title">Sustainable Finance Trends</h3>
                         <p class="text-gray-600 mb-4" data-lang-key="news.card3_desc">Exploring the growing importance of ESG factors in investment decisions.</p>
-                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark" data-lang-key="news.read_more">Read More</a>
+                        <a href="#" class="text-brand-red font-semibold hover:text-brand-red-dark inline-flex items-center" data-lang-key="news.read_more">
+                            Read More
+                            <i data-lucide="arrow-right" class="ml-2 h-4 w-4"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -196,10 +199,10 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.quick_links">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="/about" class="text-gray-400 hover:text-white" data-lang-key="nav.about">About Us</a></li>
-                        <li><a href="/events" class="text-gray-400 hover:text-white" data-lang-key="nav.events">Events</a></li>
-                        <li><a href="/news" class="text-gray-400 hover:text-white" data-lang-key="nav.news">News</a></li>
-                        <li><a href="/contact" class="text-gray-400 hover:text-white" data-lang-key="nav.contact">Contact</a></li>
+                        <li><a href="/bwam/about" class="text-gray-400 hover:text-white" data-lang-key="nav.about_us">About Us</a></li>
+                        <li><a href="/bwam/events" class="text-gray-400 hover:text-white" data-lang-key="nav.events">Events</a></li>
+                        <li><a href="/bwam/news" class="text-gray-400 hover:text-white" data-lang-key="nav.news">News</a></li>
+                        <li><a href="/bwam/contact" class="text-gray-400 hover:text-white" data-lang-key="nav.contact">Contact</a></li>
                     </ul>
                 </div>
 
@@ -207,9 +210,9 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4" data-lang-key="footer.services">Services</h3>
                     <ul class="space-y-2">
-                        <li><a href="/private-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.private_clients">Private Clients</a></li>
-                        <li><a href="/business-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.business_clients">Business Clients</a></li>
-                        <li><a href="/institutional" class="text-gray-400 hover:text-white" data-lang-key="nav.institutional">Institutional</a></li>
+                        <li><a href="/bwam/private-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.private_clients">Private Clients</a></li>
+                        <li><a href="/bwam/business-clients" class="text-gray-400 hover:text-white" data-lang-key="nav.business_clients">Business Clients</a></li>
+                        <li><a href="/bwam/institutional" class="text-gray-400 hover:text-white" data-lang-key="nav.institutional">Institutional</a></li>
                     </ul>
                 </div>
 
@@ -228,16 +231,18 @@
             <div class="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400" data-lang-key="footer.copyright">© 2024 BWAM. All rights reserved.</p>
                 <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="/privacy" class="text-gray-400 hover:text-white" data-lang-key="footer.privacy">Privacy Policy</a>
-                    <a href="/terms" class="text-gray-400 hover:text-white" data-lang-key="footer.terms">Terms of Service</a>
-                    <a href="/cookies" class="text-gray-400 hover:text-white" data-lang-key="footer.cookies">Cookie Policy</a>
+                    <a href="/bwam/privacy" class="text-gray-400 hover:text-white" data-lang-key="footer.privacy">Privacy Policy</a>
+                    <a href="/bwam/terms" class="text-gray-400 hover:text-white" data-lang-key="footer.terms">Terms of Service</a>
+                    <a href="/bwam/cookies" class="text-gray-400 hover:text-white" data-lang-key="footer.cookies">Cookie Policy</a>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
+    <script src="/bwam/translations.js"></script>
+    <script src="/bwam/src/template-loader.js"></script>
+    <script src="/bwam/src/router.js"></script>
+    <script src="/bwam/script.js"></script>
 </body>
 </html>
