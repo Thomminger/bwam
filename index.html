@@ -455,43 +455,74 @@
             const openBtn = document.getElementById('contact-cta-button');
             const closeBtn = document.getElementById('close-contact-modal');
             if (openBtn && modal && closeBtn) {
-                openBtn.addEventListener('click', () => { modal.classList.remove('hidden'); });
-                closeBtn.addEventListener('click', () => { modal.classList.add('hidden'); });
+                openBtn.addEventListener('click', () => { 
+                    modal.classList.remove('hidden');
+                    if (window.sfdc && window.sfdc.beacon) {
+                        window.sfdc.beacon.track('modalInteraction', { modalId: 'advisor-modal', action: 'open', timestamp: new Date().toISOString() });
+                    }
+                });
+                closeBtn.addEventListener('click', () => { 
+                    modal.classList.add('hidden');
+                    if (window.sfdc && window.sfdc.beacon) {
+                        window.sfdc.beacon.track('modalInteraction', { modalId: 'advisor-modal', action: 'close', timestamp: new Date().toISOString() });
+                    }
+                });
                 modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
             }
             // Newsletter form
             const newsletterForm = document.getElementById('newsletter-form');
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = document.getElementById('newsletter-email').value;
-                if (email && email.includes('@')) {
-                    alert('Thank you for subscribing!');
-                    newsletterForm.reset();
-                    if (window.SalesforceInteractions) {
-                        SalesforceInteractions.sendEvent({
-                            interaction: {
-                                name: 'Newsletter Subscription',
-                                email: email
-                            }
-                        });
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('newsletter-email').value;
+                    if (email && email.includes('@')) {
+                        alert('Thank you for subscribing!');
+                        newsletterForm.reset();
+                        if (window.sfdc && window.sfdc.beacon) {
+                            window.sfdc.beacon.track('formSubmission', {
+                                formId: 'newsletter-form',
+                                email: email,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                    } else {
+                        alert('Please enter a valid email address.');
                     }
-                } else {
-                    alert('Please enter a valid email address.');
-                }
-            });
+                });
+            }
             // Advisor connect buttons
             document.querySelectorAll('#contact-modal .text-center button').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     const advisorName = this.parentElement.querySelector('h3').textContent;
-                    if (window.SalesforceInteractions) {
-                        SalesforceInteractions.sendEvent({
-                            interaction: {
-                                name: 'Advisor Connect',
-                                advisor: advisorName
-                            }
+                    if (window.sfdc && window.sfdc.beacon) {
+                        window.sfdc.beacon.track('userInteraction', {
+                            interactionType: 'Advisor Connect',
+                            advisor: advisorName,
+                            timestamp: new Date().toISOString()
                         });
                     }
                     alert('You have connected with ' + advisorName + '!');
+                });
+            });
+            // Track initial page view
+            if (window.sfdc && window.sfdc.beacon) {
+                window.sfdc.beacon.track('pageView', {
+                    pageName: document.title,
+                    pageUrl: window.location.href,
+                    pageType: 'content',
+                    language: document.documentElement.lang
+                });
+            }
+            // Track navigation clicks
+            document.querySelectorAll('.nav-section-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.sfdc && window.sfdc.beacon) {
+                        window.sfdc.beacon.track('navigationClick', {
+                            navItem: link.textContent.trim(),
+                            navType: 'section',
+                            timestamp: new Date().toISOString()
+                        });
+                    }
                 });
             });
         });
