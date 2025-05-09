@@ -167,8 +167,11 @@ const router = {
     // Handle route changes
     handleRoute() {
         const path = window.location.hash.replace('#/bwam', '') || '/';
+        if (path === '/' || path === '') {
+            // If root, do nothing (keep landing page)
+            return;
+        }
         const page = this.pages[path.slice(1)];
-
         if (page) {
             this.renderPage(page);
         }
