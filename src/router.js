@@ -171,9 +171,6 @@ const router = {
 
         if (page) {
             this.renderPage(page);
-        } else {
-            // Handle 404
-            this.render404();
         }
     },
 
@@ -202,21 +199,6 @@ const router = {
         
         // Replace main content
         document.querySelector('main').replaceWith(content.querySelector('main'));
-    },
-
-    // Render 404 page
-    render404() {
-        const content = `
-            <div class="max-w-4xl mx-auto text-center py-16">
-                <h1 class="text-4xl font-bold mb-4">404 - Page Not Found</h1>
-                <p class="text-gray-600 mb-8">The page you are looking for does not exist.</p>
-                <a href="#/" class="inline-block bg-brand-red text-white px-6 py-3 rounded-lg hover:bg-brand-red-dark transition-colors">
-                    Return to Home
-                </a>
-            </div>
-        `;
-        
-        document.querySelector('main').innerHTML = content;
     }
 };
 
