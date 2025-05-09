@@ -433,9 +433,32 @@
                 if (email && email.includes('@')) {
                     alert('Thank you for subscribing!');
                     newsletterForm.reset();
+                    if (window.SalesforceInteractions) {
+                        SalesforceInteractions.sendEvent({
+                            interaction: {
+                                name: 'Newsletter Subscription',
+                                email: email
+                            }
+                        });
+                    }
                 } else {
                     alert('Please enter a valid email address.');
                 }
+            });
+            // Advisor connect buttons
+            document.querySelectorAll('#contact-modal .text-center button').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const advisorName = this.parentElement.querySelector('h3').textContent;
+                    if (window.SalesforceInteractions) {
+                        SalesforceInteractions.sendEvent({
+                            interaction: {
+                                name: 'Advisor Connect',
+                                advisor: advisorName
+                            }
+                        });
+                    }
+                    alert('You have connected with ' + advisorName + '!');
+                });
             });
         });
     </script>
