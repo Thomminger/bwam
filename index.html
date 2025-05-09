@@ -22,132 +22,119 @@
     </template>
 
     <!-- Header -->
-    <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-3 h-20">
-                <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
-                    <!-- Private Clients -->
-                    <div class="group relative">
-                        <button class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200">
-                            <i data-lucide="users" class="mr-1 h-4 w-4"></i>Private Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <div class="py-1" role="none">
-                                <a href="https://thomminger.github.io/bwam/privateclients/accountsandcards" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="credit-card" class="mr-2 h-4 w-4 inline-block"></i>Accounts & Cards
+    <header class="fixed w-full z-50 transition-all duration-300" id="mainHeader">
+        <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex items-center">
+                        <a href="#" class="text-2xl font-bold text-[var(--brand-red)]">BWAM</a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <div class="relative group">
+                            <a href="#/privateclients" class="nav-link text-gray-800 hover:text-[var(--brand-red)] transition-colors">Private Clients</a>
+                            <div class="dropdown-menu">
+                                <a href="#/privateclients/accounts" class="nav-section-link">
+                                    <i data-lucide="credit-card" class="h-4 w-4"></i>
+                                    Accounts & Cards
                                 </a>
-                                <a href="https://thomminger.github.io/bwam/privateclients/investing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="trending-up" class="mr-2 h-4 w-4 inline-block"></i>Investing
+                                <a href="#/privateclients/investment" class="nav-section-link">
+                                    <i data-lucide="trending-up" class="h-4 w-4"></i>
+                                    Investment Solutions
                                 </a>
-                                <a href="https://thomminger.github.io/bwam/privateclients/pensions" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="umbrella" class="mr-2 h-4 w-4 inline-block"></i>Pensions
-                                </a>
-                                <a href="https://thomminger.github.io/bwam/privateclients/financing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="home" class="mr-2 h-4 w-4 inline-block"></i>Financing
+                                <a href="#/privateclients/retirement" class="nav-section-link">
+                                    <i data-lucide="piggy-bank" class="h-4 w-4"></i>
+                                    Retirement Planning
                                 </a>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Business Clients -->
-                    <div class="group relative">
-                        <button class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200">
-                            <i data-lucide="briefcase" class="mr-1 h-4 w-4"></i>Business Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <div class="py-1" role="none">
-                                <a href="https://thomminger.github.io/bwam/businessclients/corporate" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="building" class="mr-2 h-4 w-4 inline-block"></i>Corporate Banking
+                        <div class="relative group">
+                            <a href="#/businessclients" class="nav-link text-gray-800 hover:text-[var(--brand-red)] transition-colors">Business Clients</a>
+                            <div class="dropdown-menu">
+                                <a href="#/businessclients/corporate" class="nav-section-link">
+                                    <i data-lucide="building" class="h-4 w-4"></i>
+                                    Corporate Banking
                                 </a>
-                                <a href="https://thomminger.github.io/bwam/businessclients/trade" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="shopping-cart" class="mr-2 h-4 w-4 inline-block"></i>Trade Finance
+                                <a href="#/businessclients/loans" class="nav-section-link">
+                                    <i data-lucide="dollar-sign" class="h-4 w-4"></i>
+                                    Business Loans
                                 </a>
-                                <a href="https://thomminger.github.io/bwam/businessclients/cash" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="dollar-sign" class="mr-2 h-4 w-4 inline-block"></i>Cash Management
+                                <a href="#/businessclients/payments" class="nav-section-link">
+                                    <i data-lucide="globe" class="h-4 w-4"></i>
+                                    International Payments
                                 </a>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Institutional -->
-                    <div class="group relative">
-                        <button class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200">
-                            <i data-lucide="building-2" class="mr-1 h-4 w-4"></i>Institutional <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <div class="py-1" role="none">
-                                <a href="https://thomminger.github.io/bwam/institutional/asset" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="pie-chart" class="mr-2 h-4 w-4 inline-block"></i>Asset Management
+                        <div class="relative group">
+                            <a href="#/institutional" class="nav-link text-gray-800 hover:text-[var(--brand-red)] transition-colors">Institutional</a>
+                            <div class="dropdown-menu">
+                                <a href="#/institutional/asset" class="nav-section-link">
+                                    <i data-lucide="pie-chart" class="h-4 w-4"></i>
+                                    Asset Management
                                 </a>
-                                <a href="https://thomminger.github.io/bwam/institutional/custody" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="shield" class="mr-2 h-4 w-4 inline-block"></i>Custody Services
-                                </a>
-                                <a href="https://thomminger.github.io/bwam/institutional/research" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
-                                    <i data-lucide="file-text" class="mr-2 h-4 w-4 inline-block"></i>Research & Analysis
+                                <a href="#/institutional/research" class="nav-section-link">
+                                    <i data-lucide="bar-chart" class="h-4 w-4"></i>
+                                    Market Research
                                 </a>
                             </div>
                         </div>
-                    </div>
-
-                    <a href="https://thomminger.github.io/bwam/about" class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200">
-                        <i data-lucide="info" class="mr-1 h-4 w-4"></i>About Us
-                    </a>
-
-                    <a href="https://thomminger.github.io/bwam/events" class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200">
-                        <i data-lucide="calendar" class="mr-1 h-4 w-4"></i>Events
-                    </a>
-                </nav>
-
-                <!-- Language Switcher -->
-                <div class="flex items-center space-x-4">
-                    <div class="language-switcher">
-                        <select class="bg-transparent border border-gray-300 rounded-md px-3 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red)] focus:border-transparent">
-                            <option value="en">English</option>
-                            <option value="de">Deutsch</option>
-                        </select>
+                        <a href="#about" class="nav-link text-gray-800 hover:text-[var(--brand-red)] transition-colors">About</a>
+                        <a href="#events" class="nav-link text-gray-800 hover:text-[var(--brand-red)] transition-colors">Events</a>
+                        <div class="relative group">
+                            <button class="nav-link text-gray-800 hover:text-[var(--brand-red)] transition-colors flex items-center">
+                                <i data-lucide="globe" class="h-4 w-4 mr-1"></i>
+                                EN
+                            </button>
+                            <div class="dropdown-menu">
+                                <a href="https://thomminger.github.io/bwam/de/" class="nav-section-link">
+                                    <i data-lucide="globe" class="h-4 w-4"></i>
+                                    Deutsch
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
 
     <!-- Main Content -->
     <main class="pt-20">
         <!-- Hero Section -->
-        <section id="home" class="main-section relative min-h-[70vh] md:min-h-[80vh] flex items-center text-white overflow-hidden has-mountain-bg">
-            <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Swiss Alps background" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/1920x1080/6b7280/ffffff?text=BWAM+-+Swiss+Financial+Partner'">
-                <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent opacity-90"></div>
+        <section id="home" class="relative min-h-screen flex items-center">
+            <div class="absolute inset-0">
+                <img src="images/swiss-alps.png" alt="Swiss Alps" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/40"></div>
             </div>
-            <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 z-10">
-                <div class="max-w-3xl text-left fade-in-element">
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-5 leading-tight text-shadow">Welcome to BWAM</h1>
-                    <p class="text-lg sm:text-xl mb-10 text-gray-100 max-w-2xl">Your trusted partner for comprehensive financial solutions in Zürich and beyond.</p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#/businessclients" class="nav-section-link inline-flex items-center bg-[var(--brand-red)] text-white font-semibold py-3 px-7 rounded-lg hover:bg-[var(--brand-red-dark)] transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 focus-visible:ring-white">
-                            <i data-lucide="briefcase" class="mr-2 h-5 w-5"></i>Explore Services
-                        </a>
-                        <button id="contact-cta-button" class="inline-flex items-center bg-white text-[var(--brand-red)] font-semibold py-3 px-7 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]">
-                            <i data-lucide="phone" class="mr-2 h-5 w-5"></i>Contact Us
-                        </button>
-                    </div>
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-3xl text-white">
+                    <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">Welcome to BWAM</h1>
+                    <p class="text-xl md:text-2xl mb-8 animate-fade-in-delay">Your trusted partner in Swiss banking excellence</p>
+                    <a href="#contact" class="bg-[var(--brand-red)] text-white px-8 py-3 rounded-full hover:bg-red-700 transition-colors inline-block animate-fade-in-delay-2">
+                        Get Started
+                    </a>
                 </div>
             </div>
         </section>
 
         <!-- About Us Section -->
-        <section class="py-16 lg:py-24">
+        <section id="about" class="py-20 bg-gray-50">
             <div class="container mx-auto px-4">
-                <h2 class="text-3xl lg:text-4xl font-bold text-center mb-12" data-lang-key="about.title">About Us</h2>
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="space-y-6">
-                        <p class="text-lg text-gray-700" data-lang-key="about.p1">Founded in Zurich with deep roots in Swiss banking tradition, BWAM (Banking & Wealth Asset Management) combines decades of financial expertise with a forward-thinking approach.</p>
-                        <p class="text-lg text-gray-700" data-lang-key="about.p2">Our mission is to provide personalized, transparent, and reliable financial services to private individuals, businesses, and institutions. We believe in building long-term relationships based on trust and mutual success.</p>
-                        <p class="text-lg text-gray-700" data-lang-key="about.p3">Located in the heart of Zurich's financial district, we are committed to upholding the highest standards of integrity and contributing positively to our community.</p>
-                        <p class="text-lg text-gray-700" data-lang-key="about.p4">We leverage cutting-edge technology to enhance client experience while maintaining the personalized touch that defines Swiss private banking. Our diverse team brings global perspectives and local market insights.</p>
+                <h2 class="text-4xl font-bold text-center mb-16">About BWAM</h2>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform">
+                        <i data-lucide="award" class="h-12 w-12 text-[var(--brand-red)] mb-6"></i>
+                        <h3 class="text-2xl font-semibold mb-4">Our Heritage</h3>
+                        <p class="text-gray-600">With over 50 years of experience, we've built our reputation on trust, innovation, and excellence in Swiss banking.</p>
                     </div>
-                    <div class="relative">
-                        <img src="images/zurich-office.png" alt="BWAM Office" class="w-full h-full object-cover rounded-lg shadow-xl">
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform">
+                        <i data-lucide="users" class="h-12 w-12 text-[var(--brand-red)] mb-6"></i>
+                        <h3 class="text-2xl font-semibold mb-4">Our Team</h3>
+                        <p class="text-gray-600">Our expert team of financial advisors brings decades of combined experience in wealth management and banking.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform">
+                        <i data-lucide="globe" class="h-12 w-12 text-[var(--brand-red)] mb-6"></i>
+                        <h3 class="text-2xl font-semibold mb-4">Global Presence</h3>
+                        <p class="text-gray-600">With offices in major financial centers, we provide seamless service to clients worldwide.</p>
                     </div>
                 </div>
             </div>
@@ -224,47 +211,25 @@
         </section>
 
         <!-- Events Section -->
-        <section id="events" class="py-16 lg:py-24 bg-white">
+        <section id="events" class="py-20">
             <div class="container mx-auto px-4">
-                <div class="text-center mb-14 lg:mb-20">
-                    <h2 class="text-3xl lg:text-4xl font-bold mb-6 inline-flex items-center">
-                        <i data-lucide="calendar" class="text-[var(--brand-red)] mr-3 h-8 w-8"></i>
-                        <span data-lang-key="events.title">Upcoming Events</span>
-                    </h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto" data-lang-key="events.subtitle">Join us for insightful seminars and workshops. Register your interest below.</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-                        <img src="images/future-wealth-forum.png" alt="Future Wealth Forum 2025" class="w-full h-48 object-cover rounded-lg mb-4">
-                        <h4 class="text-xl font-semibold mb-4" data-lang-key="events.future_wealth_title">Future Wealth Forum 2025: Navigating the Next Wave of Investment</h4>
-                        <p class="text-gray-600 mb-2">
-                            <i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
-                            <span data-lang-key="events.featured_date">Date: October 15, 2025</span>
-                        </p>
-                        <p class="text-gray-600 mb-4">
-                            <i data-lucide="map-pin" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
-                            <span data-lang-key="events.featured_location">Location: BWAM Headquarters, Zurich</span>
-                        </p>
-                        <p class="text-sm text-gray-500 mb-6" data-lang-key="events.future_wealth_desc">Join BWAM's leading strategists and market analysts for an exclusive evening exploring the key economic trends shaping 2025 and beyond. Discover insights into innovative investment opportunities, sustainable finance growth areas, and strategies for building resilient portfolios in a dynamic global landscape. Includes networking apéro with peers and experts.</p>
-                        <a href="https://events.blackthorn.io/en/KB1u1Ug7/future-wealth-forum-2025-navigating-the-next-wave-of-investment-4a9qKBXZql/overview" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-[var(--brand-red)] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[var(--brand-red-dark)] transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key="events.future_wealth_button">
-                            <i data-lucide="external-link" class="mr-2 h-5 w-5"></i>View Event Details
-                        </a>
+                <h2 class="text-4xl font-bold text-center mb-16">Upcoming Events</h2>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+                        <img src="images/future-wealth-forum.png" alt="Future Wealth Forum" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-semibold mb-4">Future Wealth Forum 2025</h3>
+                            <p class="text-gray-600 mb-4">Join us for a day of insights into the future of wealth management and investment strategies.</p>
+                            <a href="#contact" class="text-[var(--brand-red)] hover:text-red-700 transition-colors">Register Now →</a>
+                        </div>
                     </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300">
-                        <img src="images/digital-banking.png" alt="Digital Banking Security Workshop" class="w-full h-48 object-cover rounded-lg mb-4">
-                        <h4 class="text-xl font-semibold mb-4" data-lang-key="events.event2_title">Digital Banking Security Workshop</h4>
-                        <p class="text-gray-600 mb-2">
-                            <i data-lucide="calendar-days" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
-                            <span data-lang-key="events.event2_date">Date: November 5, 2025</span>
-                        </p>
-                        <p class="text-gray-600 mb-4">
-                            <i data-lucide="laptop" class="inline-block w-4 h-4 mr-2 text-gray-500"></i>
-                            <span data-lang-key="events.event2_location">Location: Online Webinar</span>
-                        </p>
-                        <p class="text-sm text-gray-500 mb-6" data-lang-key="events.event2_desc">Learn best practices for protecting your accounts and data in the digital age. Q&A with cybersecurity experts.</p>
-                        <button class="inline-flex items-center bg-[var(--brand-red)] text-white font-semibold py-2.5 px-6 rounded-lg hover:bg-[var(--brand-red-dark)] transition duration-300 shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--brand-red)]" data-lang-key="events.button_register">
-                            <i data-lucide="edit" class="mr-2 h-5 w-5"></i>Register Now
-                        </button>
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform">
+                        <img src="images/digital-banking.png" alt="Digital Banking Workshop" class="w-full h-64 object-cover">
+                        <div class="p-8">
+                            <h3 class="text-2xl font-semibold mb-4">Digital Banking Workshop</h3>
+                            <p class="text-gray-600 mb-4">Learn about the latest digital banking solutions and how they can benefit your business.</p>
+                            <a href="#contact" class="text-[var(--brand-red)] hover:text-red-700 transition-colors">Register Now →</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -431,40 +396,54 @@
     </div>
 
     <!-- Contact Modal -->
-    <div id="contact-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-10 relative border border-gray-200">
-            <button id="close-contact-modal" class="absolute top-4 right-4 text-gray-400 hover:text-[var(--brand-red)] text-3xl font-bold rounded-full bg-gray-100 hover:bg-gray-200 w-10 h-10 flex items-center justify-center shadow focus:outline-none">&times;</button>
-            <h2 class="text-3xl font-bold mb-8 text-center text-[var(--brand-red)]">Our Advisors</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+    <div id="contactModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 max-w-4xl w-full mx-4">
+            <div class="flex justify-between items-start mb-8">
+                <h2 class="text-3xl font-bold">Contact Our Advisors</h2>
+                <button onclick="closeContactModal()" class="text-gray-500 hover:text-gray-700">
+                    <i data-lucide="x" class="h-6 w-6"></i>
+                </button>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
                 <div class="text-center">
-                    <img src="images/advisor-anna.png" alt="Anna Müller" class="w-24 h-24 object-cover rounded-full mx-auto mb-3 border-4 border-[var(--brand-red)] shadow">
-                    <h3 class="font-semibold text-lg mb-1">Anna Müller</h3>
-                    <p class="text-sm text-gray-600 mb-3">Senior Wealth Manager</p>
-                    <button class="inline-flex items-center bg-[var(--brand-red)] text-white px-4 py-1.5 rounded-lg hover:bg-[var(--brand-red-dark)] shadow transition">Connect</button>
+                    <img src="images/advisor-sophie.png" alt="Sophie Müller" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                    <h3 class="text-xl font-semibold mb-2">Sophie Müller</h3>
+                    <p class="text-gray-600 mb-4">Private Banking Specialist</p>
+                    <button onclick="connectAdvisor('Sophie Müller')" class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors">Connect</button>
                 </div>
                 <div class="text-center">
-                    <img src="images/advisor-lukas.png" alt="Lukas Baumann" class="w-24 h-24 object-cover rounded-full mx-auto mb-3 border-4 border-[var(--brand-red)] shadow">
-                    <h3 class="font-semibold text-lg mb-1">Lukas Baumann</h3>
-                    <p class="text-sm text-gray-600 mb-3">Investment Specialist</p>
-                    <button class="inline-flex items-center bg-[var(--brand-red)] text-white px-4 py-1.5 rounded-lg hover:bg-[var(--brand-red-dark)] shadow transition">Connect</button>
+                    <img src="images/advisor-lukas.png" alt="Lukas Weber" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                    <h3 class="text-xl font-semibold mb-2">Lukas Weber</h3>
+                    <p class="text-gray-600 mb-4">Investment Advisor</p>
+                    <button onclick="connectAdvisor('Lukas Weber')" class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors">Connect</button>
                 </div>
                 <div class="text-center">
-                    <img src="images/advisor-sophie.png" alt="Sophie Dubois" class="w-24 h-24 object-cover rounded-full mx-auto mb-3 border-4 border-[var(--brand-red)] shadow">
-                    <h3 class="font-semibold text-lg mb-1">Sophie Dubois</h3>
-                    <p class="text-sm text-gray-600 mb-3">Retirement Planning Expert</p>
-                    <button class="inline-flex items-center bg-[var(--brand-red)] text-white px-4 py-1.5 rounded-lg hover:bg-[var(--brand-red-dark)] shadow transition">Connect</button>
+                    <img src="images/advisor-anna.png" alt="Anna Schmidt" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                    <h3 class="text-xl font-semibold mb-2">Anna Schmidt</h3>
+                    <p class="text-gray-600 mb-4">Business Banking Expert</p>
+                    <button onclick="connectAdvisor('Anna Schmidt')" class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-full hover:bg-red-700 transition-colors">Connect</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Sticky Newsletter Subscription -->
-    <div id="newsletter-sticky" class="fixed bottom-0 left-0 right-0 z-40 bg-white shadow-lg py-4 px-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-200">
-        <div class="font-semibold text-gray-800">Subscribe to our newsletter:</div>
-        <form id="newsletter-form" class="flex gap-2 w-full sm:w-auto">
-            <input type="email" id="newsletter-email" class="form-input border border-gray-300 rounded px-4 py-2 w-full sm:w-64" placeholder="Enter your email" required>
-            <button type="submit" class="bg-[var(--brand-red)] text-white px-6 py-2 rounded hover:bg-[var(--brand-red-dark)]">Subscribe</button>
-        </form>
+    <div id="stickyNewsletter" class="fixed bottom-0 left-0 right-0 bg-white shadow-lg transform translate-y-full transition-transform duration-300">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold">Stay Updated</h3>
+                    <p class="text-gray-600">Subscribe to our newsletter for the latest insights</p>
+                </div>
+                <form id="newsletterForm" class="flex gap-4 flex-1 max-w-md">
+                    <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--brand-red)]">
+                    <button type="submit" class="bg-[var(--brand-red)] text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">Subscribe</button>
+                </form>
+                <button onclick="closeNewsletter()" class="text-gray-500 hover:text-gray-700">
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -478,7 +457,7 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('contact-modal');
+            const modal = document.getElementById('contactModal');
             const openBtn = document.getElementById('contact-cta-button');
             const closeBtn = document.getElementById('close-contact-modal');
             if (openBtn && modal && closeBtn) {
