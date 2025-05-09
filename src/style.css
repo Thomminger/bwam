@@ -1,8 +1,8 @@
 /* Custom Properties */
 :root {
-    --brand-red: #E30613;
-    --brand-red-dark: #B30000;
-    --gray-light: #F5F5F5;
+    --brand-red: #e63946;
+    --brand-red-dark: #c1121f;
+    --gray-light: #f8f9fa;
     --gray-dark: #212529;
     --transition-speed: 0.3s;
     --color-primary: var(--brand-red);
@@ -146,28 +146,34 @@ body {
 /* Navigation Styles */
 .nav-link {
     position: relative;
-    color: var(--gray-dark);
-    transition: color var(--transition-speed);
-    padding: 0.5rem 0;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--brand-red);
-    transition: width var(--transition-speed);
+    color: #4b5563;
+    font-weight: 500;
+    transition: color 0.2s;
 }
 
 .nav-link:hover {
     color: var(--brand-red);
 }
 
-.nav-link:hover::after {
-    width: 100%;
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-in-out;
+    min-width: 200px;
+    z-index: 50;
+}
+
+.group:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 /* Footer Styles */
@@ -233,6 +239,23 @@ footer {
 
     .section-title {
         font-size: 1.75rem;
+    }
+
+    .nav-link {
+        padding: 0.75rem 1rem;
+    }
+    
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none;
+    }
+    
+    .group:hover .dropdown-menu {
+        display: block;
     }
 }
 
@@ -707,4 +730,66 @@ footer {
 .success-message {
     font-size: 1.5rem;
     margin-bottom: 2rem;
+}
+
+/* Header Styles */
+header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section */
+.has-mountain-bg {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Animations */
+.fade-in-element {
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Newsletter Sticky */
+#newsletter-sticky {
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+#newsletter-sticky.visible {
+    transform: translateY(0);
+}
+
+/* Contact Modal */
+#contact-modal {
+    backdrop-filter: blur(4px);
+}
+
+/* General Styles */
+.bg-brand-red {
+    background-color: var(--brand-red);
+}
+
+.text-brand-red {
+    color: var(--brand-red);
+}
+
+.hover\:bg-brand-red-dark:hover {
+    background-color: var(--brand-red-dark);
 }
