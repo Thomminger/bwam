@@ -146,13 +146,13 @@ body {
 /* Navigation Styles */
 .nav-link {
     position: relative;
-    color: #4b5563;
+    color: #374151 !important;
     font-weight: 500;
     transition: color 0.2s;
 }
 
 .nav-link:hover {
-    color: var(--brand-red);
+    color: var(--brand-red) !important;
 }
 
 .dropdown-menu {
@@ -166,14 +166,25 @@ body {
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.2s ease-in-out;
-    min-width: 200px;
+    min-width: 220px;
     z-index: 50;
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .group:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+.nav-section-link {
+    color: #374151 !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-section-link:hover {
+    color: var(--brand-red) !important;
+    background-color: rgba(229, 231, 235, 0.5);
 }
 
 /* Footer Styles */
@@ -252,6 +263,8 @@ footer {
         visibility: visible;
         transform: none;
         display: none;
+        border: none;
+        background: transparent;
     }
     
     .group:hover .dropdown-menu {
@@ -352,11 +365,17 @@ footer {
 
 .language-switcher select {
     appearance: none;
-    padding-right: 2rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23374151'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.5rem center;
     background-size: 1rem;
+    padding-right: 2rem;
+}
+
+.language-switcher select:focus {
+    outline: none;
+    border-color: var(--brand-red);
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.1);
 }
 
 /* Dark Mode */

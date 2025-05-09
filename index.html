@@ -25,27 +25,88 @@
     <header class="bg-white/90 shadow-lg sticky top-0 z-50 w-full backdrop-blur-md">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-3 h-20">
-                <!-- No logo here -->
                 <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <!-- Private Clients -->
                     <div class="group relative">
-                        <button class="nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200">
+                        <button class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200">
                             <i data-lucide="users" class="mr-1 h-4 w-4"></i>Private Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
                         </button>
                         <div class="dropdown-menu">
                             <div class="py-1" role="none">
-                                <a href="#/privateclients/accounts-cards" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem"><i data-lucide="credit-card" class="mr-2 h-4 w-4 inline-block"></i>Accounts & Cards</a>
-                                <a href="#/privateclients/investing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem"><i data-lucide="trending-up" class="mr-2 h-4 w-4 inline-block"></i>Investing</a>
-                                <a href="#/privateclients/pensions" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem"><i data-lucide="umbrella" class="mr-2 h-4 w-4 inline-block"></i>Pensions</a>
-                                <a href="#/privateclients/financing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem"><i data-lucide="home" class="mr-2 h-4 w-4 inline-block"></i>Financing</a>
+                                <a href="https://thomminger.github.io/bwam/privateclients/accountsandcards" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="credit-card" class="mr-2 h-4 w-4 inline-block"></i>Accounts & Cards
+                                </a>
+                                <a href="https://thomminger.github.io/bwam/privateclients/investing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="trending-up" class="mr-2 h-4 w-4 inline-block"></i>Investing
+                                </a>
+                                <a href="https://thomminger.github.io/bwam/privateclients/pensions" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="umbrella" class="mr-2 h-4 w-4 inline-block"></i>Pensions
+                                </a>
+                                <a href="https://thomminger.github.io/bwam/privateclients/financing" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="home" class="mr-2 h-4 w-4 inline-block"></i>Financing
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <a href="#/businessclients" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200"><i data-lucide="briefcase" class="mr-1 h-4 w-4"></i>Business Clients</a>
-                    <a href="#/institutional" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200"><i data-lucide="building-2" class="mr-1 h-4 w-4"></i>Institutional</a>
-                    <a href="#/about" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200"><i data-lucide="info" class="mr-1 h-4 w-4"></i>About Us</a>
-                    <a href="#/events" class="nav-section-link nav-link text-base font-medium text-gray-600 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200"><i data-lucide="calendar" class="mr-1 h-4 w-4"></i>Events</a>
+
+                    <!-- Business Clients -->
+                    <div class="group relative">
+                        <button class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200">
+                            <i data-lucide="briefcase" class="mr-1 h-4 w-4"></i>Business Clients <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <div class="py-1" role="none">
+                                <a href="https://thomminger.github.io/bwam/businessclients/corporate" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="building" class="mr-2 h-4 w-4 inline-block"></i>Corporate Banking
+                                </a>
+                                <a href="https://thomminger.github.io/bwam/businessclients/trade" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="shopping-cart" class="mr-2 h-4 w-4 inline-block"></i>Trade Finance
+                                </a>
+                                <a href="https://thomminger.github.io/bwam/businessclients/cash" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="dollar-sign" class="mr-2 h-4 w-4 inline-block"></i>Cash Management
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Institutional -->
+                    <div class="group relative">
+                        <button class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] inline-flex items-center py-3 transition-colors duration-200">
+                            <i data-lucide="building-2" class="mr-1 h-4 w-4"></i>Institutional <i data-lucide="chevron-down" class="ml-1 h-4 w-4 text-gray-400 group-hover:text-gray-500 transition-transform duration-200 group-hover:rotate-180"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <div class="py-1" role="none">
+                                <a href="https://thomminger.github.io/bwam/institutional/asset" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="pie-chart" class="mr-2 h-4 w-4 inline-block"></i>Asset Management
+                                </a>
+                                <a href="https://thomminger.github.io/bwam/institutional/custody" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="shield" class="mr-2 h-4 w-4 inline-block"></i>Custody Services
+                                </a>
+                                <a href="https://thomminger.github.io/bwam/institutional/research" class="nav-section-link text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 hover:text-[var(--brand-red)] rounded-md transition-colors duration-150" role="menuitem">
+                                    <i data-lucide="file-text" class="mr-2 h-4 w-4 inline-block"></i>Research & Analysis
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://thomminger.github.io/bwam/about" class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200">
+                        <i data-lucide="info" class="mr-1 h-4 w-4"></i>About Us
+                    </a>
+
+                    <a href="https://thomminger.github.io/bwam/events" class="nav-link text-base font-medium text-gray-700 hover:text-[var(--brand-red)] py-3 inline-flex items-center transition-colors duration-200">
+                        <i data-lucide="calendar" class="mr-1 h-4 w-4"></i>Events
+                    </a>
                 </nav>
-                <!-- Language Switcher and Mobile Menu Button remain -->
+
+                <!-- Language Switcher -->
+                <div class="flex items-center space-x-4">
+                    <div class="language-switcher">
+                        <select class="bg-transparent border border-gray-300 rounded-md px-3 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[var(--brand-red)] focus:border-transparent">
+                            <option value="en">English</option>
+                            <option value="de">Deutsch</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
