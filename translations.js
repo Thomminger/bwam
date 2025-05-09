@@ -19,10 +19,17 @@ window.bwamTranslations = {
         'hero.button_contact': 'Contact Us',
         
         // About section
+        'about.title': 'About Us',
         'about.p1': 'Founded in Zurich with deep roots in Swiss banking tradition, BWAM (Banking & Wealth Asset Management) combines decades of financial expertise with a forward-thinking approach.',
         'about.p2': 'Our mission is to provide personalized, transparent, and reliable financial services to private individuals, businesses, and institutions. We believe in building long-term relationships based on trust and mutual success.',
         'about.p3': 'Located in the heart of Zurich\'s financial district, we are committed to upholding the highest standards of integrity and contributing positively to our community.',
         'about.p4': 'We leverage cutting-edge technology to enhance client experience while maintaining the personalized touch that defines Swiss private banking. Our diverse team brings global perspectives and local market insights.',
+        'institutional.title': 'Institutional Asset Management',
+        'institutional.hero': 'BWAM partners with pension funds, insurance companies, and foundations to deliver robust, innovative investment solutions. Our institutional team combines Swiss precision with global market expertise to help you achieve your long-term goals.',
+        'institutional.cta': "Request a Consultation",
+        'institutional.expertise': "Our Expertise",
+        'institutional.ready': "Ready to elevate your institution's portfolio?",
+        'institutional.contact': "Contact Institutional Team",
         
         // Events section
         'events.title': 'Upcoming Events',
@@ -98,10 +105,17 @@ window.bwamTranslations = {
         'hero.button_contact': 'Kontaktieren Sie uns',
         
         // About section
-        'about.p1': 'Mit tiefen Wurzeln in der Schweizer Banktradition gegründet, verbindet BWAM (Banking & Wealth Asset Management) jahrzehntelange Finanzexpertise mit einem zukunftsorientierten Ansatz.',
-        'about.p2': 'Unsere Mission ist es, Privatpersonen, Unternehmen und Institutionen personalisierte, transparente und zuverlässige Finanzdienstleistungen anzubieten. Wir glauben an langfristige Beziehungen, die auf Vertrauen und gegenseitigem Erfolg basieren.',
-        'about.p3': 'Im Herzen des Zürcher Finanzdistrikts gelegen, setzen wir uns für höchste Integritätsstandards ein und leisten einen positiven Beitrag zu unserer Gemeinschaft.',
-        'about.p4': 'Wir nutzen modernste Technologie, um das Kundenerlebnis zu verbessern und gleichzeitig den persönlichen Touch zu bewahren, der das Schweizer Private Banking auszeichnet. Unser vielfältiges Team bringt globale Perspektiven und lokale Markteinblicke ein.',
+        'about.title': 'Über uns',
+        'about.p1': 'Gegründet in Zürich mit tiefen Wurzeln in der Schweizer Bankentradition, vereint BWAM (Banking & Wealth Asset Management) jahrzehntelange Finanzexpertise mit einem zukunftsorientierten Ansatz.',
+        'about.p2': 'Unsere Mission ist es, Privatpersonen, Unternehmen und Institutionen personalisierte, transparente und zuverlässige Finanzdienstleistungen zu bieten. Wir glauben an langfristige Beziehungen, die auf Vertrauen und gemeinsamem Erfolg basieren.',
+        'about.p3': 'Im Herzen des Zürcher Finanzdistrikts setzen wir uns für höchste Integritätsstandards ein und leisten einen positiven Beitrag für unsere Gemeinschaft.',
+        'about.p4': 'Wir nutzen modernste Technologie, um das Kundenerlebnis zu verbessern, während wir die persönliche Note bewahren, die das Schweizer Private Banking auszeichnet. Unser diverses Team bringt globale Perspektiven und lokale Marktkenntnisse ein.',
+        'institutional.title': 'Institutionelles Asset Management',
+        'institutional.hero': 'BWAM arbeitet mit Pensionskassen, Versicherungen und Stiftungen zusammen, um robuste, innovative Anlagelösungen zu bieten. Unser institutionelles Team verbindet Schweizer Präzision mit globaler Marktexpertise, um Ihre langfristigen Ziele zu erreichen.',
+        'institutional.cta': 'Beratung anfordern',
+        'institutional.expertise': 'Unsere Expertise',
+        'institutional.ready': 'Bereit, das Portfolio Ihrer Institution zu optimieren?',
+        'institutional.contact': 'Institutionelles Team kontaktieren',
         
         // Events section
         'events.title': 'Kommende Veranstaltungen',
@@ -177,10 +191,17 @@ window.bwamTranslations = {
         'hero.button_contact': 'Nous Contacter',
         
         // About section
+        'about.title': 'À Propos',
         'about.p1': 'Fondée à Zurich avec des racines profondes dans la tradition bancaire suisse, BWAM (Banking & Wealth Asset Management) combine des décennies d\'expertise financière avec une approche tournée vers l\'avenir.',
         'about.p2': 'Notre mission est de fournir des services financiers personnalisés, transparents et fiables aux particuliers, aux entreprises et aux institutions. Nous croyons en la construction de relations à long terme basées sur la confiance et le succès mutuel.',
         'about.p3': 'Située au cœur du district financier de Zurich, nous nous engageons à maintenir les plus hauts standards d\'intégrité et à contribuer positivement à notre communauté.',
         'about.p4': 'Nous utilisons une technologie de pointe pour améliorer l\'expérience client tout en maintenant le contact personnalisé qui définit la banque privée suisse. Notre équipe diversifiée apporte des perspectives mondiales et des connaissances du marché local.',
+        'institutional.title': 'Institutionnel',
+        'institutional.hero': 'BWAM travaille avec des fonds de pension, des compagnies d\'assurance et des fondations pour offrir des solutions d\'investissement innovantes et robustes. Notre équipe institutionnelle combine la précision suisse avec l\'expertise du marché mondial pour vous aider à réaliser vos objectifs à long terme.',
+        'institutional.cta': 'Demander une consultation',
+        'institutional.expertise': 'Notre Expertise',
+        'institutional.ready': 'Prêt à optimiser le portefeuille de votre institution?',
+        'institutional.contact': 'Contacter l\'équipe institutionnelle',
         
         // Events section
         'events.title': 'Événements à Venir',
@@ -237,3 +258,22 @@ window.bwamTranslations = {
         'footer.cookies': 'Politique des Cookies'
     }
 }; 
+
+function setLanguage(lang) {
+  document.querySelectorAll('[data-lang-key]').forEach(el => {
+    const key = el.getAttribute('data-lang-key');
+    if (window.bwamTranslations[lang] && window.bwamTranslations[lang][key]) {
+      el.textContent = window.bwamTranslations[lang][key];
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const langSwitcher = document.querySelector('.language-switcher select');
+  if (langSwitcher) {
+    langSwitcher.addEventListener('change', function() {
+      setLanguage(this.value);
+    });
+    setLanguage(langSwitcher.value);
+  }
+}); 

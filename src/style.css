@@ -50,6 +50,7 @@ body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
     color: var(--gray-dark);
+    font-size: 1.125rem;
 }
 
 /* Button Styles */
@@ -811,4 +812,40 @@ header {
 
 .hover\:bg-brand-red-dark:hover {
     background-color: var(--brand-red-dark);
+}
+
+.max-w-5xl {
+    max-width: 72rem;
+}
+
+.bg-white\/90 {
+    background: rgba(255,255,255,0.90);
+}
+
+.text-gray-800 {
+    color: #1f2937;
+}
+
+.bg-gray-100 {
+    background-color: #f3f4f6;
+}
+
+img.bg-gray-100 {
+    background-color: #f3f4f6;
+}
+
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+section {
+    margin-bottom: 2rem;
 }
